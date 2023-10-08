@@ -6,7 +6,7 @@
   - Poetry >= 1.6.1
 - npx / npm >= 10.2.0
 - Docker >= 20.10.23
-  - Docker Compose >= 2.15.1
+  - Docker Compose >= 3.8
 
 ## Development
 
@@ -17,8 +17,9 @@ In order to run both the front end and back end at the same time, both servers w
 ```bash
 cd solving-pacman-backend
 poetry install
+poetry shell
 cd solving_pacman_backend
-poetry run flask run --debug
+python3 server/server.py
 ```
 
 ### React Server
@@ -33,22 +34,29 @@ npm start
 
 To build and run the application for production, a Docker image needs to be built for the Flask and React servers. The Docker Compose file will then compile this into a single, full-stack application.
 
+Two tags are specified for each build so that any new version can be tagged as `latest` while also being given a specific version number 
+
 ### Flask
 
-TODO
+```bash
+cd solving-pacman-backend
+docker build . --tag davidkidd/solving-pacman-backend:latest --tag davidkidd/solving-pacman-backend:{new-version-number}
+docker run -p 1000:1000 -d davidkidd/solving-pacman-backend:latest
+```
 
 ### React
 
 ```bash
-# This builds the react server into an image. The tag parameter is used twice to allow two tags to be used.
-# The latest tag is used to specify that this is the latest version while the specific numbering of the image is used for archiving once this is no longer the latest
+cd solving-pacman-frontend
 docker build . --tag davidkidd/solving-pacman-frontend:latest --tag davidkidd/solving-pacman-frontend:{new-version-number}
 docker run -p 3000:80 -d davidkidd/solving-pacman-frontend:latest
 ```
 
 ### Docker Compose
 
-TODO
+```bash
+docker compose up
+```
 
 ## Troubleshooting
 
