@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./solving-pacman-backend
+      dockerfile: Dockerfile
+    ports:
+      - 1000:1000
+    image: solving-pacman-backend
+
+  frontend:
+    build:
+      context: ./solving-pacman-frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:80
+    image: solving-pacman-frontend
