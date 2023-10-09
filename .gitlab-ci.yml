@@ -16,8 +16,6 @@ install-react-job:
     paths:
       - node_modules/
     policy: pull-push
-  tags:
-    - build_machine
 
 lint-react-job:
   stage: lint
@@ -36,8 +34,6 @@ lint-react-job:
   artifacts:
     reports:
       codequality: gl-codequality.json
-  tags:
-    - build_machine
 
 test-react-job:
   stage: test
@@ -60,5 +56,3 @@ test-react-job:
         coverage_report:
           coverage_format: cobertura
           path: coverage/cobertura-coverage.xml
-  tags:
-    - test
