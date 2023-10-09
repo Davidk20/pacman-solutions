@@ -8,7 +8,6 @@ install-react-job:
   stage: build
   script:
     - npm cache clean --force
-    - npm install npm@lastest -g
     - node --version
     - npm --version
     - echo "Installing npm packages..."
