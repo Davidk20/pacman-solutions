@@ -5,9 +5,10 @@ stages:
   - build
 
 install-react-job:
-  image: node:20-alpine
+
   stage: install
   script:
+    - nvm install node
     - echo "Installing npm packages..."
     - cd solving-pacman-frontend
     - npm install
