@@ -1,0 +1,62 @@
+stages:          # List of stages for jobs, and their order of execution
+  - build
+  - lint
+  - test
+
+install-react-job:
+  stage: build
+  script:
+    - echo "Installing npm packages..."
+    - cd solving-pacman-frontend
+    - npm install
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules/
+    policy: pull-push
+  tags:
+    - build_machine
+
+lint-react-job:
+  stage: lint
+  script:
+    - echo "Linting react code..."
+    - npm run lint
+  allow_failure: false
+  interruptible: true
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules/
+    policy: pull
+  artifacts:
+    reports:
+      codequality: gl-codequality.json
+  tags:
+    - build_machine
+
+test-react-job:
+  stage: test
+  script:
+    - echo "Testing react code..."
+    - npm run test:ci
+  interruptible: true
+  coverage: '/^All files\s*\|\s*(\d+\.*\d+)/'
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules/
+    policy: pull
+  artifacts:
+    paths:
+      - coverage
+    reports:
+      cobertura: coverage/cobertura-coverage.xml
+  tags:
+    - test
