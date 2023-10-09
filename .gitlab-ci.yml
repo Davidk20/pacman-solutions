@@ -1,15 +1,13 @@
-stages:          # List of stages for jobs, and their order of execution
-  - build
+stages:
+  - install
   - lint
   - test
+  - build
 
 install-react-job:
   image: node:latest
-  stage: build
+  stage: install
   script:
-    - npm cache clean --force
-    - node --version
-    - npm --version
     - echo "Installing npm packages..."
     - cd solving-pacman-frontend
     - npm install
@@ -20,6 +18,15 @@ install-react-job:
     paths:
       - node_modules/
     policy: pull-push
+  artifacts:
+    name: "artifacts"
+    untracked: true
+    expire_in: 60 mins
+    paths:
+      - .npm/
+      - node_modules/
+
+
 
 lint-react-job:
   image: node:latest
