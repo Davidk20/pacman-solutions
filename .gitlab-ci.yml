@@ -4,6 +4,7 @@ stages:          # List of stages for jobs, and their order of execution
   - test
 
 install-react-job:
+  image: node:15
   stage: build
   script:
     - echo "Installing npm packages..."
@@ -18,6 +19,7 @@ install-react-job:
     policy: pull-push
 
 lint-react-job:
+  image: node:15
   stage: lint
   script:
     - echo "Linting react code..."
@@ -36,6 +38,7 @@ lint-react-job:
       codequality: gl-codequality.json
 
 test-react-job:
+  image: node:15
   stage: test
   script:
     - echo "Testing react code..."
