@@ -1,3 +1,14 @@
+image: node:15
+
+before_script:
+  - node --version
+  - npm --version
+  - npm install
+
+cache:
+  paths:
+    - node_modules
+
 stages:          # List of stages for jobs, and their order of execution
   - build
   - lint
