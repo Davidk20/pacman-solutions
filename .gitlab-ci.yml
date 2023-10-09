@@ -7,6 +7,7 @@ install-react-job:
   image: node:latest
   stage: build
   script:
+    - npm cache clean --force
     - npm install npm@lastest -g
     - node --version
     - npm --version
