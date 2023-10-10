@@ -12,8 +12,8 @@ install-python-job:
         - python --version
         - pip install poetry
         - cd solving-pacman-backend
-        - poetry install
-        - poetry shell
+        - python3 -m poetry install
+        - python3 -m poetry shell
 
 test-python-job:
     stage: test
