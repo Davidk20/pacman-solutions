@@ -11,6 +11,7 @@ install-python-job:
     script:
         - python --version
         - pip install poetry
+        - pip install keyring -U
         - cd solving-pacman-backend
         - python3 -m poetry install
         - python3 -m poetry shell
