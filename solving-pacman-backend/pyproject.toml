@@ -3,7 +3,7 @@ name = "solving-pacman-backend"
 version = "0.1.0"
 description = "Application to solve Pacman puzzles"
 authors = ["David Kidd <zhac086@live.rhul.ac.uk>"]
-readme = "README.md"
+readme = "../README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
