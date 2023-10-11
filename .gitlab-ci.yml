@@ -19,6 +19,7 @@ install-python-job:
 test-python-job:
     stage: test
     script:
+        - cd solving-pacman-backend
         - python3 -m poetry run pytest .
 
 # install-react-job:
