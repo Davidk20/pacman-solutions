@@ -1,4 +1,5 @@
 repos:
+    # BACKEND JOBS
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
@@ -27,3 +28,34 @@ repos:
     rev: 6.1.0
     hooks:
     -   id: flake8
+-   repo: https://github.com/econchick/interrogate
+    rev: 1.4.0
+    hooks:
+    - id: interrogate
+      args: [-vv, -i, --fail-under=80]
+-   repo: local
+    hooks:
+    -   id: pytest
+        name: Test with Pytest
+        description: Test the backend application with Pytest
+        files: \.py$
+        verbose: true
+        language: system
+        entry: bash -c 'cd solving-pacman-backend && poetry run pytest .'
+
+    # FRONTEND JOBS
+-   repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v8.51.0
+    hooks:
+    -   id: eslint
+        files: \.[jt]sx?$
+        types: [file]
+-   repo: local
+    hooks:
+    -   id: jest-test
+        name: Test with Jest
+        description: Test the frontend application with Jest
+        files: \.[jt]sx?$
+        verbose: true
+        language: system
+        entry: bash -c 'cd solving-pacman-frontend && npm run test:once'
