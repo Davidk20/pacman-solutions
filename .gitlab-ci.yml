@@ -19,72 +19,61 @@ install-python-job:
 test-python-job:
     stage: test
     script:
+        - python3 -m poetry run coverage run -m pytest solving-pacman-backend
+        - python3 -m poetry run coverage xml
+    coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+    artifacts:
+      reports:
+        coverage_report:
+          coverage_format: cobertura
+          path: coverage.xml
+
+lint-python-job:
+    stage: lint
+    script:
         - cd solving-pacman-backend
-        - python3 -m poetry run pytest .
-
-# install-react-job:
-#   stage: install
-#   script:
-#     - echo "Installing npm packages..."
-#     - cd solving-pacman-frontend
-#     - npm install
-#   cache:
-#     key:
-#       files:
-#         - package-lock.json
-#     paths:
-#       - node_modules/
-#     policy: pull-push
-#   artifacts:
-#     name: "artifacts"
-#     untracked: true
-#     expire_in: 60 mins
-#     paths:
-#       - .npm/
-#       - node_modules/
+        - python3 -m poetry run black .
+        - python3 -m poetry run flake8 .
 
 
+install-react-job:
+  stage: install
+  script:
+    - echo "Installing npm packages..."
+    - cd solving-pacman-frontend
+    - npm install
+  artifacts:
+    name: "artifacts"
+    untracked: true
+    expire_in: 60 mins
+    paths:
+      - .npm/
+      - node_modules/
 
+lint-react-job:
+  image: node:latest
+  stage: lint
+  script:
+    - echo "Linting react code..."
+    - npm run lint
+  allow_failure: false
+  interruptible: true
+  artifacts:
+    reports:
+      codequality: gl-codequality.json
 
-
-# lint-react-job:
-#   image: node:latest
-#   stage: lint
-#   script:
-#     - echo "Linting react code..."
-#     - npm run lint
-#   allow_failure: false
-#   interruptible: true
-#   cache:
-#     key:
-#       files:
-#         - package-lock.json
-#     paths:
-#       - node_modules/
-#     policy: pull
-#   artifacts:
-#     reports:
-#       codequality: gl-codequality.json
-
-# test-react-job:
-#   image: node:latest
-#   stage: test
-#   script:
-#     - echo "Testing react code..."
-#     - npm run test:ci
-#   interruptible: true
-#   coverage: '/^All files\s*\|\s*(\d+\.*\d+)/'
-#   cache:
-#     key:
-#       files:
-#         - package-lock.json
-#     paths:
-#       - node_modules/
-#     policy: pull
-#   artifacts:
-#     paths:
-#       - coverage
-#     reports:
-#         coverage_report:
-#           coverage_format: cobertura
-#           path: coverage/cobertura-coverage.xml
+test-react-job:
+  image: node:latest
+  stage: test
+  script:
+    - echo "Testing react code..."
+    - npm run test:ci
+  interruptible: true
+  coverage: '/^All files\s*\|\s*(\d+\.*\d+)/'
+  artifacts:
+    paths:
+      - coverage
+    reports:
+        coverage_report:
+          coverage_format: cobertura
+          path: coverage/cobertura-coverage.xml
