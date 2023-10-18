@@ -41,6 +41,13 @@ repos:
         verbose: true
         language: system
         entry: bash -c 'cd solving-pacman-backend && poetry run pytest .'
+    -   id: requirements-generate
+        name: Generate Requirements.txt
+        description: Generate requirements.txt for
+        files: \.toml$
+        verbose: true
+        language: system
+        entry: bash -c 'cd solving-pacman-backend && poetry export -o requirements.txt --without-hashes'
 
     # FRONTEND JOBS
 -   repo: https://github.com/pre-commit/mirrors-eslint
