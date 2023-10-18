@@ -19,7 +19,7 @@ install-python-job:
     stage: install
     script:
         - echo "Building Backend..."
-        - (cd solving-pacman-backend && pip install - requirements.txt)
+        - (cd solving-pacman-backend && pip install -r requirements.txt)
 
 test-python-job:
     stage: test
