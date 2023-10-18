@@ -4,7 +4,6 @@ repos:
     rev: v4.5.0
     hooks:
     -   id: check-added-large-files
-    -   id: check-json
     -   id: check-merge-conflict
     -   id: check-toml
     -   id: check-yaml
@@ -56,6 +55,10 @@ repos:
     -   id: eslint
         files: \.[jt]sx?$
         types: [file]
+-   repo: https://gitlab.com/bmares/check-json5
+    rev: v1.0.0
+    hooks:
+    - id: check-json5
 -   repo: local
     hooks:
     -   id: jest-test
