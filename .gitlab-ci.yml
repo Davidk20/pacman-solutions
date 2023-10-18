@@ -53,7 +53,7 @@ install-react-job:
   stage: install
   script:
     - echo "Building Frontend..."
-    - (cd solving-pacman-frontend && npm ci)
+    - (cd solving-pacman-frontend && npm ci --legacy-peer-deps)
 
 lint-react-job:
   image: node:latest
