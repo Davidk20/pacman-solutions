@@ -19,6 +19,7 @@
         "react",
         "@typescript-eslint"
     ],
+    "root": true,
     "rules": {
         "indent": [
             "error",

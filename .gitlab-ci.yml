@@ -56,7 +56,7 @@ lint-react-job:
   stage: lint
   script:
     - echo "Linting react code..."
-    - (cd solving-pacman-frontend && npx eslint .)
+    - (cd solving-pacman-frontend && npx eslint src)
   allow_failure: false
   interruptible: true
   artifacts:
