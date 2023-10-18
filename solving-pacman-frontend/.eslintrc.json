@@ -9,6 +9,9 @@
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended"
     ],
+    "ignorePatterns": [
+        "src/dist/*"
+    ],
     "overrides": [
     ],
     "parser": "@typescript-eslint/parser",
