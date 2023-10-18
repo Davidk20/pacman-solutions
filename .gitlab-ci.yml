@@ -1,15 +1,24 @@
-
 stages:
   - install
   - lint
   - test
   - build
 
+cache:
+  key: modules
+  paths:
+    - solving-pacman-frontend/node_modules
+
+
+
+##########################################
+## PYTHON BACKEND JOBS
+##########################################
 
 install-python-job:
     stage: install
     script:
-        - python --version
+        - echo "Building Backend..."
         - pip install poetry
         - pip install keyring -U
         - export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
@@ -36,20 +45,15 @@ lint-python-job:
         - python3 -m poetry run flake8 .
 
 
+##########################################
+## REACT FRONTEND JOBS
+##########################################
+
 install-react-job:
   stage: install
   script:
-    - echo "Installing npm packages..."
-    - npm install -g npm@latest
-    - cd solving-pacman-frontend
-    - npm install
-  artifacts:
-    name: "artifacts"
-    untracked: true
-    expire_in: 60 mins
-    paths:
-      - .npm/
-      - node_modules/
+    - echo "Building Frontend..."
+    - (cd solving-pacman-frontend && npm ci)
 
 lint-react-job:
   image: node:latest
