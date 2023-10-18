@@ -74,6 +74,7 @@
     ]
   },
   "devDependencies": {
+    "eslint-formatter-gitlab": "^5.0.0",
     "jest-junit": "^16.0.0"
   }
 }
