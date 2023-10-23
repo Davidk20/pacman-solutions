@@ -1,0 +1,70 @@
+repos:
+    # BACKEND JOBS
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+    -   id: check-added-large-files
+    -   id: check-merge-conflict
+    -   id: check-toml
+    -   id: check-yaml
+    -   id: end-of-file-fixer
+    -   id: name-tests-test
+    -   id: trailing-whitespace
+-   repo: https://github.com/asottile/reorder-python-imports
+    rev: v3.12.0
+    hooks:
+    -   id: reorder-python-imports
+-   repo: https://github.com/asottile/dead
+    rev: v1.5.2
+    hooks:
+    -   id: dead
+-   repo: https://github.com/psf/black
+    rev: 23.9.1
+    hooks:
+    -   id: black
+-   repo: https://github.com/PyCQA/flake8
+    rev: 6.1.0
+    hooks:
+    -   id: flake8
+-   repo: https://github.com/econchick/interrogate
+    rev: 1.4.0
+    hooks:
+    - id: interrogate
+      args: [-vv, -i, --fail-under=80]
+-   repo: local
+    hooks:
+    -   id: pytest
+        name: Test with Pytest
+        description: Test the backend application with Pytest
+        files: \.py$
+        verbose: true
+        language: system
+        entry: bash -c 'cd solving-pacman-backend && poetry run pytest .'
+    -   id: requirements-generate
+        name: Generate Requirements.txt
+        description: Generate requirements.txt for
+        files: \.toml$
+        verbose: true
+        language: system
+        entry: bash -c 'cd solving-pacman-backend && poetry export -o requirements.txt --without-hashes'
+
+    # FRONTEND JOBS
+-   repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v8.51.0
+    hooks:
+    -   id: eslint
+        files: \.[jt]sx?$
+        types: [file]
+-   repo: https://gitlab.com/bmares/check-json5
+    rev: v1.0.0
+    hooks:
+    - id: check-json5
+-   repo: local
+    hooks:
+    -   id: jest-test
+        name: Test with Jest
+        description: Test the frontend application with Jest
+        files: \.[jt]sx?$
+        verbose: true
+        language: system
+        entry: bash -c 'cd solving-pacman-frontend && npm run test:once'

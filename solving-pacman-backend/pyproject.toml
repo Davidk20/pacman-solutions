@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "solving-pacman-backend"
+version = "0.1.0"
+description = "Application to solve Pacman puzzles"
+authors = ["David Kidd <zhac086@live.rhul.ac.uk>"]
+readme = "../README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+flask = "^3.0.0"
+flake8 = "^6.1.0"
+black = "^23.9.1"
+gunicorn = "^21.2.0"
+pytest = "^7.4.2"
+pre-commit = "^3.4.0"
+coverage = "^7.3.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
