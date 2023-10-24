@@ -12,5 +12,5 @@ def pacman():
 
 def test_increase_score(pacman: PacmanAgent):
     """Test that Pacman's score is correctly increased when consuming items."""
-    pacman.increase_score(Orange())
+    pacman.handle_consume(Orange())
     assert pacman.get_score() == 500

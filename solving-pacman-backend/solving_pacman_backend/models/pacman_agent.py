@@ -8,14 +8,19 @@ class PacmanAgent(Agent):
 
     def __init__(self):
         super().__init__()
-        """Store the current score the user agent has accumulated."""
         self.current_score = 0
-        """Store the number of lives the user agent has remaining."""
+        """Store the current score the user agent has accumulated."""
         self.current_lives = 3
-
-    def increase_score(self, pickup: Pickup):
+        """Store the number of lives the user agent has remaining."""
+        self.energized = False
         """
-        Add the score from the pickup to the agents game score.
+        Store whether Pac-man is currently energized. This is true when the
+        agent has consumed a Power Pellet and is then able to consume ghosts.
+        """
+
+    def handle_consume(self, pickup: Pickup):
+        """
+        Handle the logic behind Pac-man consuming an item.
 
         :param pickup: The Pickup they have consumed.
         """
