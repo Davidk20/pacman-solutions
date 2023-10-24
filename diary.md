@@ -58,3 +58,10 @@
     - I was attempting to use commands like `npm install` and `npm build` which are not suitable for the CI environment and should have been using `npm ci` instead
     - This, along with ensuring all dependencies were correctly managed and not installed globally on my machine, allowed me to correctly build lint and test my code on the Gitlab server
 - Merged work into main so that I can move onto the next step - base game logic
+
+## 24/10/23
+
+- Configured initial draft of base game logic
+  - Created all player agent models
+  - Created all pickup item models
+  - Implemented base scoring system for items and ghosts
