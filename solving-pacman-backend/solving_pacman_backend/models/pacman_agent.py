@@ -20,6 +20,11 @@ class PacmanAgent(Agent):
         Store whether Pac-man is currently energized. This is true when the
         agent has consumed a Power Pellet and is then able to consume ghosts.
         """
+        self.temp_ghost_counter = 0
+        """
+        Counter to store the number of ghosts that Pac-man has consumed during
+        a single energizer run
+        """
 
     def handle_consume(self, pickup: Pickup | GhostAgent):
         """
@@ -29,7 +34,19 @@ class PacmanAgent(Agent):
         """
         if isinstance(pickup, PowerPellet):
             self.energized = True
-        self.current_score += pickup.get_score()
+        if isinstance(pickup, GhostAgent):
+            if self.energized:
+                # If Pac-man has successfully consumed a ghost
+                self.temp_ghost_counter += 1
+                self.current_score += (
+                    (pickup.get_score() / 100) ** self.temp_ghost_counter
+                ) * 100
+            else:
+                # If Pac-man has consumed a ghost without energizer
+                self.current_lives -= 1
+                # TODO - Return some sort of notification that this was invalid
+        if not isinstance(pickup, GhostAgent):
+            self.current_score += pickup.get_score()
 
     def get_score(self) -> int:
         """Return the current score."""
