@@ -496,6 +496,34 @@ files = [
 ]
 
 [[package]]
+name = "pydocstyle"
+version = "6.3.0"
+description = "Python docstring style checker"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "pydocstyle-6.3.0-py3-none-any.whl", hash = "sha256:118762d452a49d6b05e194ef344a55822987a462831ade91ec5c06fd2169d019"},
+    {file = "pydocstyle-6.3.0.tar.gz", hash = "sha256:7ce43f0c0ac87b07494eb9c0b462c0b73e6ff276807f204d6b53edc72b7e44e1"},
+]
+
+[package.dependencies]
+snowballstemmer = ">=2.2.0"
+
+[package.extras]
+toml = ["tomli (>=1.2.3)"]
+
+[[package]]
+name = "pydocstyle-gitlab-code-quality"
+version = "0.0.1"
+description = "Simple script to generate gitlab code quality report from output of pydocstyle."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pydocstyle-gitlab-code-quality-0.0.1.tar.gz", hash = "sha256:09c0358c05d26649a0faeef201a29c010ae6daaf02cbaae591eacd8da45cac5c"},
+    {file = "pydocstyle_gitlab_code_quality-0.0.1-py3-none-any.whl", hash = "sha256:dd4eea9205afc21adbac3961b19021698d1d6544ff15ff69a251fb73cb36fdcf"},
+]
+
+[[package]]
 name = "pyflakes"
 version = "3.1.0"
 description = "passive checker of Python programs"
@@ -527,6 +555,23 @@ tomli = {version = ">=1.0.0", markers = "python_version < \"3.11\""}
 
 [package.extras]
 testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
+
+[[package]]
+name = "pytest-pydocstyle"
+version = "2.3.2"
+description = "pytest plugin to run pydocstyle"
+optional = false
+python-versions = "~=3.7"
+files = [
+    {file = "pytest-pydocstyle-2.3.2.tar.gz", hash = "sha256:a30b28d49607b2fcd7b24678ab6c4e27a288710a34b3a0f1f90f3497e88771c3"},
+]
+
+[package.dependencies]
+pydocstyle = "*"
+pytest = ">=7.0"
+
+[package.extras]
+tests = ["pytest-isort", "pytest-pycodestyle (>=2.3,<3.0)"]
 
 [[package]]
 name = "pyyaml"
@@ -604,6 +649,17 @@ testing = ["build[virtualenv]", "filelock (>=3.4.0)", "flake8-2020", "ini2toml[l
 testing-integration = ["build[virtualenv] (>=1.0.3)", "filelock (>=3.4.0)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "packaging (>=23.1)", "pytest", "pytest-enabler", "pytest-xdist", "tomli", "virtualenv (>=13.0.0)", "wheel"]
 
 [[package]]
+name = "snowballstemmer"
+version = "2.2.0"
+description = "This package provides 29 stemmers for 28 languages generated from Snowball algorithms."
+optional = false
+python-versions = "*"
+files = [
+    {file = "snowballstemmer-2.2.0-py2.py3-none-any.whl", hash = "sha256:c8e1716e83cc398ae16824e5572ae04e0d9fc2c6b985fb0f900f5f0c96ecba1a"},
+    {file = "snowballstemmer-2.2.0.tar.gz", hash = "sha256:09b16deb8547d3412ad7b590689584cd0fe25ec8db3be37788be3810cbf19cb1"},
+]
+
+[[package]]
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
@@ -665,4 +721,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "9d476afc68012251d9827b16b19218748953c6c5b2ffa2449a13120c7aa27206"
+content-hash = "abce14f112c1dbba4df6fe52c01bf0301e83102d69f55eab2e5be5f2a371240c"
