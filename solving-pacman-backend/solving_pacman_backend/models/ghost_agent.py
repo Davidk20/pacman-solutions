@@ -24,3 +24,43 @@ class GhostAgent(Agent):
     def get_score(self) -> int:
         """Return the score for this item."""
         return self.score
+
+
+class BlinkyAgent(GhostAgent):
+    """Agent Representing Blinky the Ghost."""
+
+    def __init__(self):
+        """Initialise the class."""
+        super().__init__()
+        self.name = "Blinky"
+        self.behaviour = "Shadow"
+
+
+class PinkyAgent(GhostAgent):
+    """Agent Representing Pinky the Ghost."""
+
+    def __init__(self):
+        """Initialise the class."""
+        super().__init__()
+        self.name = "Pinky"
+        self.behaviour = "Speedy"
+
+
+class InkyAgent(GhostAgent):
+    """Agent Representing Inky the Ghost."""
+
+    def __init__(self):
+        """Initialise the class."""
+        super().__init__()
+        self.name = "Inky"
+        self.behaviour = "Bashful"
+
+
+class ClydeAgent(GhostAgent):
+    """Agent Representing Clyde the Ghost."""
+
+    def __init__(self):
+        """Initialise the class."""
+        super().__init__()
+        self.name = "Clyde"
+        self.behaviour = "Pokey"

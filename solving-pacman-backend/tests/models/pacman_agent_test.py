@@ -64,7 +64,7 @@ def test_valid_multiple_ghost_consume(pacman: PacmanAgent, ghost: GhostAgent):
 
 
 def test_deenergize(pacman: PacmanAgent, ghost: GhostAgent):
-    """Test the de-energize function correctly restores state"""
+    """Test the de-energize function correctly restores state."""
     pacman.handle_consume(PowerPellet())
     pacman.handle_consume(ghost)
     # At this time, Pac-man should be able to consume
