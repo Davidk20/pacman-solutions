@@ -30,3 +30,9 @@ class MovementTypes(Enum):
     input. In the interpretation of this project, this instead means
     that movement will be controlled by an agent with planning.
     """
+    HOMEBOUND = 4
+    """
+    Movement style only applying to ghosts. If a Ghost is consumed by Pac-man
+    while he is energised, they should return to the "home". This movement type
+    will instruct a Ghost to aim for these coordinates.
+    """
