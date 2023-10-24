@@ -61,3 +61,15 @@ def test_valid_multiple_ghost_consume(pacman: PacmanAgent, ghost: GhostAgent):
     assert pacman.get_score() == 1450
     pacman.handle_consume(ghost)
     assert pacman.get_score() == 3050
+
+
+def test_deenergize(pacman: PacmanAgent, ghost: GhostAgent):
+    """Test the de-energize function correctly restores state"""
+    pacman.handle_consume(PowerPellet())
+    pacman.handle_consume(ghost)
+    # At this time, Pac-man should be able to consume
+    assert pacman.get_score() == 250
+    pacman.deenergize()
+    pacman.handle_consume(ghost)
+    # After being de-energized, Pac-man should lose a life
+    assert pacman.current_lives == 2

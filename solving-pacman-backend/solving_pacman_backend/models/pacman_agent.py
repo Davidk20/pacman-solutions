@@ -51,3 +51,8 @@ class PacmanAgent(Agent):
     def get_score(self) -> int:
         """Return the current score."""
         return self.current_score
+
+    def deenergize(self):
+        """Restore Pac-man agent to a de-energized state."""
+        self.energized = False
+        self.temp_ghost_counter = 0
