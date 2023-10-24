@@ -1,12 +1,15 @@
 """Model representing the agent for Pac-man."""
 from solving_pacman_backend.models.agent import Agent
+from solving_pacman_backend.models.ghost_agent import GhostAgent
 from solving_pacman_backend.models.pickups import Pickup
+from solving_pacman_backend.models.pickups import PowerPellet
 
 
 class PacmanAgent(Agent):
     """Model representing the agent for Pac-man."""
 
     def __init__(self):
+        """Initialise the class."""
         super().__init__()
         self.current_score = 0
         """Store the current score the user agent has accumulated."""
@@ -18,12 +21,14 @@ class PacmanAgent(Agent):
         agent has consumed a Power Pellet and is then able to consume ghosts.
         """
 
-    def handle_consume(self, pickup: Pickup):
+    def handle_consume(self, pickup: Pickup | GhostAgent):
         """
         Handle the logic behind Pac-man consuming an item.
 
         :param pickup: The Pickup they have consumed.
         """
+        if isinstance(pickup, PowerPellet):
+            self.energized = True
         self.current_score += pickup.get_score()
 
     def get_score(self) -> int:

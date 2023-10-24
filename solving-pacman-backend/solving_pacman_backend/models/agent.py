@@ -6,6 +6,7 @@ class Agent:
     """Abstract class used to encapsulate all agent attributes."""
 
     def __init__(self):
+        """Initialise the class."""
         self.movement_type = None
         """The agents Movement type"""
 
