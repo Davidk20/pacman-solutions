@@ -6,7 +6,7 @@ authors = ["David Kidd <zhac086@live.rhul.ac.uk>"]
 readme = "../README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">=3.10,<3.13"
 flask = "^3.0.0"
 flake8 = "^6.1.0"
 black = "^23.9.1"
@@ -17,6 +17,8 @@ coverage = "^7.3.2"
 pydocstyle = "^6.3.0"
 pytest-pydocstyle = "^2.3.2"
 pydocstyle-gitlab-code-quality = "^0.0.1"
+numpy = "^1.26.1"
+pillow = "^10.1.0"
 
 
 [build-system]
