@@ -9,8 +9,8 @@ class LevelHandler:
     def __init__(self) -> None:
         absolute_path = os.path.dirname(__file__)
         relative_path = "../models/levels.json"
-        raw_levels = open(os.path.join(absolute_path, relative_path))
-        self.levels: dict = json.load(raw_levels)
+        self.__raw_levels = open(os.path.join(absolute_path, relative_path))
+        self.levels: dict = json.load(self.__raw_levels)
 
     def get_level(self, level_num: int) -> dict:
         """
@@ -29,3 +29,7 @@ class LevelHandler:
         :returns: The map data for the desired level
         """
         return self.levels.get(("level " + str(level_num))).get("map")
+
+    def close(self) -> None:
+        """Closes the levels.json file after use."""
+        self.__raw_levels.close()
