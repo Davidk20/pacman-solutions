@@ -3,10 +3,12 @@ import pytest
 from solving_pacman_backend.services.level_handler import LevelHandler
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture(scope="session", autouse=True)
 def level_handler():
     """Generate an instance of LevelHandler for testing"""
-    return LevelHandler()
+    level_handler = LevelHandler()
+    yield level_handler
+    level_handler.close()
 
 
 def test_get_level(level_handler: LevelHandler):
