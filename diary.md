@@ -65,3 +65,13 @@
   - Created all player agent models
   - Created all pickup item models
   - Implemented base scoring system for items and ghosts
+- Begun working on a representation of levels
+  - Created Wiki to document how levels are generated / rendered
+  - Attempted to use Pillow image generation to preview levels quickly while developing
+  - Testing different representations to find one which makes sense but is also practical
+    - Decision needs to be made to see whether alphanumerical or solely numerical representations work best
+
+## 31/10/23
+
+- Branched the level preview script off of the current task as it is not in scope for this goal and so shouldn't be the focus right now
+- Completed first encoding of a level into a text-based format
