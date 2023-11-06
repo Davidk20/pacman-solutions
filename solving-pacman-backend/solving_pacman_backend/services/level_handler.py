@@ -20,3 +20,12 @@ class LevelHandler:
         :returns: The level data for the desired level
         """
         return self.levels.get(("level " + str(level_num)))
+
+    def get_map(self, level_num: int) -> list[list]:
+        """
+        Returns only the map for a given level.
+
+        :param level_num: The number of the desired level
+        :returns: The map data for the desired level
+        """
+        return self.levels.get(("level " + str(level_num))).get("map")
