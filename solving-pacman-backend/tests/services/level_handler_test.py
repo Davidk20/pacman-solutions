@@ -16,5 +16,5 @@ def test_get_level(level_handler: LevelHandler):
 
 def test_get_map(level_handler: LevelHandler):
     """Test that a map is correctly returned."""
-    assert len(level_handler.get_level(1).get("map")) == 31
-    assert len(level_handler.get_level(1).get("map")[0]) == 28
+    assert len(level_handler.get_map(1)) == 31
+    assert len(level_handler.get_map(1)[0]) == 28
