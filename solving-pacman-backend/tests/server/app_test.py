@@ -12,3 +12,9 @@ def test_get_board(client):
     response = client.get("/get-board?level_num=1")
     assert b"Level 1" in response.data
     assert response.status == "200 OK"
+
+
+def test_get_invalid_board(client):
+    """Test that a 400 status code is given when level_num is invalid."""
+    response = client.get("/get-board?level_num=123456")
+    assert response.status == "400 BAD REQUEST"
