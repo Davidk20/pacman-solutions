@@ -3,6 +3,14 @@ import json
 import os
 
 
+class LevelNotFoundException(Exception):
+    """Raised when a level is not found"""
+
+    def __init__(self, level_num: int) -> None:
+        message = f"Level {level_num} not found."
+        super().__init__(message)
+
+
 class LevelHandler:
     """Service to read and manage the levels."""
 
