@@ -29,6 +29,7 @@ repos:
       args: [-vv, -i, --fail-under=80]
 -   repo: local
     hooks:
+    # Disabled as prevents the use of TDD as test files cannot be committed without matching and passing code
     # -   id: pytest
     #     name: Test with Pytest
     #     description: Test the backend application with Pytest
@@ -55,12 +56,13 @@ repos:
     rev: v1.0.0
     hooks:
     - id: check-json5
--   repo: local
-    hooks:
-    -   id: jest-test
-        name: Test with Jest
-        description: Test the frontend application with Jest
-        files: \.[jt]sx?$
-        verbose: true
-        language: system
-        entry: bash -c 'cd solving-pacman-frontend && npm run test:once'
+# Disabled as prevents the use of TDD as test files cannot be committed without matching and passing code
+# -   repo: local
+#     hooks:
+#     -   id: jest-test
+#         name: Test with Jest
+#         description: Test the frontend application with Jest
+#         files: \.[jt]sx?$
+#         verbose: true
+#         language: system
+#         entry: bash -c 'cd solving-pacman-frontend && npm run test:once'
