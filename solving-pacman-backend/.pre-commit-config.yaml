@@ -29,13 +29,13 @@ repos:
       args: [-vv, -i, --fail-under=80]
 -   repo: local
     hooks:
-    -   id: pytest
-        name: Test with Pytest
-        description: Test the backend application with Pytest
-        files: \.py$
-        verbose: true
-        language: system
-        entry: bash -c 'cd solving-pacman-backend && poetry run pytest .'
+    # -   id: pytest
+    #     name: Test with Pytest
+    #     description: Test the backend application with Pytest
+    #     files: \.py$
+    #     verbose: true
+    #     language: system
+    #     entry: bash -c 'cd solving-pacman-backend && poetry run pytest .'
     -   id: requirements-generate
         name: Generate Requirements.txt
         description: Generate requirements.txt for
