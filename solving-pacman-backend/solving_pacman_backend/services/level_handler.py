@@ -27,7 +27,11 @@ class LevelHandler:
         :param level_num: The number of the desired level
         :returns: The level data for the desired level
         """
-        return self.levels.get(("level " + str(level_num)))
+        level = self.levels.get(("level " + str(level_num)))
+        if level is None:
+            raise LevelNotFoundException(level_num)
+        else:
+            return level
 
     def get_map(self, level_num: int) -> list[list]:
         """
@@ -36,7 +40,11 @@ class LevelHandler:
         :param level_num: The number of the desired level
         :returns: The map data for the desired level
         """
-        return self.levels.get(("level " + str(level_num))).get("map")
+        level = self.levels.get(("level " + str(level_num)))
+        if level is None:
+            raise LevelNotFoundException(level_num)
+        else:
+            return level.get("map")
 
     def close(self) -> None:
         """Closes the levels.json file after use."""
