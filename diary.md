@@ -85,3 +85,11 @@
 - Completed first API endpoint to allow game boards to be returned in response to a `GET` request
 - Had advisor meeting to update on the progress of the project
   - Used this meeting to inform the structure of the report and to ensure that development was continuing at a good pace
+
+## 11/11/23
+
+- Researched potential applications of CS3940 Multi-Agent Systems coursework and specifically VacuumWorld on my own project.
+
+## 14/11/23
+
+- Started work on frontend implementation.
