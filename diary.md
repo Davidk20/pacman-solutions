@@ -75,3 +75,13 @@
 
 - Branched the level preview script off of the current task as it is not in scope for this goal and so shouldn't be the focus right now
 - Completed first encoding of a level into a text-based format
+
+## 6/11/23
+
+- Created `LevelHandler` to handle injection of levels into the game
+
+## 7/11/23
+
+- Completed first API endpoint to allow game boards to be returned in response to a `GET` request
+- Had advisor meeting to update on the progress of the project
+  - Used this meeting to inform the structure of the report and to ensure that development was continuing at a good pace
