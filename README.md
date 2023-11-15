@@ -1,6 +1,10 @@
 # Final Year Project - Solving Pacman using AI
 
-## Prerequisites
+![Pacman Logo](solving-pacman-frontend/src/assets/images/pacman_logo_small.png)
+
+A full-stack application designed to solve levels from the original 1980's game Pac-Man using an Artifical Intelligence system.
+
+## Requirements
 
 - Python >= 3.10
   - Poetry >= 1.6.1
