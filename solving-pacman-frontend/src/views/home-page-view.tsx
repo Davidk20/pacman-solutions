@@ -14,7 +14,7 @@ export class HomePageView extends React.Component{
   override render(): React.ReactNode {
     return (
       <div className="Page">
-        <Header subtitle="test"></Header>
+        <Header subtitle=""></Header>
         <div className="Home-Menu">
           <img className="Pacman-Logo" src={logo}/>
           <Link to="/level-select">
