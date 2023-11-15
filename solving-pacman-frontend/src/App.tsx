@@ -1,7 +1,6 @@
 import React from "react";
 import "./App.css";
-import logo from "./assets/images/pacman_logo.png";
-import { HomeMenuButton } from "./components/home-menu-button";
+import { HomePageView } from "./views/home-page-view";
 
 function App() {
   return (
@@ -9,11 +8,7 @@ function App() {
       <header className="App-Header">
         <h1 className="Page-Title">PACMAN SOLUTIONS</h1>
       </header>
-      <div className="Home-Menu">
-        <img className="Pacman-Logo" src={logo}/>
-        <HomeMenuButton buttonText="SELECT A LEVEL"></HomeMenuButton>
-        <HomeMenuButton buttonText="CONFIGURATION"></HomeMenuButton>
-      </div>
+      <HomePageView></HomePageView>
     </div>
   );
 }

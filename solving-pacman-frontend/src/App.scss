@@ -10,6 +10,14 @@ $pacman-yellow: #F4D147;
   align-items: center;
   justify-content: center;
 }
+
+.page {
+  height: 90vh;
+}
+
+.App-Link {
+  color: #61dafb;
+}
 //////////////////////////////////////////////////
 
 .App {
@@ -31,18 +39,4 @@ $pacman-yellow: #F4D147;
 .Page-Title {
   color: $pacman-yellow;
   font-family: PublicPixel, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
-.App-Link {
-  color: #61dafb;
-}
-
-.Home-Menu {
-  @extend .center;
-  height: 90vh;
-  gap: 80px;
-}
-
-.Pacman-Logo {
-  width: 40vw;
 }
