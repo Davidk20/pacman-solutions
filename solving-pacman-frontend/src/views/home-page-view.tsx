@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 
 /**
- * Component to render a button for the homepage menu.
+ * View showing the homepage of the application.
  */
 export class HomePageView extends React.Component{
 
@@ -17,10 +17,12 @@ export class HomePageView extends React.Component{
         <Header subtitle=""></Header>
         <div className="Home-Menu">
           <img className="Pacman-Logo" src={logo}/>
-          <Link to="/level-select">
+          <Link to="/level-select" style={{textDecoration: "none"}}>
             <HomeMenuButton buttonText="SELECT A LEVEL"></HomeMenuButton>
           </Link>
-          <HomeMenuButton buttonText="CONFIGURATION"></HomeMenuButton>
+          <Link to="/configuration" style={{textDecoration: "none"}}>
+            <HomeMenuButton buttonText="CONFIGURATION"></HomeMenuButton>
+          </Link>
         </div>
       </div>
     );
