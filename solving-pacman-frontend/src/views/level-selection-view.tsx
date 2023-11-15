@@ -3,7 +3,7 @@ import "../styles/components/home-menu-button.css";
 import { Header } from "../components/header";
 
 /**
- * Component to render a button for the homepage menu.
+ * View showing the level selection screen.
  */
 export class LevelSelectionView extends React.Component{
 
