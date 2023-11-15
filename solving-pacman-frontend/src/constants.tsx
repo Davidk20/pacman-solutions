@@ -1,4 +1,6 @@
 // Constant variables which should be accessible dependent on their environment
+// Solution inspired by:
+// https://a-carreras-c.medium.com/development-and-production-variables-for-react-apps-c04af8b430a5
 
 /**
  * Environment variables for the development environment.
