@@ -18,25 +18,17 @@ $pacman-yellow: #F4D147;
 .App-Link {
   color: #61dafb;
 }
-//////////////////////////////////////////////////
 
-.App {
+.Page {
   min-height: 100vh;
-  text-align: center;
   background-color: $background-colour;
 }
 
-.App-Header {
-  max-height: 10vh;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  font-size: calc(10px + 1.5vmin);
-  padding-left: 20px;
+.Link {
+  text-decoration: none;
 }
 
-.Page-Title {
-  color: $pacman-yellow;
-  font-family: PublicPixel, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+.Link:visited {
+  text-decoration: none;
 }
+//////////////////////////////////////////////////
