@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import logo from "./assets/images/pacman_logo.png";
+import { HomeMenuButton } from "./components/home-menu-button";
 
 function App() {
   return (
@@ -10,6 +11,8 @@ function App() {
       </header>
       <div className="Home-Menu">
         <img className="Pacman-Logo" src={logo}/>
+        <HomeMenuButton buttonText="SELECT A LEVEL"></HomeMenuButton>
+        <HomeMenuButton buttonText="CONFIGURATION"></HomeMenuButton>
       </div>
     </div>
   );
