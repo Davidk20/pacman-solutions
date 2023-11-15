@@ -1,7 +1,21 @@
+//////////////////////////////////////////////////
+// GLOBAL GENERIC STYLES
+$background-colour: #282C34;
+$pacman-wall-colour: #2120D2;
+$pacman-yellow: #F4D147;
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+//////////////////////////////////////////////////
+
 .App {
   min-height: 100vh;
   text-align: center;
-  background-color: #282c34;
+  background-color: $background-colour;
 }
 
 .App-Header {
@@ -15,7 +29,7 @@
 }
 
 .Page-Title {
-  color: #F4D147;
+  color: $pacman-yellow;
   font-family: PublicPixel, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
@@ -24,12 +38,9 @@
 }
 
 .Home-Menu {
+  @extend .center;
   height: 90vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 60px;
+  gap: 80px;
 }
 
 .Pacman-Logo {
