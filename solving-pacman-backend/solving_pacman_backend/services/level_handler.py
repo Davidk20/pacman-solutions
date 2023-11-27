@@ -46,6 +46,20 @@ class LevelHandler:
         else:
             return level.get("map")
 
+    def get_overview(self) -> list[str]:
+        """
+        Returns an overview of all levels.
+
+        Returns
+        -------
+        A list of all of the available levels to be solved.
+        """
+        available = []
+        level: dict
+        for level in self.levels.values():
+            available.append(level.get("name"))
+        return available
+
     def close(self) -> None:
         """Closes the levels.json file after use."""
         self.__raw_levels.close()

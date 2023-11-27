@@ -35,3 +35,8 @@ def test_map_not_found(level_handler: LevelHandler):
     """Test that LevelNotFoundException is correctly called."""
     with pytest.raises(LevelNotFoundException):
         level_handler.get_map(123456)
+
+
+def test_get_overview(level_handler: LevelHandler):
+    """Test that the levels overview is correctly returned."""
+    assert level_handler.get_overview() == ["Level 1"]
