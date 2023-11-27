@@ -12,12 +12,13 @@ from solving_pacman_backend.services.level_handler import (
 app = Flask(__name__)
 
 
+# TODO - Once there is enough data, create useful root page.
 @app.route("/")
 def home():  # dead: disable
     """
     route for the root of the server.
     """
-    return "<h1 style='color:blue'>Hello There!</h1>"
+    return "<h1 style='color:blue'>Solving Pac-Man - Backend</h1>"
 
 
 @app.route("/get-board", methods=["GET"])
