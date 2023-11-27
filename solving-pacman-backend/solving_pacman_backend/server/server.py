@@ -21,6 +21,13 @@ def home():  # dead: disable
     return "<h1 style='color:blue'>Solving Pac-Man - Backend</h1>"
 
 
+@app.route("/get-levels", methods=["GET"])
+def get_levels():
+    """Returns an overview of information about all levels."""
+    level_handler = LevelHandler()
+    return jsonify(level_handler.get_overview()), 200
+
+
 @app.route("/get-board", methods=["GET"])
 def get_board():
     """Route to return a game board."""
