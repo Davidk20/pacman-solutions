@@ -4,8 +4,6 @@ import { Route, HashRouter as Router, Routes } from "react-router-dom";
 import { LevelSelectionView } from "./views/level-selection-view";
 import { HomePageView } from "./views/home-page-view";
 import { ConfigurationView } from "./views/configuration-view";
-import "module-alias/register";
-
 
 class App extends React.Component {
   override render(): React.ReactNode {
