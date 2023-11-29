@@ -93,3 +93,26 @@
 ## 14/11/23
 
 - Started work on frontend implementation.
+
+## 15/11/23
+
+- Completed basic routing for application.
+- Carried on research for using Teleoreactive Programming within my project
+
+## 20/11/23 - 25/11/23
+
+- Continued working on interim report.
+
+## 25/11/23
+
+- Submitted draft copy of interim report for review.
+
+## 27/11/23
+
+- Implemented backend code to show an overview of the levels available.
+
+## 29/11/23
+
+- Implemented front-end code to fetch for API requests and handle the data.
+- Implemented level selection screen
+- Created basic canvas display for the game view.
