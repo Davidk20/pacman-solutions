@@ -4,12 +4,15 @@ File controlling the handling of the flask server and its routes.
 from flask import Flask
 from flask import jsonify
 from flask import request
+from flask_cors import CORS
 from solving_pacman_backend.services.level_handler import LevelHandler
 from solving_pacman_backend.services.level_handler import (
     LevelNotFoundException,
 )
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config["CORS_HEADERS"] = "Content-Type"
 
 
 # TODO - Once there is enough data, create useful root page.
