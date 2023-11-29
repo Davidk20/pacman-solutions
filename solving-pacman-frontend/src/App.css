@@ -1,7 +1,3 @@
-body {
-  user-select: none;
-}
-
 .center {
   display: flex;
   flex-direction: column;
