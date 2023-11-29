@@ -1,7 +1,8 @@
 import React, { ReactElement } from "react";
-import "../styles/components/home-menu-button.css";
+import "../styles/views/level-selection-view.scss";
 import { Header } from "../components/header";
 import { fetchOverview } from "../services/api-service";
+import { LevelCard } from "../components/level-card";
 
 /**
  * View showing the level selection screen.
@@ -17,7 +18,7 @@ export class LevelSelectionView extends React.Component{
     const levels = await fetchOverview();
     const levelElements: Array<ReactElement> = [];
     for (const level of levels){
-      levelElements.push(<span>{level}</span>);
+      levelElements.push(<LevelCard levelName={level.toUpperCase()}></LevelCard>);
     }
     this.setState({formattedLevels: levelElements});
   }
@@ -26,7 +27,9 @@ export class LevelSelectionView extends React.Component{
     return (
       <div className="Page">
         <Header subtitle="LEVEL SELECTION"></Header>
-        {this.state.formattedLevels}
+        <div className="Levels-Container">
+          {this.state.formattedLevels}
+        </div>
       </div>
     );
   }
