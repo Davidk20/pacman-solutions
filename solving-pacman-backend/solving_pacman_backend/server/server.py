@@ -37,7 +37,7 @@ def get_board():
     level_num = int(request.args.get("level_num"))
     level_handler = LevelHandler()
     try:
-        message = level_handler.get_level(level_num)
+        message = level_handler.get_map(level_num)
         status = 200
     except LevelNotFoundException as e:
         message = str(e)
