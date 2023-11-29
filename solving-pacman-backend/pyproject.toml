@@ -17,6 +17,7 @@ coverage = "^7.3.2"
 pydocstyle = "^6.3.0"
 pytest-pydocstyle = "^2.3.2"
 pydocstyle-gitlab-code-quality = "^0.0.1"
+flask-cors = "^4.0.0"
 
 
 [build-system]
