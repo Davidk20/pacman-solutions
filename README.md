@@ -4,6 +4,8 @@
 
 A full-stack application designed to solve levels from the original 1980's game Pac-Man using an Artifical Intelligence system.
 
+- [Representing Levels](docs/level-representation.md)
+
 ## Requirements
 
 - Python >= 3.10
