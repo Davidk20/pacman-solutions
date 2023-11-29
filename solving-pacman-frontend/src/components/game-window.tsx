@@ -1,3 +1,8 @@
+/**
+ * Base code for this taken with inspiration from
+ * https://codesandbox.io/p/sandbox/canvas-react-typescript-lqq9k?file=%2Fsrc%2FApp.tsx
+ */
+
 import React from "react";
 import { useEffect, useRef } from "react";
 
