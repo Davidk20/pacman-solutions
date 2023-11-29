@@ -20,7 +20,7 @@ export class LevelCard extends React.Component<LevelCardProps> {
 
   override render(): React.ReactNode {
     return (
-      <Link to={"/game"} state={{level: this.props.levelName}} style={{textDecoration: "none"}}>
+      <Link to={"/game"} state={{level: this.props.levelName}} style={{textDecoration: "none", display: "inline-block"}}>
         <div className="Level-Card-Container">
           <img className="Level-Card-Preview" src={placeholder}/>
           <h1 className="Level-Card-Title">{this.props.levelName}</h1>
