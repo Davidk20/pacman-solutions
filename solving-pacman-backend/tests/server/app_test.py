@@ -10,7 +10,7 @@ def test_app(client):
 def test_get_board(client):
     """Test that the route can return a game board."""
     response = client.get("/get-board?level_num=1")
-    assert b"Level 1" in response.data
+    assert b"[[99," in response.data
     assert response.status == "200 OK"
 
 
