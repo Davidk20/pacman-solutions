@@ -17,6 +17,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.18.0",
     "react-scripts": "^5.0.1",
+    "react-test-renderer": "^18.2.0",
     "sass": "^1.69.5",
     "typescript": "^5.2.2",
     "web-vitals": "^2.1.4"
@@ -55,11 +56,14 @@
     "@jest/globals": "^29.7.0",
     "@testing-library/jest-dom": "^6.1.4",
     "@types/jest": "^29.5.6",
+    "@types/react-test-renderer": "^18.0.7",
     "babel-jest": "^29.7.0",
     "eslint-formatter-gitlab": "^5.0.0",
     "eslint-plugin-jest-dom": "^5.1.0",
     "eslint-plugin-react": "^7.33.2",
+    "identity-obj-proxy": "^3.0.0",
     "jest-junit": "^16.0.0",
+    "jest-transform-stub": "^2.0.0",
     "ts-jest": "^29.1.1"
   }
 }
