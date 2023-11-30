@@ -1,8 +1,8 @@
 @import "../../App.scss";
 
 .Level-Card-Container {
-    height: 22vh;
-    width: 10vw;
+    min-height: 22vh;
+    min-width: 10vw;
     display: flex;
     flex-direction: column;
     cursor: pointer;
