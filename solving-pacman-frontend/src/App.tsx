@@ -10,14 +10,12 @@ class App extends React.Component {
   override render(): React.ReactNode {
     return (
       <Router>
-        <div>
-          <Routes>
-            <Route path="/" Component={HomePageView} />
-            <Route path="/level-select" Component={LevelSelectionView} />
-            <Route path="/configuration" Component={ConfigurationView} />
-            <Route path="/game" Component={GameView}/>
-          </Routes>
-        </div>
+        <Routes>
+          <Route path="/" Component={HomePageView} />
+          <Route path="/level-select" Component={LevelSelectionView} />
+          <Route path="/configuration" Component={ConfigurationView} />
+          <Route path="/game" Component={GameView}/>
+        </Routes>
       </Router>
     );
   }
