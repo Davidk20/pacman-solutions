@@ -78,7 +78,6 @@ class LevelHandler:
         full_map = self.get_map(level_num)
         height = len(full_map)
         width = len(full_map[0])
-        print(height, width)
         # array to store the nodes once generated
         nodes: list[Node] = []
         # queue to store the positions to be looked into
