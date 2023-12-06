@@ -27,7 +27,8 @@
     "build": "react-scripts build",
     "test": "jest",
     "test:once": "jest --ci --watchAll=false",
-    "test:ci": "jest --collectCoverage --coverageDirectory=\"./coverage\" --ci --reporters=default --reporters=jest-junit --watchAll=false",
+    "test:ci": "jest --ci --reporters=default --reporters=jest-junit --watchAll=false",
+    "test:ci-cov": "jest --collectCoverage --coverageDirectory=\"./coverage\" --ci --reporters=default --reporters=jest-junit --watchAll=false",
     "eject": "react-scripts eject",
     "lint": "eslint ."
   },

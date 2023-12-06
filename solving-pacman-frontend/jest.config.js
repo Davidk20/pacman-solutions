@@ -5,7 +5,7 @@ module.exports = {
   clearMocks: true,
 
   // Indicates whether the coverage information should be collected while executing the test
-  collectCoverage: true,
+  collectCoverage: false,
 
   collectCoverageFrom: [
     "src/**/*.{js,jsx,ts,tsx}",
@@ -29,7 +29,8 @@ module.exports = {
   coveragePathIgnorePatterns: [
     "/node_modules/",
     "<rootDir>/dist/",
-    "<rootDir>/src/dist/*"
+    "<rootDir>/src/dist/*",
+    "dist/*",
   ],
 
   // Indicates which provider should be used to instrument code for coverage
