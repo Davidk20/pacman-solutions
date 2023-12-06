@@ -68,7 +68,7 @@ test-react-job:
   stage: test
   script:
     - echo "Testing react code..."
-    - (cd solving-pacman-frontend && npx jest --collectCoverage --coverageDirectory=\"./coverage\" --ci --reporters=default --reporters=jest-junit --watchAll=false)
+    - (cd solving-pacman-frontend && npx jest --ci --reporters=default --reporters=jest-junit --watchAll=false)
   interruptible: true
   coverage: '/^All files\s*\|\s*(\d+\.*\d+)/'
   artifacts:

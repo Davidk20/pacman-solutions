@@ -1,3 +1,4 @@
 .vscode/settings.json
 *.pyc
 junit.xml
+.DS_Store

@@ -75,3 +75,44 @@
 
 - Branched the level preview script off of the current task as it is not in scope for this goal and so shouldn't be the focus right now
 - Completed first encoding of a level into a text-based format
+
+## 6/11/23
+
+- Created `LevelHandler` to handle injection of levels into the game
+
+## 7/11/23
+
+- Completed first API endpoint to allow game boards to be returned in response to a `GET` request
+- Had advisor meeting to update on the progress of the project
+  - Used this meeting to inform the structure of the report and to ensure that development was continuing at a good pace
+
+## 11/11/23
+
+- Researched potential applications of CS3940 Multi-Agent Systems coursework and specifically VacuumWorld on my own project.
+
+## 14/11/23
+
+- Started work on frontend implementation.
+
+## 15/11/23
+
+- Completed basic routing for application.
+- Carried on research for using Teleoreactive Programming within my project
+
+## 20/11/23 - 25/11/23
+
+- Continued working on interim report.
+
+## 25/11/23
+
+- Submitted draft copy of interim report for review.
+
+## 27/11/23
+
+- Implemented backend code to show an overview of the levels available.
+
+## 29/11/23
+
+- Implemented front-end code to fetch for API requests and handle the data.
+- Implemented level selection screen
+- Created basic canvas display for the game view.

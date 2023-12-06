@@ -1,0 +1,10 @@
+@import "../../App.scss";
+
+.Home-Menu {
+    @extend .center, .page;
+    gap: 80px;
+  }
+
+.Pacman-Logo {
+    width: 40vw;
+}

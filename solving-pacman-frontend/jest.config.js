@@ -5,7 +5,7 @@ module.exports = {
   clearMocks: true,
 
   // Indicates whether the coverage information should be collected while executing the test
-  collectCoverage: true,
+  collectCoverage: false,
 
   collectCoverageFrom: [
     "src/**/*.{js,jsx,ts,tsx}",
@@ -29,7 +29,8 @@ module.exports = {
   coveragePathIgnorePatterns: [
     "/node_modules/",
     "<rootDir>/dist/",
-    "<rootDir>/src/dist/*"
+    "<rootDir>/src/dist/*",
+    "dist/*",
   ],
 
   // Indicates which provider should be used to instrument code for coverage
@@ -90,19 +91,22 @@ module.exports = {
   // ],
 
   // An array of file extensions your modules use
-  // moduleFileExtensions: [
-  //   "js",
+  moduleFileExtensions: [
+    "js",
+    "ts",
+    "tsx",
+    "json",
   //   "mjs",
   //   "cjs",
   //   "jsx",
-  //   "ts",
-  //   "tsx",
-  //   "json",
   //   "node"
-  // ],
+  ],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
-  // moduleNameMapper: {},
+  moduleNameMapper: {
+    "\\.(jpg|jpeg|png|gif|webp|svg)$": "jest-transform-stub",
+    "\\.(css|scss)$": "identity-obj-proxy",
+  },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],
@@ -176,9 +180,10 @@ module.exports = {
   // ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  // testPathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  testPathIgnorePatterns: [
+    "/node_modules/",
+    "dist/*",
+  ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],

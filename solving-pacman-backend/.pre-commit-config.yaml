@@ -26,7 +26,8 @@ repos:
     rev: 1.4.0
     hooks:
     - id: interrogate
-      args: [-vv, -i, --fail-under=80]
+      args: [-vv, -i, -I, --fail-under=80]
+      pass_filenames: false
 -   repo: local
     hooks:
     # Disabled as prevents the use of TDD as test files cannot be committed without matching and passing code
