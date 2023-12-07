@@ -4,7 +4,7 @@ from solving_pacman_backend.models.graph import NodeNotFoundException
 from solving_pacman_backend.models.node import Node
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(autouse=True)
 def graph():
     """Generate an instance of Graph for testing"""
     graph = Graph()
