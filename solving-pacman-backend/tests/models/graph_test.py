@@ -1,4 +1,5 @@
 import pytest
+from solving_pacman_backend.models.environment import Teleporter
 from solving_pacman_backend.models.graph import DuplicateNodeException
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.graph import NodeNotFoundException
@@ -29,6 +30,8 @@ def nodes():
         Node((0, 1), PacDot()),
         Node((0, 2), PowerPellet()),
         Node((0, 3), PacDot()),
+        Node((0, 4), Teleporter()),
+        Node((0, 5), Teleporter()),
     ]
     yield nodes
 
@@ -38,9 +41,11 @@ def adjacency_list():
     """Generate the adjacency list for testing, uses `nodes`."""
     adjacency_list: dict[tuple[int, int], list[tuple[int, int]]] = {
         (0, 0): [(0, 1), (0, 2)],
-        (0, 1): [(0, 3), (0, 2)],
-        (0, 2): [(0, 0), (0, 1)],
-        (0, 3): [(0, 1), (0, 2)],
+        (0, 1): [(0, 3), (0, 5)],
+        (0, 2): [(0, 1), (0, 4)],
+        (0, 3): [(0, 1), (0, 0)],
+        (0, 4): [(0, 1), (0, 5)],
+        (0, 5): [(0, 3), (0, 2)],
     }
     yield adjacency_list
 
