@@ -16,6 +16,13 @@ class DuplicateNodeException(Exception):
         super().__init__(message)
 
 
+class InvalidGraphConfigurationException(Exception):
+    """Raised when the graph does not fit the required configuration."""
+
+    def __init__(self, message: str) -> None:
+        super().__init__(message)
+
+
 class Graph:
     """Model representing the level as a graph data structure."""
 
