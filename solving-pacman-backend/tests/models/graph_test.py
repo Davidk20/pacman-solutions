@@ -18,6 +18,25 @@ def node():
     yield node
 
 
+@pytest.fixture(scope="session", autouse=True)
+def nodes():
+    """Generate an list of a Node for testing"""
+    nodes = [Node((0, 0)), Node((0, 1)), Node((0, 2)), Node((0, 3))]
+    yield nodes
+
+
+@pytest.fixture(scope="session", autouse=True)
+def adjacency_list():
+    """Generate the adjacency list for testing, uses `nodes`."""
+    adjacency_list: dict[tuple[int, int], list[tuple[int, int]]] = {
+        (0, 0): [(0, 1), (0, 2)],
+        (0, 1): [(0, 3), (0, 2)],
+        (0, 2): [(0, 0), (0, 1)],
+        (0, 3): [(0, 1), (0, 2)],
+    }
+    yield adjacency_list
+
+
 def test_add_node(graph: Graph, node: Node):
     """Test that a node is correctly added to the graph."""
     graph.add_node(node)
