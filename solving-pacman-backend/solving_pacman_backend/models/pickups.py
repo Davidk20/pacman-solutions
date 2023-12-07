@@ -6,6 +6,8 @@ class Pickup:
 
     def __init__(self) -> None:
         """Initialise the class."""
+        self.name = "Pickup"
+        """The name descriptor for the `Pickup`."""
         self.score = 0
         """
         The numerical value of the item which should be appended to the score
@@ -21,6 +23,9 @@ class Pickup:
         """Return the score for this item."""
         return self.score
 
+    def __repr__(self) -> str:
+        return f"""(Name: {self.name}, Score: {self.score}, Value: {self.value})"""
+
 
 class Empty(Pickup):
     """`Pickup` class representing an empty space."""
@@ -28,6 +33,7 @@ class Empty(Pickup):
     def __init__(self) -> None:
         """Initialise the class."""
         super().__init__()
+        self.name = "Empty"
         self.score = 0
         self.value = 0
 
@@ -38,6 +44,7 @@ class PacDot(Pickup):
     def __init__(self) -> None:
         """Initialise the class."""
         super().__init__()
+        self.name = "PacDot"
         self.score = 10
         self.value = 1
 
@@ -48,6 +55,7 @@ class PowerPellet(Pickup):
     def __init__(self) -> None:
         """Initialise the class."""
         super().__init__()
+        self.name = "Power Pellet"
         self.score = 50
         self.value = 2
 
@@ -58,6 +66,7 @@ class Cherry(Pickup):
     def __init__(self) -> None:
         """Initialise the class."""
         super().__init__()
+        self.name = "Cherry"
         self.score = 100
         self.value = 3
 
@@ -68,6 +77,7 @@ class Strawberry(Pickup):
     def __init__(self) -> None:
         """Initialise the class."""
         super().__init__()
+        self.name = "Strawberry"
         self.score = 300
         self.value = 4
 
@@ -78,6 +88,7 @@ class Orange(Pickup):
     def __init__(self) -> None:
         """Initialise the class."""
         super().__init__()
+        self.name = "Orange"
         self.score = 500
         self.value = 5
 
@@ -88,6 +99,7 @@ class Apple(Pickup):
     def __init__(self) -> None:
         """Initialise the class."""
         super().__init__()
+        self.name = "Apple"
         self.score = 700
         self.value = 6
 
@@ -98,6 +110,7 @@ class Melon(Pickup):
     def __init__(self) -> None:
         """Initialise the class."""
         super().__init__()
+        self.name = "Melon"
         self.score = 1000
         self.value = 7
 
@@ -108,6 +121,7 @@ class Galaxian(Pickup):
     def __init__(self) -> None:
         """Initialise the class."""
         super().__init__()
+        self.name = "Galaxian"
         self.score = 2000
         self.value = 8
 
@@ -118,6 +132,7 @@ class Bell(Pickup):
     def __init__(self) -> None:
         """Initialise the class."""
         super().__init__()
+        self.name = "Bell"
         self.score = 3000
         self.value = 9
 
@@ -128,5 +143,6 @@ class Key(Pickup):
     def __init__(self) -> None:
         """Initialise the class."""
         super().__init__()
+        self.name = "Key"
         self.score = 5000
         self.value = 10
