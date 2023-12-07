@@ -1,5 +1,4 @@
 """Model representing the level as a graph data structure."""
-import networkx as nx
 from solving_pacman_backend.models.node import Node
 
 
@@ -17,12 +16,17 @@ class Graph:
         """
         Initialises the Graph.
         """
-        self.level = nx.Graph()
-        """The level represented as a graph."""
+        self.level: dict[Node, list[Node]] = {}
+        """
+        The level represented as a graph.
+
+        This is represented in this case as an adjacency list allowing relations
+        to be mapped between nodes and their direct adjacents.
+        """
         self.node_count = 1
         """The counter used to identify nodes."""
 
-    def size(self) -> int:
+    def num_of_nodes(self) -> int:
         """
         Returns the size of the graph.
 
@@ -30,7 +34,20 @@ class Graph:
         -------
         The number of nodes within the graph.
         """
-        return len(self.level)
+        return len(self.level.keys())
+
+    def num_of_edges(self) -> int:
+        """
+        Returns the number of edges within the graph.
+
+        Returns
+        -------
+        The number of edges within the graph
+        """
+        counter = 0
+        for connections in self.level.values():
+            counter += len(connections)
+        return counter
 
     def add_node(self, node: Node) -> None:
         """
@@ -41,17 +58,34 @@ class Graph:
         `node` : `Node`
             The `Node` object to add to the graph.
         """
-        self.level.add_nodes_from([(self.node_count, {"position": node.position})])
+        self.level[node] = []
         self.node_count += 1
+
+    def find_node_by_pos(self, pos: tuple[int, int]) -> Node:
+        """
+        Find and return the node at a given position
+        """
+        for node in self.level.keys():
+            if node.position == pos:
+                return node
+        raise NodeNotFoundException("Node not found.")
 
     def map_edges(self, mapping: dict[tuple[int, int], list[tuple[int, int]]]) -> None:
         """
-        Connects all nodes together using the
+        Maps nodes to their adjacent nodes.
+
+        Uses a raw adjacency list to build the internal adjacency list structure,
+        converting positions into `Node` objects.
+
+        Parameters
+        ----------
+        `mapping` : `dict[tuple[int, int], list[tuple[int, int]]]`
+            The raw mapping between nodes and their adjacent nodes.
         """
         # TODO should check here that graph is fully connected or throw error
-        node_pos = list(mapping.keys())
-        for pos, connections in mapping.items():
-            parent = node_pos.index(pos) + 1
-            for connection in connections:
-                child = node_pos.index(connection) + 1
-                self.level.add_edge(parent, child)
+
+        for node, children in mapping.items():
+            parent = self.find_node_by_pos(node)
+            self.level[parent] = []
+            for child in children:
+                self.level[parent].append(self.find_node_by_pos(child))

@@ -51,4 +51,4 @@ def test_flood_search(level_handler: LevelHandler):
     - 868 - 562 = 306 playable spaces
     """
     graph = level_handler.flood_search(1)
-    assert graph.size() == 306
+    assert graph.num_of_nodes() == 306
