@@ -100,7 +100,7 @@ class Graph:
                 return node
         raise NodeNotFoundException("Node not found.")
 
-    def find_node_by_possession(
+    def find_node_by_entity(
         self, item: Agent | Pickup | EnvironmentEntity
     ) -> list[Node]:
         """
