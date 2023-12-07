@@ -3,6 +3,13 @@ import networkx as nx
 from solving_pacman_backend.models.node import Node
 
 
+class NodeNotFoundException(Exception):
+    """Raised when a queried Node cannot be found."""
+
+    def __init__(self, message: str) -> None:
+        super().__init__(message)
+
+
 class Graph:
     """Model representing the level as a graph data structure."""
 
