@@ -1,5 +1,8 @@
 """Model representing the level as a graph data structure."""
+from solving_pacman_backend.models.agent import Agent
+from solving_pacman_backend.models.environment import EnvironmentEntity
 from solving_pacman_backend.models.node import Node
+from solving_pacman_backend.models.pickups import Pickup
 
 
 class NodeNotFoundException(Exception):
@@ -81,11 +84,52 @@ class Graph:
     def find_node_by_pos(self, pos: tuple[int, int]) -> Node:
         """
         Find and return the node at a given position
+
+        Parameters
+        ----------
+        `pos` : `tuple[int, int]`
+            The position to query
+
+        Returns
+        -------
+        The `Node` with the corresponding position. If none is found then an
+        `Exception` is raised.
         """
         for node in self.level.keys():
             if node.position == pos:
                 return node
         raise NodeNotFoundException("Node not found.")
+
+    def find_node_by_possession(
+        self, item: Agent | Pickup | EnvironmentEntity
+    ) -> list[Node]:
+        """
+        Find and return all `Node` objects on the graph with the corresponding value.
+
+        Parameters
+        ----------
+        `item` : `Agent | Pickup`
+            The item to search for. Can be an `Agent` or `Pickup` item.
+
+        Returns
+        -------
+        A `List` containing all matching `Node` Objects.
+        - If `item == Agent`, the list should only contain one value.
+        """
+        nodes = []
+        for node in self.level.keys():
+            if node.entity.value == item.value:
+                nodes.append(node)
+        if isinstance(item, Agent) and len(nodes) > 1:
+            raise InvalidGraphConfigurationException(
+                f"Only one of type {item.value} should be present."
+            )
+        elif len(nodes) == 0:
+            raise InvalidGraphConfigurationException(
+                f"No instances of {item.value} could be found."
+            )
+        else:
+            return nodes
 
     def map_edges(self, mapping: dict[tuple[int, int], list[tuple[int, int]]]) -> None:
         """

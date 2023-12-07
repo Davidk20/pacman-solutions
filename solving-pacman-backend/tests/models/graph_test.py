@@ -3,6 +3,8 @@ from solving_pacman_backend.models.graph import DuplicateNodeException
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.graph import NodeNotFoundException
 from solving_pacman_backend.models.node import Node
+from solving_pacman_backend.models.pickups import PacDot
+from solving_pacman_backend.models.pickups import PowerPellet
 
 
 @pytest.fixture(autouse=True)
@@ -15,14 +17,19 @@ def graph():
 @pytest.fixture(scope="session", autouse=True)
 def node():
     """Generate an instance of a Node for testing"""
-    node = Node((0, 0))
+    node = Node((0, 0), PacDot())
     yield node
 
 
 @pytest.fixture(scope="session", autouse=True)
 def nodes():
     """Generate an list of a Node for testing"""
-    nodes = [Node((0, 0)), Node((0, 1)), Node((0, 2)), Node((0, 3))]
+    nodes = [
+        Node((0, 0), PacDot()),
+        Node((0, 1), PacDot()),
+        Node((0, 2), PowerPellet()),
+        Node((0, 3), PacDot()),
+    ]
     yield nodes
 
 
@@ -65,20 +72,9 @@ def test_find_node_by_pos_raises(graph: Graph, node: Node):
         graph.find_node_by_pos((0, 1))
 
 
-def test_map_edges(graph: Graph):
-    """Test that edges are correctly mapped using the adjacency matrix."""
-    nodes = [Node((0, 0)), Node((0, 1)), Node((0, 2)), Node((0, 3))]
-
-    adjacency_list: dict[tuple[int, int], list[tuple[int, int]]] = {
-        (0, 0): [(0, 1), (0, 2)],
-        (0, 1): [(0, 3), (0, 2)],
-        (0, 2): [(0, 0), (0, 0)],
-        (0, 3): [(0, 1), (0, 2)],
-    }
-
+def test_find_by_entity(graph: Graph, nodes: list[Node]):
+    """Test that a node can be found by searching for entity."""
     for node in nodes:
         graph.add_node(node)
-
-    graph.map_edges(adjacency_list)
-
-    assert graph.num_of_edges() == 8
+    result = graph.find_node_by_possession(PowerPellet())
+    assert result[0].entity.value == nodes[2].entity.value and len(result) == 1
