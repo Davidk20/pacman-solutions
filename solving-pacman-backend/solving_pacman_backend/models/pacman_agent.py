@@ -11,6 +11,7 @@ class PacmanAgent(Agent):
     def __init__(self):
         """Initialise the class."""
         super().__init__()
+        self.name = "Pac-Man"
         self.current_score = 0
         """Store the current score the user agent has accumulated."""
         self.current_lives = 3
@@ -29,6 +30,13 @@ class PacmanAgent(Agent):
         """
         The value held by this item in the Array representation
         """
+
+    def __repr__(self) -> str:
+        return (
+            f"(Name: {self.name}, Current Score: {self.current_score},"
+            f" Lives: {self.current_lives}, Energized: {self.energized}, "
+            f"Ghosts Consumed: {self.temp_ghost_counter})"
+        )
 
     def handle_consume(self, pickup: Pickup | GhostAgent):
         """
