@@ -47,8 +47,8 @@ def test_flood_search(level_handler: LevelHandler):
     Tests that the flood search correctly finds all nodes in the first level.
 
     - In a 28x31 grid, there are 868 possible positions.
-    - There are 567 wall points within this grid.
+    - There are 562 wall points within this grid.
     - 868 - 562 = 306 playable spaces
     """
-    nodes = level_handler.flood_search(1)
-    assert len(nodes) == 306
+    graph = level_handler.flood_search(1)
+    assert graph.size() == 306
