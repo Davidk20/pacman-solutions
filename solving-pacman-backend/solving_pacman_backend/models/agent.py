@@ -9,6 +9,10 @@ class Agent:
         """Initialise the class."""
         self.movement_type = None
         """The agents Movement type"""
+        self.value = 999
+        """
+        The value held by this item in the Array representation
+        """
 
     def set_movement_type(self, move_type: MovementTypes):
         """
