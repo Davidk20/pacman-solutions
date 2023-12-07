@@ -6,10 +6,13 @@ class EnvironmentEntity:
 
     def __init__(self) -> None:
         """Initialise the class."""
+        self.name = ""
+        """The name descriptor for the `Pickup`."""
         self.value = 999
-        """
-        The value held by this item in the Array representation
-        """
+        """The value held by this item in the Array representation."""
+
+    def __repr__(self) -> str:
+        return f"""(Name: {self.name}, Value: {self.value})"""
 
 
 class Wall(EnvironmentEntity):
@@ -18,6 +21,7 @@ class Wall(EnvironmentEntity):
     def __init__(self) -> None:
         """Initialise the class."""
         super().__init__()
+        self.name = "Wall"
         self.value = 99
 
 
@@ -27,6 +31,7 @@ class Gate(EnvironmentEntity):
     def __init__(self) -> None:
         """Initialise the class."""
         super().__init__()
+        self.name = "Gate"
         self.value = 20
 
 
@@ -36,4 +41,5 @@ class Teleporter(EnvironmentEntity):
     def __init__(self) -> None:
         """Initialise the class."""
         super().__init__()
+        self.name = "Teleporter"
         self.value = 88
