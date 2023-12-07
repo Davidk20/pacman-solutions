@@ -25,6 +25,10 @@ class PacmanAgent(Agent):
         Counter to store the number of ghosts that Pac-man has consumed during
         a single energizer run
         """
+        self.value = 44
+        """
+        The value held by this item in the Array representation
+        """
 
     def handle_consume(self, pickup: Pickup | GhostAgent):
         """

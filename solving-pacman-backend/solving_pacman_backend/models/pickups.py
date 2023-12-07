@@ -11,11 +11,25 @@ class Pickup:
         The numerical value of the item which should be appended to the score
         when Pac-man consumes the item.
         """
+        self.value = 999
+        """
+        The value held by this item in the Array representation
+        """
         # TODO - When sprite sheets configured, create attribute for reference.
 
     def get_score(self) -> int:
         """Return the score for this item."""
         return self.score
+
+
+class Empty(Pickup):
+    """`Pickup` class representing an empty space."""
+
+    def __init__(self) -> None:
+        """Initialise the class."""
+        super().__init__()
+        self.score = 0
+        self.value = 0
 
 
 class PacDot(Pickup):
@@ -25,6 +39,7 @@ class PacDot(Pickup):
         """Initialise the class."""
         super().__init__()
         self.score = 10
+        self.value = 1
 
 
 class PowerPellet(Pickup):
@@ -34,6 +49,7 @@ class PowerPellet(Pickup):
         """Initialise the class."""
         super().__init__()
         self.score = 50
+        self.value = 2
 
 
 class Cherry(Pickup):
@@ -43,6 +59,7 @@ class Cherry(Pickup):
         """Initialise the class."""
         super().__init__()
         self.score = 100
+        self.value = 3
 
 
 class Strawberry(Pickup):
@@ -52,6 +69,7 @@ class Strawberry(Pickup):
         """Initialise the class."""
         super().__init__()
         self.score = 300
+        self.value = 4
 
 
 class Orange(Pickup):
@@ -61,6 +79,7 @@ class Orange(Pickup):
         """Initialise the class."""
         super().__init__()
         self.score = 500
+        self.value = 5
 
 
 class Apple(Pickup):
@@ -70,6 +89,7 @@ class Apple(Pickup):
         """Initialise the class."""
         super().__init__()
         self.score = 700
+        self.value = 6
 
 
 class Melon(Pickup):
@@ -79,6 +99,7 @@ class Melon(Pickup):
         """Initialise the class."""
         super().__init__()
         self.score = 1000
+        self.value = 7
 
 
 class Galaxian(Pickup):
@@ -88,6 +109,7 @@ class Galaxian(Pickup):
         """Initialise the class."""
         super().__init__()
         self.score = 2000
+        self.value = 8
 
 
 class Bell(Pickup):
@@ -97,6 +119,7 @@ class Bell(Pickup):
         """Initialise the class."""
         super().__init__()
         self.score = 3000
+        self.value = 9
 
 
 class Key(Pickup):
@@ -106,3 +129,4 @@ class Key(Pickup):
         """Initialise the class."""
         super().__init__()
         self.score = 5000
+        self.value = 10
