@@ -1,6 +1,7 @@
 """Model representing the level as a graph data structure."""
 from solving_pacman_backend.models.agent import Agent
 from solving_pacman_backend.models.environment import EnvironmentEntity
+from solving_pacman_backend.models.environment import Teleporter
 from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.models.pickups import Pickup
 
@@ -143,10 +144,13 @@ class Graph:
         `mapping` : `dict[tuple[int, int], list[tuple[int, int]]]`
             The raw mapping between nodes and their adjacent nodes.
         """
-        # TODO should check here that graph is fully connected or throw error
-
         for node, children in mapping.items():
             parent = self.find_node_by_pos(node)
             self.level[parent] = []
             for child in children:
                 self.level[parent].append(self.find_node_by_pos(child))
+        # Manual mapping of portal edges. Assumed that there are only two teleporters
+        # and so it is a one-to-one mapping.
+        portals = self.find_node_by_entity(Teleporter())
+        self.level[portals[0]].append(portals[1])
+        self.level[portals[1]].append(portals[0])
