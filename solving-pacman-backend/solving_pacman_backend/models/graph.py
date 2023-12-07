@@ -9,6 +9,13 @@ class NodeNotFoundException(Exception):
         super().__init__(message)
 
 
+class DuplicateNodeException(Exception):
+    """Raised when it is attempted to add a repeated node."""
+
+    def __init__(self, message: str) -> None:
+        super().__init__(message)
+
+
 class Graph:
     """Model representing the level as a graph data structure."""
 
@@ -58,8 +65,11 @@ class Graph:
         `node` : `Node`
             The `Node` object to add to the graph.
         """
-        self.level[node] = []
-        self.node_count += 1
+        if node not in self.level.keys():
+            self.level[node] = []
+            self.node_count += 1
+        else:
+            raise DuplicateNodeException("Node already in graph.")
 
     def find_node_by_pos(self, pos: tuple[int, int]) -> Node:
         """

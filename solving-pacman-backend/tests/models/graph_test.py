@@ -1,4 +1,5 @@
 import pytest
+from solving_pacman_backend.models.graph import DuplicateNodeException
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.graph import NodeNotFoundException
 from solving_pacman_backend.models.node import Node
@@ -42,6 +43,13 @@ def test_add_node(graph: Graph, node: Node):
     graph.add_node(node)
     assert graph.num_of_nodes() == 1
     assert graph.node_count == 2
+
+
+def test_add_repeated_node(graph: Graph, node: Node):
+    """Test that exception is raised when duplicate node is added."""
+    graph.add_node(node)
+    with pytest.raises(DuplicateNodeException):
+        graph.add_node(node)
 
 
 def test_find_node_by_pos(graph: Graph, node: Node):
