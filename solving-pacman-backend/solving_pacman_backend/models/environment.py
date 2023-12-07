@@ -7,7 +7,7 @@ class EnvironmentEntity:
     def __init__(self) -> None:
         """Initialise the class."""
         self.name = ""
-        """The name descriptor for the `Pickup`."""
+        """The name descriptor for the `EnvironmentEntity`."""
         self.value = 999
         """The value held by this item in the Array representation."""
 
