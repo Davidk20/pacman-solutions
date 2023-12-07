@@ -28,3 +28,12 @@ class Gate(EnvironmentEntity):
         """Initialise the class."""
         super().__init__()
         self.value = 20
+
+
+class Teleporter(EnvironmentEntity):
+    """Model representing the gate between teleporter locations."""
+
+    def __init__(self) -> None:
+        """Initialise the class."""
+        super().__init__()
+        self.value = 88
