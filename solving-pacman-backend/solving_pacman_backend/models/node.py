@@ -42,5 +42,3 @@ class Node:
         """Stores the agent currently within this space. `None` otherwise."""
         self.pickup = pickup
         """Stores the item currently within this space. `None` otherwise."""
-        self.edges: list[Node] = []
-        """List containing all adjacent `Node's`"""
