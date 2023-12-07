@@ -25,6 +25,13 @@ class GhostAgent(Agent):
         The value held by this item in the Array representation
         """
 
+    def __repr__(self) -> str:
+        return (
+            f"(Name: {self.name}, Score: {self.score}, "
+            f"Behaviour: {self.behaviour}, "
+            f"Movement: {self.current_movement_type})"
+        )
+
     def get_score(self) -> int:
         """Return the score for this item."""
         return self.score
