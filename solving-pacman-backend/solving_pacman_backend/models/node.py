@@ -42,3 +42,15 @@ class Node:
         """Stores the agent currently within this space. `None` otherwise."""
         self.pickup = pickup
         """Stores the item currently within this space. `None` otherwise."""
+
+    def __str__(self) -> str:
+        return f"""
+            Position: {self.position},
+            Contains: {self.agent if self.agent is not None else self.pickup}
+        """
+
+    def __repr__(self) -> str:
+        return f"""
+            Position: {self.position},
+            Contains: {self.agent if self.agent is not None else self.pickup}
+        """
