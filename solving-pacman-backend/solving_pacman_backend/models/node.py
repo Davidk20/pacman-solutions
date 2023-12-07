@@ -35,14 +35,5 @@ class Node:
         self.entity = entity
         """Stores the entity currently within this space."""
 
-    def __str__(self) -> str:
-        return f"""
-            Position: {self.position},
-            Contains: {self.entity}
-        """
-
     def __repr__(self) -> str:
-        return f"""
-            Position: {self.position},
-            Contains: {self.entity}
-        """
+        return f"""\nPosition: {self.position}, Contains: {self.entity}"""
