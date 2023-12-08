@@ -157,6 +157,12 @@ class Graph:
         self.level[portals[0]].append(portals[1])
         self.level[portals[1]].append(portals[0])
 
+        # Check that the graph is connected before returning.
+        if not self.is_connected():
+            raise InvalidGraphConfigurationException(
+                "Graph is not connected, check edges"
+            )
+
     def bfs(self, start_pos: tuple[int, int] | Node) -> list[Node]:
         """
         Perform a breadth first search on the graph given a starting point.
