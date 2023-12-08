@@ -97,3 +97,16 @@ def test_map_edges(
     graph.map_edges(adjacency_list)
 
     assert graph.num_of_edges() == 14
+
+
+def test_bfs(
+    graph: Graph,
+    nodes: list[Node],
+    adjacency_list: dict[tuple[int, int], list[tuple[int, int]]],
+):
+    """Test that bfs correctly traverses the graph."""
+    for node in nodes:
+        graph.add_node(node)
+
+    graph.map_edges(adjacency_list)
+    assert len(graph.bfs((0, 0))) == 6

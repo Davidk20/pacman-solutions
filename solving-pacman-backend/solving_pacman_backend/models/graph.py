@@ -154,3 +154,32 @@ class Graph:
         portals = self.find_node_by_entity(Teleporter())
         self.level[portals[0]].append(portals[1])
         self.level[portals[1]].append(portals[0])
+
+    def bfs(self, start_pos: tuple[int, int] | Node) -> list[Node]:
+        """
+        Perform a breadth first search on the graph given a starting point.
+
+        Parameters
+        ----------
+        `start_pos` : `tuple[int, int] | Node`
+            The starting point from which to run the search.
+
+        Returns
+        -------
+        The `list` containing the path of the dfs search.
+        """
+        start = (
+            self.find_node_by_pos(start_pos)
+            if isinstance(start_pos, tuple)
+            else start_pos
+        )
+        visited: list[Node] = []
+        stack: list[Node] = [start]
+
+        while len(stack) > 0:
+            current = stack.pop(0)
+            visited.append(current)
+            for child in self.level[current]:
+                if child not in visited and child not in stack:
+                    stack.append(child)
+        return visited
