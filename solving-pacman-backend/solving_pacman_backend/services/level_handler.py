@@ -2,8 +2,29 @@
 import json
 import os
 
+from solving_pacman_backend.models.agent import Agent
+from solving_pacman_backend.models.environment import EnvironmentEntity
+from solving_pacman_backend.models.environment import Gate
+from solving_pacman_backend.models.environment import Teleporter
+from solving_pacman_backend.models.ghost_agent import BlinkyAgent
+from solving_pacman_backend.models.ghost_agent import ClydeAgent
+from solving_pacman_backend.models.ghost_agent import InkyAgent
+from solving_pacman_backend.models.ghost_agent import PinkyAgent
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.node import Node
+from solving_pacman_backend.models.pacman_agent import PacmanAgent
+from solving_pacman_backend.models.pickups import Apple
+from solving_pacman_backend.models.pickups import Bell
+from solving_pacman_backend.models.pickups import Cherry
+from solving_pacman_backend.models.pickups import Empty
+from solving_pacman_backend.models.pickups import Galaxian
+from solving_pacman_backend.models.pickups import Key
+from solving_pacman_backend.models.pickups import Melon
+from solving_pacman_backend.models.pickups import Orange
+from solving_pacman_backend.models.pickups import PacDot
+from solving_pacman_backend.models.pickups import Pickup
+from solving_pacman_backend.models.pickups import PowerPellet
+from solving_pacman_backend.models.pickups import Strawberry
 
 
 class LevelNotFoundException(Exception):
@@ -73,6 +94,59 @@ class LevelHandler:
     def close(self) -> None:
         """Closes the levels.json file after use."""
         self.__raw_levels.close()
+
+    def convert_value_to_entity(self, value: int) -> Pickup | Agent | EnvironmentEntity:
+        """
+        Convert a numerical value into a game entity.
+
+        Parameters
+        ----------
+        `value` : `int`
+            The value taken from the array.
+
+        Returns
+        -------
+        The entity corresponding to the value.
+        """
+        match value:
+            case 0:
+                return Empty()
+            case 1:
+                return PacDot()
+            case 2:
+                return PowerPellet()
+            case 3:
+                return Cherry()
+            case 4:
+                return Strawberry()
+            case 5:
+                return Orange()
+            case 6:
+                return Apple()
+            case 7:
+                return Melon()
+            case 8:
+                return Galaxian()
+            case 9:
+                return Bell()
+            case 10:
+                return Key()
+            case 20:
+                return Gate()
+            case 21:
+                return BlinkyAgent()
+            case 22:
+                return PinkyAgent()
+            case 23:
+                return InkyAgent()
+            case 24:
+                return ClydeAgent()
+            case 44:
+                return PacmanAgent()
+            case 88:
+                return Teleporter()
+            case _:
+                raise EntityNotFoundException(f"Entity {value} not found.")
 
     def flood_search(self, level_num: int) -> Graph:
         """
