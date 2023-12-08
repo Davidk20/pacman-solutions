@@ -14,6 +14,13 @@ class LevelNotFoundException(Exception):
         super().__init__(message)
 
 
+class EntityNotFoundException(Exception):
+    """Raised when a queried entity cannot be found."""
+
+    def __init__(self, message: str) -> None:
+        super().__init__(message)
+
+
 class LevelHandler:
     """Service to read and manage the levels."""
 
