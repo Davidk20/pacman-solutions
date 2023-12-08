@@ -1,4 +1,6 @@
 """Model representing the level as a graph data structure."""
+import random
+
 from solving_pacman_backend.models.agent import Agent
 from solving_pacman_backend.models.environment import EnvironmentEntity
 from solving_pacman_backend.models.environment import Teleporter
@@ -183,3 +185,19 @@ class Graph:
                 if child not in visited and child not in stack:
                     stack.append(child)
         return visited
+
+    def is_connected(self) -> bool:
+        """
+        Checks that the graph is connected.
+
+        In theory, a graph is fully connected if any `Node` is connected to any
+        other node and therefore by selecting a random `Node`, the `bfs` function
+        should return a path which contains all `Node` objects within the `Graph`.
+
+        Returns
+        -------
+        `True` if the `Graph` is connected.
+        """
+        start: Node = random.choice(list(self.level.keys()))
+        path = self.bfs(start)
+        return len(path) == len(list(self.level.keys()))

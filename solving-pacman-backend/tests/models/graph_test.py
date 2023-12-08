@@ -110,3 +110,17 @@ def test_bfs(
 
     graph.map_edges(adjacency_list)
     assert len(graph.bfs((0, 0))) == 6
+
+
+def test_is_connected(
+    graph: Graph,
+    nodes: list[Node],
+    adjacency_list: dict[tuple[int, int], list[tuple[int, int]]],
+):
+    """Test that a connected graph is correctly evaluated."""
+    for node in nodes:
+        graph.add_node(node)
+
+    graph.map_edges(adjacency_list)
+
+    assert graph.is_connected()
