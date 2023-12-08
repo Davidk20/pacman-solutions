@@ -186,12 +186,21 @@ class LevelHandler:
 
     def flood_search(self, level_num: int) -> Graph:
         """
-        convert the map into a series of nodes
+        Convert the map from an array into Graph.
 
         Searches the level using "Flood Fill" search to filter out walls
         and leave only the paths which are then used to generate the graph.
 
         Inspired by https://lvngd.com/blog/flood-fill-algorithm-python/
+
+        Parameters
+        ----------
+        `level_num` : `int`
+            The level to convert
+
+        Returns
+        -------
+        A populated `Graph` object.
         """
         full_map = self.get_map(level_num)
         height = len(full_map)
@@ -202,18 +211,6 @@ class LevelHandler:
         adjacency_list: dict[tuple[int, int], list[tuple[int, int]]] = {}
         graph = Graph()
 
-        def is_valid(coord: tuple[int, int]) -> bool:
-            # TODO refactor into one line
-            if (
-                coord[0] >= 0
-                and coord[0] < width
-                and coord[1] >= 0
-                and coord[1] < height
-            ):
-                return full_map[coord[1]][coord[0]] != 99
-            else:
-                return False
-
         pos = []
         for y in range(len(full_map)):
             for x in range(len(full_map[0])):
@@ -222,9 +219,14 @@ class LevelHandler:
 
         while len(queue) > 0:
             current = queue.pop(0)
-            if is_valid(current) and current not in adjacency_list.keys():
+            if (
+                self.in_bounds(height, width, current)
+                and not self.is_wall(full_map, current)
+                and current not in adjacency_list.keys()
+            ):
                 # if is valid space then build node and add adjacents
-                graph.add_node(Node(current))
+                entity = self.convert_value_to_entity(full_map[current[1]][current[0]])
+                graph.add_node(Node(current, entity))
                 adjacency_list[current] = []
                 expansions = [
                     (current[0] + 1, current[1]),
@@ -233,8 +235,9 @@ class LevelHandler:
                     (current[0] - 1, current[1]),
                 ]
                 for expansion in expansions:
-                    if is_valid(expansion):
-                        adjacency_list[current].append(expansion)
-                        queue.append(expansion)
+                    if self.in_bounds(height, width, expansion):
+                        if not self.is_wall(full_map, expansion):
+                            adjacency_list[current].append(expansion)
+                            queue.append(expansion)
         graph.map_edges(adjacency_list)
         return graph
