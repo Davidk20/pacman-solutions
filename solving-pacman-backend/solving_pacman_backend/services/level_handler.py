@@ -43,7 +43,7 @@ class LevelHandler:
         else:
             return level
 
-    def get_map(self, level_num: int) -> list[list]:
+    def get_map(self, level_num: int) -> list[list[int]]:
         """
         Returns only the map for a given level.
 
