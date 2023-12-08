@@ -52,3 +52,11 @@ def test_flood_search(level_handler: LevelHandler):
     """
     graph = level_handler.flood_search(1)
     assert graph.num_of_nodes() == 306
+
+
+def test_in_bounds(level_handler: LevelHandler):
+    assert level_handler.in_bounds(31, 28, (1, 1))
+
+
+def test_out_of_bounds(level_handler: LevelHandler):
+    assert not level_handler.in_bounds(31, 28, (28, 14))

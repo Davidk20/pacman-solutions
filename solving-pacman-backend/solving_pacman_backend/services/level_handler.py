@@ -148,6 +148,42 @@ class LevelHandler:
             case _:
                 raise EntityNotFoundException(f"Entity {value} not found.")
 
+    def in_bounds(self, height: int, width: int, pos: tuple[int, int]) -> bool:
+        """
+        Check a position is within the bounds of the map.
+
+        Parameters
+        ----------
+        `height` : `int`
+            The height of the map.
+        `width` : `int`
+            The width of the map.
+        `pos` : `tuple[int, int]`
+            The position to check
+
+        Returns
+        -------
+        `True` if the position is within bounds.
+        """
+        return pos[0] >= 0 and pos[0] < width and pos[1] >= 0 and pos[1] < height
+
+    def is_wall(self, map: list[list[int]], pos: tuple[int, int]) -> bool:
+        """
+        Checks if the specified space is a `Wall`.
+
+        Parameters
+        ----------
+        `map` : `list[list[int]]`
+            The level to use as reference.
+        `pos` : `tuple[int, int]`
+            The position to check.
+
+        Returns
+        -------
+        `True` if the space is filled with a wall.
+        """
+        return map[pos[1]][pos[0]] == 99
+
     def flood_search(self, level_num: int) -> Graph:
         """
         convert the map into a series of nodes
