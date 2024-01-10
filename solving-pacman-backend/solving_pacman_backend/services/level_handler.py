@@ -241,3 +241,9 @@ class LevelHandler:
                             queue.append(expansion)
         graph.map_edges(adjacency_list)
         return graph
+
+
+if __name__ == "__main__":
+    level_handler = LevelHandler()
+    graph = level_handler.flood_search(1)
+    print(graph)
