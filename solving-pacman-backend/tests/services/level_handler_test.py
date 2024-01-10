@@ -40,3 +40,23 @@ def test_map_not_found(level_handler: LevelHandler):
 def test_get_overview(level_handler: LevelHandler):
     """Test that the levels overview is correctly returned."""
     assert level_handler.get_overview() == ["Level 1"]
+
+
+def test_flood_search(level_handler: LevelHandler):
+    """
+    Tests that the flood search correctly finds all nodes in the first level.
+
+    - In a 28x31 grid, there are 868 possible positions.
+    - There are 562 wall points within this grid.
+    - 868 - 562 = 306 playable spaces
+    """
+    graph = level_handler.flood_search(1)
+    assert graph.num_of_nodes() == 306
+
+
+def test_in_bounds(level_handler: LevelHandler):
+    assert level_handler.in_bounds(31, 28, (1, 1))
+
+
+def test_out_of_bounds(level_handler: LevelHandler):
+    assert not level_handler.in_bounds(31, 28, (28, 14))

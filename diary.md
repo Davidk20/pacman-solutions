@@ -116,3 +116,31 @@
 - Implemented front-end code to fetch for API requests and handle the data.
 - Implemented level selection screen
 - Created basic canvas display for the game view.
+
+## 30/11/23
+
+- Finalised initial setup of frontend
+
+## 06/12/23
+
+- Temporarily disabled frontend coverage
+  - This was done as testing views / components using certain packages such as `Link` was causing tests to break and it was decided that this should not be a priority as components could be visually seen to be working and therefore could be manually tested
+- Created base `Node` structure
+- Implemented the initial draft of the Flood Fill algorithm
+  - Inspired by https://lvngd.com/blog/flood-fill-algorithm-python/
+- Tested networkx https://networkx.org/ package as potential solution to graph storage problem
+  - Needed a way to store the graphs accurately and efficiently
+
+## 07/12/23
+
+- Extended flood fill to be able to connect edges to nodes
+- Decided to drop the use of networkx and instead go with an adjacency list to store values
+  - networkx package was useful for representing graphs but took too much functionaltiy away where it was needed to traverse graphs in a customised way
+  - An adjacency list allowed me to traverse as needed and with far less overhead than using networkx
+- Extended flood fill again to populate nodes with what is stored in the position (agent / pickup)
+
+## 08/12/23
+
+- Implemented initial bfs algorithm
+- Added a function to test for connectedness of graphs
+  - Important as all of the levels in Pac-Man should be connected graphs.
