@@ -38,7 +38,7 @@ lint-python-job:
     script:
         - cd solving-pacman-backend
         - python3 -m black .
-        - python3 -m flake8 .
+        - python3 -m flake8 . --max-line-length=88
 
 
 ##########################################
