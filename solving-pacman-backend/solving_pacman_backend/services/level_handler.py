@@ -206,7 +206,6 @@ class LevelHandler:
         height = len(full_map)
         width = len(full_map[0])
         # queue to store the positions to be looked into
-        # TODO replace (1,1) with first non-wall node
         queue: list[tuple[int, int]] = [(1, 1)]
         adjacency_list: dict[tuple[int, int], list[tuple[int, int]]] = {}
         graph = Graph()

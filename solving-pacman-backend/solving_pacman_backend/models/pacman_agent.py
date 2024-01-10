@@ -56,7 +56,6 @@ class PacmanAgent(Agent):
             else:
                 # If Pac-man has consumed a ghost without energizer
                 self.current_lives -= 1
-                # TODO - Return some sort of notification that this was invalid
         if not isinstance(pickup, GhostAgent):
             self.current_score += pickup.get_score()
 

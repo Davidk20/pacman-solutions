@@ -17,7 +17,6 @@ class Pickup:
         """
         The value held by this item in the Array representation
         """
-        # TODO - When sprite sheets configured, create attribute for reference.
 
     def get_score(self) -> int:
         """Return the score for this item."""

@@ -15,7 +15,6 @@ cors = CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
 
 
-# TODO - Once there is enough data, create useful root page.
 @app.route("/")
 def home():  # dead: disable
     """
