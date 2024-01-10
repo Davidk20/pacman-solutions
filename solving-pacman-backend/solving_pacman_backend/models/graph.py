@@ -46,6 +46,12 @@ class Graph:
         self.node_count = 1
         """The counter used to identify nodes."""
 
+    def __repr__(self) -> str:
+        string = ""
+        for parent, children in self.level.items():
+            string += f"{parent.position}: {[child.position for child in children]}\n"
+        return string
+
     def num_of_nodes(self) -> int:
         """
         Returns the size of the graph.
