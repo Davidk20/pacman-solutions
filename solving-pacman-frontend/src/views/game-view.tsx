@@ -16,16 +16,16 @@ export function GameView() {
   useEffect(() => {
     const fetchData = async () => {
       setLevel(await fetchLevel(level_num.charAt(level_num.length-1)));
+      console.log("Level Loaded");
     };
     fetchData()
       .catch(console.error);
   }, []);
-  console.log(level);
   return (
     <div className="Page">
       <Header subtitle={level_num}></Header>
       <div className="Game-Container">
-        <GameWindow></GameWindow>
+        <GameWindow level={level} ></GameWindow>
       </div>
 
     </div>
