@@ -11,7 +11,7 @@ import Wall from "./canvas/wall";
  *
  * @param level The level as a 2-D array.
  */
-export default function GameWindow( {level}: {level: number[][]} ) {
+export default function GameWindow( {level}: Readonly<{level: number[][]}> ) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frameRef = useRef<number>(0);
   const height = 800;
