@@ -7,6 +7,7 @@ import React, { useEffect, useRef } from "react";
 import Wall from "./canvas/wall";
 import Dot from "./canvas/dot";
 import PowerPellet from "./canvas/power-pellet";
+import Agent from "./canvas/agent";
 
 /**
  * Function to return a game window.
@@ -35,6 +36,21 @@ export default function GameWindow( {level}: Readonly<{level: number[][]}> ) {
             break;
           case 2:
             PowerPellet(context, height, xPos, yPos);
+            break;
+          case 21:
+            Agent(context, "blinky", height, xPos, yPos);
+            break;
+          case 22:
+            Agent(context, "clyde", height, xPos, yPos);
+            break;
+          case 23:
+            Agent(context, "inky", height, xPos, yPos);
+            break;
+          case 24:
+            Agent(context, "pinky", height, xPos, yPos);
+            break;
+          case 44:
+            Agent(context, "pacman", height, xPos, yPos);
             break;
           case 99:
             Wall(context, height, xPos, yPos);
