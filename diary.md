@@ -144,3 +144,14 @@
 - Implemented initial bfs algorithm
 - Added a function to test for connectedness of graphs
   - Important as all of the levels in Pac-Man should be connected graphs.
+
+
+## 10/01/24
+
+- Tidied code and fixed small bugs
+
+## 11/01/24
+
+- Created components to render the walls and all agents on the canvas
+- Rendered a static view of the initial state of the map onto the canvas
+- Completed task "Render Game Board"
