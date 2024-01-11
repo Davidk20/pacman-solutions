@@ -65,3 +65,93 @@
   - Created all player agent models
   - Created all pickup item models
   - Implemented base scoring system for items and ghosts
+- Begun working on a representation of levels
+  - Created Wiki to document how levels are generated / rendered
+  - Attempted to use Pillow image generation to preview levels quickly while developing
+  - Testing different representations to find one which makes sense but is also practical
+    - Decision needs to be made to see whether alphanumerical or solely numerical representations work best
+
+## 31/10/23
+
+- Branched the level preview script off of the current task as it is not in scope for this goal and so shouldn't be the focus right now
+- Completed first encoding of a level into a text-based format
+
+## 6/11/23
+
+- Created `LevelHandler` to handle injection of levels into the game
+
+## 7/11/23
+
+- Completed first API endpoint to allow game boards to be returned in response to a `GET` request
+- Had advisor meeting to update on the progress of the project
+  - Used this meeting to inform the structure of the report and to ensure that development was continuing at a good pace
+
+## 11/11/23
+
+- Researched potential applications of CS3940 Multi-Agent Systems coursework and specifically VacuumWorld on my own project.
+
+## 14/11/23
+
+- Started work on frontend implementation.
+
+## 15/11/23
+
+- Completed basic routing for application.
+- Carried on research for using Teleoreactive Programming within my project
+
+## 20/11/23 - 25/11/23
+
+- Continued working on interim report.
+
+## 25/11/23
+
+- Submitted draft copy of interim report for review.
+
+## 27/11/23
+
+- Implemented backend code to show an overview of the levels available.
+
+## 29/11/23
+
+- Implemented front-end code to fetch for API requests and handle the data.
+- Implemented level selection screen
+- Created basic canvas display for the game view.
+
+## 30/11/23
+
+- Finalised initial setup of frontend
+
+## 06/12/23
+
+- Temporarily disabled frontend coverage
+  - This was done as testing views / components using certain packages such as `Link` was causing tests to break and it was decided that this should not be a priority as components could be visually seen to be working and therefore could be manually tested
+- Created base `Node` structure
+- Implemented the initial draft of the Flood Fill algorithm
+  - Inspired by https://lvngd.com/blog/flood-fill-algorithm-python/
+- Tested networkx https://networkx.org/ package as potential solution to graph storage problem
+  - Needed a way to store the graphs accurately and efficiently
+
+## 07/12/23
+
+- Extended flood fill to be able to connect edges to nodes
+- Decided to drop the use of networkx and instead go with an adjacency list to store values
+  - networkx package was useful for representing graphs but took too much functionaltiy away where it was needed to traverse graphs in a customised way
+  - An adjacency list allowed me to traverse as needed and with far less overhead than using networkx
+- Extended flood fill again to populate nodes with what is stored in the position (agent / pickup)
+
+## 08/12/23
+
+- Implemented initial bfs algorithm
+- Added a function to test for connectedness of graphs
+  - Important as all of the levels in Pac-Man should be connected graphs.
+
+
+## 10/01/24
+
+- Tidied code and fixed small bugs
+
+## 11/01/24
+
+- Created components to render the walls and all agents on the canvas
+- Rendered a static view of the initial state of the map onto the canvas
+- Completed task "Render Game Board"

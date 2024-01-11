@@ -1,24 +1,24 @@
 import React from "react";
+import "./App.css";
+import { Route, HashRouter as Router, Routes } from "react-router-dom";
+import { LevelSelectionView } from "./views/level-selection-view";
+import { HomePageView } from "./views/home-page-view";
+import { ConfigurationView } from "./views/configuration-view";
+import { GameView } from "./views/game-view";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={"./logo.svg"} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  override render(): React.ReactNode {
+    return (
+      <Router>
+        <Routes>
+          <Route path="/" Component={HomePageView} />
+          <Route path="/level-select" Component={LevelSelectionView} />
+          <Route path="/configuration" Component={ConfigurationView} />
+          <Route path="/game" Component={GameView}/>
+        </Routes>
+      </Router>
+    );
+  }
 }
 
 export default App;

@@ -1,0 +1,34 @@
+//////////////////////////////////////////////////
+// GLOBAL GENERIC STYLES
+$background-colour: #282C34;
+$pacman-wall-colour: #2120D2;
+$pacman-yellow: #F4D147;
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.page {
+  height: 90vh;
+}
+
+.App-Link {
+  color: #61dafb;
+}
+
+.Page {
+  min-height: 100vh;
+  background-color: $background-colour;
+}
+
+.Link {
+  text-decoration: none;
+}
+
+.Link:visited {
+  text-decoration: none;
+}
+//////////////////////////////////////////////////

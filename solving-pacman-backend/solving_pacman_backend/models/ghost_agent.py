@@ -20,6 +20,17 @@ class GhostAgent(Agent):
         """
         self.current_movement_type = None
         """The current movement type of the Ghost."""
+        self.value = 999
+        """
+        The value held by this item in the Array representation
+        """
+
+    def __repr__(self) -> str:
+        return (
+            f"(Name: {self.name}, Score: {self.score}, "
+            f"Behaviour: {self.behaviour}, "
+            f"Movement: {self.current_movement_type})"
+        )
 
     def get_score(self) -> int:
         """Return the score for this item."""
@@ -34,6 +45,7 @@ class BlinkyAgent(GhostAgent):
         super().__init__()
         self.name = "Blinky"
         self.behaviour = "Shadow"
+        self.value = 21
 
 
 class PinkyAgent(GhostAgent):
@@ -44,6 +56,7 @@ class PinkyAgent(GhostAgent):
         super().__init__()
         self.name = "Pinky"
         self.behaviour = "Speedy"
+        self.value = 22
 
 
 class InkyAgent(GhostAgent):
@@ -54,6 +67,7 @@ class InkyAgent(GhostAgent):
         super().__init__()
         self.name = "Inky"
         self.behaviour = "Bashful"
+        self.value = 23
 
 
 class ClydeAgent(GhostAgent):
@@ -64,3 +78,4 @@ class ClydeAgent(GhostAgent):
         super().__init__()
         self.name = "Clyde"
         self.behaviour = "Pokey"
+        self.value = 24

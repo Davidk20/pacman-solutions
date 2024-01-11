@@ -1,6 +1,12 @@
 # Final Year Project - Solving Pacman using AI
 
-## Prerequisites
+![Pacman Logo](solving-pacman-frontend/src/assets/images/pacman_logo_small.png)
+
+A full-stack application designed to solve levels from the original 1980's game Pac-Man using an Artifical Intelligence system.
+
+- [Representing Levels](docs/level-representation.md)
+
+## Requirements
 
 - Python >= 3.10
   - Poetry >= 1.6.1
@@ -34,7 +40,7 @@ npm start
 
 To build and run the application for production, a Docker image needs to be built for the Flask and React servers. The Docker Compose file will then compile this into a single, full-stack application.
 
-Two tags are specified for each build so that any new version can be tagged as `latest` while also being given a specific version number 
+Two tags are specified for each build so that any new version can be tagged as `latest` while also being given a specific version number
 
 ### Flask
 
@@ -70,3 +76,4 @@ npm audit fix --force
 ## Acknowledgements
 
 - [Pacman](https://www.pacman.com/en/) - For the inspiration to solve this game
+- [Public Pixel Font](https://www.fontspace.com/public-pixel-font-f72305) - For the font used in the web application
