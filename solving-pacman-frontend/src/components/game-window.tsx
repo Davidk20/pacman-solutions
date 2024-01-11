@@ -5,6 +5,8 @@
 
 import React, { useEffect, useRef } from "react";
 import Wall from "./canvas/wall";
+import Dot from "./canvas/dot";
+import PowerPellet from "./canvas/power-pellet";
 
 /**
  * Function to return a game window.
@@ -19,25 +21,36 @@ export default function GameWindow( {level}: Readonly<{level: number[][]}> ) {
   let xPos = 0;
   let yPos = 0;
 
-  useEffect(() => {
-    function draw(context: CanvasRenderingContext2D) {
-      if (context) {
-        // Draw base game window
-        context.fillStyle = "black";
-        context.fillRect(0, 0, height, width);
-        // Draw game
-        for (const row of level) {
-          for (const pos of row) {
-            if (pos == 99) {
-              Wall(context, height, xPos, yPos);
-            }
-            xPos = xPos + (width / 28);
+  function draw(context: CanvasRenderingContext2D) {
+    if (context) {
+      // Draw base game window
+      context.fillStyle = "black";
+      context.fillRect(0, 0, height, width);
+      // Draw game
+      for (const row of level) {
+        for (const pos of row) {
+          switch (pos) {
+          case 1:
+            Dot(context, height, xPos, yPos);
+            break;
+          case 2:
+            PowerPellet(context, height, xPos, yPos);
+            break;
+          case 99:
+            Wall(context, height, xPos, yPos);
+            break;
+          default:
+            break;
           }
-          xPos = 0;
-          yPos = yPos + (height / 31);
+          xPos = xPos + (width / 28);
         }
+        xPos = 0;
+        yPos = yPos + (height / 31);
       }
     }
+  }
+
+  useEffect(() => {
     if (canvasRef.current) {
       const context = canvasRef.current.getContext("2d");
 
