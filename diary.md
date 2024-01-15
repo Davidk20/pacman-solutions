@@ -155,3 +155,8 @@
 - Created components to render the walls and all agents on the canvas
 - Rendered a static view of the initial state of the map onto the canvas
 - Completed task "Render Game Board"
+
+## 15/01/24
+
+- Added detailed documentation for the project
+- Updated `flood_fill` to dynamically find first non-wall node rather than a hardcoded position
