@@ -184,6 +184,27 @@ class LevelHandler:
         """
         return map[pos[1]][pos[0]] == 99
 
+    def first_non_wall_node(self, map: list[list[int]]) -> tuple[int, int]:
+        """
+        Find and return the first position within the map.
+
+        This should be the upper-leftmost node which is not a wall.
+
+        Parameters
+        ----------
+        `map` : `list[list[int]]`
+            The level to search.
+
+        Returns
+        -------
+        The position of the first non-wall node.
+        """
+        for y in range(len(map)):
+            for x in range(len(map[0])):
+                if map[y][x] != 99:
+                    return (x, y)
+        raise EntityNotFoundException("No non-wall nodes found.")
+
     def flood_search(self, level_num: int) -> Graph:
         """
         Convert the map from an array into Graph.
