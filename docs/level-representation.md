@@ -12,7 +12,7 @@ The user will see the level as a canvas generation and will look as close to the
 
 The front-end application will "see" a two-dimensional array containing a numerical encoding of what is stored in a grid space in the instance represented. It will look like the below snippet and allow for the canvas to build an image, one grid space at a time.
 
-```
+```json
 [
     [99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99],
     [99, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,99,99, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,99],

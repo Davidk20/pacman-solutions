@@ -60,3 +60,7 @@ def test_in_bounds(level_handler: LevelHandler):
 
 def test_out_of_bounds(level_handler: LevelHandler):
     assert not level_handler.in_bounds(31, 28, (28, 14))
+
+
+def test_first_non_wall_node(level_handler: LevelHandler):
+    assert level_handler.first_non_wall_node(level_handler.get_map(1)) == (1, 1)
