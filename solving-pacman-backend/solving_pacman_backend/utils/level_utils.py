@@ -3,6 +3,12 @@ from solving_pacman_backend import constants
 from solving_pacman_backend.models.graph import Graph
 
 
+def print_level(level: list[list[int]]) -> None:
+    """Prints a formatted version of the 2-D array level."""
+    for row in level:
+        print(row)
+
+
 def graph_to_array(graph: Graph) -> list[list[int]]:
     """
     Convert a `Graph` representation of a level into a 2-D array.
