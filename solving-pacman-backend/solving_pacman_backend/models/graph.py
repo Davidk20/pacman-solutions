@@ -75,6 +75,16 @@ class Graph:
             counter += len(connections)
         return counter
 
+    def nodes(self) -> list[Node]:
+        """
+        Returns all of the nodes in the graph.
+
+        Returns
+        -------
+        A list containing all of the nodes present in the graph.
+        """
+        return list(self.level.keys())
+
     def add_node(self, node: Node) -> None:
         """
         Adds a single, unconnected `Node` into the graph.
