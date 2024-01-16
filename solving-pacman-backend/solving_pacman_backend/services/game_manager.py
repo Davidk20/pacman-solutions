@@ -1,6 +1,8 @@
 """Service managing the running of the game."""
+from solving_pacman_backend.models.game_state import GameState
 from solving_pacman_backend.models.game_state_store import GameStateStore
 from solving_pacman_backend.models.graph import Graph
+from solving_pacman_backend.utils.level_utils import graph_to_array
 
 
 class GameManager:
@@ -50,7 +52,8 @@ class GameManager:
 
     def tick(self) -> None:
         """Increments the game time and processes all time based events."""
-
+        level_array = graph_to_array(self.game)
+        self.state_store.add(GameState(self.timer, level_array))
         if self.win() or self.lost():
             self.running = False
         else:
