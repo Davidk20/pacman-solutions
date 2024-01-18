@@ -3,6 +3,7 @@ from solving_pacman_backend.models.game_state import GameState
 from solving_pacman_backend.models.game_state_store import GameStateStore
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.utils.level_utils import graph_to_array
+from solving_pacman_backend.utils.level_utils import remaining_pickups
 
 
 class GameManager:
@@ -38,7 +39,7 @@ class GameManager:
         -------
         `True` if the game is won and `False` otherwise.
         """
-        return False
+        return remaining_pickups(self.game) == 0
 
     def lost(self) -> bool:
         """
