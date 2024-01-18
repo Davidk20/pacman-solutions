@@ -2,6 +2,7 @@
 from solving_pacman_backend.models.game_state import GameState
 from solving_pacman_backend.models.game_state_store import GameStateStore
 from solving_pacman_backend.models.graph import Graph
+from solving_pacman_backend.models.pacman_agent import PacmanAgent
 from solving_pacman_backend.utils.level_utils import graph_to_array
 from solving_pacman_backend.utils.level_utils import remaining_pickups
 
@@ -30,6 +31,8 @@ class GameManager:
         """The graph containing the game."""
         self.running = False
         """Indicates whether the game is currently running."""
+        self.pacman = PacmanAgent()
+        """Representation of the Pac-Man agent."""
 
     def win(self) -> bool:
         """
@@ -49,7 +52,7 @@ class GameManager:
         -------
         `True` if the game is lost and `False` otherwise.
         """
-        return False
+        return self.pacman.current_lives == 0
 
     def tick(self) -> None:
         """Increments the game time and processes all time based events."""
