@@ -24,11 +24,11 @@ sequenceDiagram
     WebApp->>-User: User displayed levels
 
     User->>+WebApp: User requests level
-    WebApp->>+Flask: Request(level)
-    Flask->>+GameManager: Solve(level)
-    GameManager->>+LevelHandler: Load(level)
+    WebApp->>Flask: Request(level)
+    Flask->>GameManager: Solve(level)
+    GameManager->>LevelHandler: Load(level)
     destroy LevelHandler
-    LevelHandler->>-GameManager: Return Loaded(Level)
+    LevelHandler->>GameManager: Return Loaded(Level)
 
     create actor Agent
 
@@ -43,10 +43,10 @@ sequenceDiagram
     Agent->>GameManager: Unload Agents
 
     destroy GameManager
-    GameManager->>-Flask: Return level + simulation
+    GameManager->>Flask: Return level + simulation
 
     destroy Flask
-    Flask->>-WebApp: Return level + simulation
+    Flask->>WebApp: Return level + simulation
 
     WebApp->>-GameWindow: Render simulation
     GameWindow->>User: View Simulation
