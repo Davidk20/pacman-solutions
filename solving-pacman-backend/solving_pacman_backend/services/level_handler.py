@@ -26,6 +26,7 @@ from solving_pacman_backend.models.pickups import Pickup
 from solving_pacman_backend.models.pickups import PowerPellet
 from solving_pacman_backend.models.pickups import Strawberry
 from solving_pacman_backend.utils.level_utils import in_bounds
+from solving_pacman_backend.utils.level_utils import is_wall
 
 
 class LevelNotFoundException(Exception):
@@ -149,23 +150,6 @@ class LevelHandler:
             case _:
                 raise EntityNotFoundException(f"Entity {value} not found.")
 
-    def is_wall(self, map: list[list[int]], pos: tuple[int, int]) -> bool:
-        """
-        Checks if the specified space is a `Wall`.
-
-        Parameters
-        ----------
-        `map` : `list[list[int]]`
-            The level to use as reference.
-        `pos` : `tuple[int, int]`
-            The position to check.
-
-        Returns
-        -------
-        `True` if the space is filled with a wall.
-        """
-        return map[pos[1]][pos[0]] == 99
-
     def first_non_wall_node(self, map: list[list[int]]) -> tuple[int, int]:
         """
         Find and return the first position within the map.
@@ -223,7 +207,7 @@ class LevelHandler:
             current = queue.pop(0)
             if (
                 in_bounds(height, width, current)
-                and not self.is_wall(full_map, current)
+                and not is_wall(full_map, current)
                 and current not in adjacency_list.keys()
             ):
                 # if is valid space then build node and add adjacents
@@ -238,7 +222,7 @@ class LevelHandler:
                 ]
                 for expansion in expansions:
                     if in_bounds(height, width, expansion):
-                        if not self.is_wall(full_map, expansion):
+                        if not is_wall(full_map, expansion):
                             adjacency_list[current].append(expansion)
                             queue.append(expansion)
         graph.map_edges(adjacency_list)

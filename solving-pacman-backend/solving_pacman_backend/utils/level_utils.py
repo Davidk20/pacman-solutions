@@ -76,3 +76,21 @@ def in_bounds(height: int, width: int, pos: tuple[int, int]) -> bool:
     `True` if the position is within bounds.
     """
     return pos[0] >= 0 and pos[0] < width and pos[1] >= 0 and pos[1] < height
+
+
+def is_wall(map: list[list[int]], pos: tuple[int, int]) -> bool:
+    """
+    Checks if the specified space is a `Wall`.
+
+    Parameters
+    ----------
+    `map` : `list[list[int]]`
+        The level to use as reference.
+    `pos` : `tuple[int, int]`
+        The position to check.
+
+    Returns
+    -------
+    `True` if the space is filled with a wall.
+    """
+    return map[pos[1]][pos[0]] == 99
