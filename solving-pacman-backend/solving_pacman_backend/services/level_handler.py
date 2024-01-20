@@ -25,6 +25,7 @@ from solving_pacman_backend.models.pickups import PacDot
 from solving_pacman_backend.models.pickups import Pickup
 from solving_pacman_backend.models.pickups import PowerPellet
 from solving_pacman_backend.models.pickups import Strawberry
+from solving_pacman_backend.utils.level_utils import in_bounds
 
 
 class LevelNotFoundException(Exception):
@@ -148,25 +149,6 @@ class LevelHandler:
             case _:
                 raise EntityNotFoundException(f"Entity {value} not found.")
 
-    def in_bounds(self, height: int, width: int, pos: tuple[int, int]) -> bool:
-        """
-        Check a position is within the bounds of the map.
-
-        Parameters
-        ----------
-        `height` : `int`
-            The height of the map.
-        `width` : `int`
-            The width of the map.
-        `pos` : `tuple[int, int]`
-            The position to check
-
-        Returns
-        -------
-        `True` if the position is within bounds.
-        """
-        return pos[0] >= 0 and pos[0] < width and pos[1] >= 0 and pos[1] < height
-
     def is_wall(self, map: list[list[int]], pos: tuple[int, int]) -> bool:
         """
         Checks if the specified space is a `Wall`.
@@ -240,7 +222,7 @@ class LevelHandler:
         while len(queue) > 0:
             current = queue.pop(0)
             if (
-                self.in_bounds(height, width, current)
+                in_bounds(height, width, current)
                 and not self.is_wall(full_map, current)
                 and current not in adjacency_list.keys()
             ):
@@ -255,7 +237,7 @@ class LevelHandler:
                     (current[0] - 1, current[1]),
                 ]
                 for expansion in expansions:
-                    if self.in_bounds(height, width, expansion):
+                    if in_bounds(height, width, expansion):
                         if not self.is_wall(full_map, expansion):
                             adjacency_list[current].append(expansion)
                             queue.append(expansion)

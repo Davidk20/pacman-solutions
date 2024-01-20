@@ -56,3 +56,23 @@ def remaining_pickups(graph: Graph) -> int:
         if isinstance(node.entity, Pickup) and not isinstance(node.entity, Empty):
             count += 1
     return count
+
+
+def in_bounds(height: int, width: int, pos: tuple[int, int]) -> bool:
+    """
+    Check a position is within the bounds of the map.
+
+    Parameters
+    ----------
+    `height` : `int`
+        The height of the map.
+    `width` : `int`
+        The width of the map.
+    `pos` : `tuple[int, int]`
+        The position to check
+
+    Returns
+    -------
+    `True` if the position is within bounds.
+    """
+    return pos[0] >= 0 and pos[0] < width and pos[1] >= 0 and pos[1] < height

@@ -1,6 +1,7 @@
 """Tests on the level utility functions."""
 from solving_pacman_backend.services.level_handler import LevelHandler
 from solving_pacman_backend.utils.level_utils import graph_to_array
+from solving_pacman_backend.utils.level_utils import in_bounds
 from solving_pacman_backend.utils.level_utils import remaining_pickups
 from tests import mocks_test
 
@@ -31,3 +32,11 @@ def test_remaining_pickups():
     241 pickups on the map.
     """
     assert remaining_pickups(mocks_test.mock_graph()) == 241
+
+
+def test_in_bounds():
+    assert in_bounds(31, 28, (1, 1))
+
+
+def test_out_of_bounds():
+    assert not in_bounds(31, 28, (28, 14))
