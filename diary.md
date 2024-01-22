@@ -160,3 +160,21 @@
 
 - Added detailed documentation for the project
 - Updated `flood_fill` to dynamically find first non-wall node rather than a hardcoded position
+
+
+## 16/01/24
+
+- Implemented additional utility functions for graphs and arrays
+  - Graph -> Array conversion
+  - Iterator of all Nodes
+  - Remaining pickup counters
+- Created model to store game snapshots as well as a store for these snapshots
+- Begun work on Game Management
+
+## 18/01/24
+
+- Implemented base win / loss conditions
+
+## 20/01/24
+
+- Refactored code to move appropriate functions into utility classes
