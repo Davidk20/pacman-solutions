@@ -19,29 +19,60 @@ from solving_pacman_backend.models.movement_types import MovementTypes
 
 
 class Agent(ABC):
-    """Abstract class used to encapsulate all agent attributes."""
+    """Abstract class used to provide core functionality to all agents."""
 
-    def __init__(self):
-        """Initialise the class."""
-        self.name = "Agent"
+    def __init__(
+        self,
+        name: str,
+        behaviour: str,
+        movement_type: MovementTypes,
+        value: int,
+        score: int = 0,
+    ):
+        """
+        Initialise the class.
+
+        Parameters
+        ----------
+        `name` : `str`
+            The name of the agent.
+        `behaviour` : `str`
+            The agents behaviour.
+        `movement_type` : `MovementTypes`
+            The agent's movement behaviours.
+        `value` : `int`
+            The agent's representation within the array.
+        `score` : `int` : `default = 0`
+            The score of the agent. Only ghost agents should override the
+            score attribute as they have a score for `Pac-Man` to collect.
+        """
+        self.name = name
         """The name descriptor for the `Agent`."""
-        self.movement_type = None
+        self.behaviour = behaviour
+        """The agent's behaviour."""
+        self.movement_type = movement_type
         """The agents Movement type"""
-        self.value = 999
-        """
-        The value held by this item in the Array representation
-        """
-
-    def set_movement_type(self, move_type: MovementTypes):
-        """
-        Set the movement type for the agent.
-
-        :param move_type: The new movement type.
-        """
-        self.movement_type = move_type
+        self.value = value
+        """The value held by this item in the Array representation."""
+        self.score = score
+        """The score held by this agent."""
 
     def __repr__(self) -> str:
-        return f"""(Name: {self.name}, Value: {self.value})"""
+        return (
+            f"(Name: {self.name}, Score: {self.score}, "
+            f"Behaviour: {self.behaviour}, "
+            f"Movement: {self.movement_type})"
+        )
+
+    def get_score(self) -> int:
+        """
+        Return the score for this agent.
+
+        Returns
+        -------
+        The agents score.
+        """
+        return self.score
 
     @abstractmethod
     def perceive(self) -> None:
