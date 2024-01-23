@@ -5,7 +5,7 @@ import os
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.utils.entity_utils import convert_value_to_entity
-from solving_pacman_backend.utils.entity_utils import EntityNotFoundException
+from solving_pacman_backend.utils.level_utils import first_non_wall_node
 from solving_pacman_backend.utils.level_utils import in_bounds
 from solving_pacman_backend.utils.level_utils import is_wall
 
@@ -71,27 +71,6 @@ class LevelHandler:
         """Closes the levels.json file after use."""
         self.__raw_levels.close()
 
-    def first_non_wall_node(self, map: list[list[int]]) -> tuple[int, int]:
-        """
-        Find and return the first position within the map.
-
-        This should be the upper-leftmost node which is not a wall.
-
-        Parameters
-        ----------
-        `map` : `list[list[int]]`
-            The level to search.
-
-        Returns
-        -------
-        The position of the first non-wall node.
-        """
-        for y in range(len(map)):
-            for x in range(len(map[0])):
-                if map[y][x] != 99:
-                    return (x, y)
-        raise EntityNotFoundException("No non-wall nodes found.")
-
     def flood_search(self, level_num: int) -> Graph:
         """
         Convert the map from an array into Graph.
@@ -114,7 +93,7 @@ class LevelHandler:
         height = len(full_map)
         width = len(full_map[0])
         # queue to store the positions to be looked into
-        queue: list[tuple[int, int]] = [self.first_non_wall_node(full_map)]
+        queue: list[tuple[int, int]] = [first_non_wall_node(full_map)]
         adjacency_list: dict[tuple[int, int], list[tuple[int, int]]] = {}
         graph = Graph()
 

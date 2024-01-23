@@ -4,6 +4,7 @@ from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.graph import NodeNotFoundException
 from solving_pacman_backend.models.pickups import Empty
 from solving_pacman_backend.models.pickups import Pickup
+from solving_pacman_backend.utils.entity_utils import EntityNotFoundException
 
 
 def print_level(level: list[list[int]]) -> None:
@@ -94,3 +95,25 @@ def is_wall(map: list[list[int]], pos: tuple[int, int]) -> bool:
     `True` if the space is filled with a wall.
     """
     return map[pos[1]][pos[0]] == 99
+
+
+def first_non_wall_node(map: list[list[int]]) -> tuple[int, int]:
+    """
+    Find and return the first position within the map.
+
+    This should be the upper-leftmost node which is not a wall.
+
+    Parameters
+    ----------
+    `map` : `list[list[int]]`
+        The level to search.
+
+    Returns
+    -------
+    The position of the first non-wall node.
+    """
+    for y in range(len(map)):
+        for x in range(len(map[0])):
+            if map[y][x] != 99:
+                return (x, y)
+    raise EntityNotFoundException("No non-wall nodes found.")

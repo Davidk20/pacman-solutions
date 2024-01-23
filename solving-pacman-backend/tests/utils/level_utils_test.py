@@ -1,5 +1,6 @@
 """Tests on the level utility functions."""
 from solving_pacman_backend.services.level_handler import LevelHandler
+from solving_pacman_backend.utils.level_utils import first_non_wall_node
 from solving_pacman_backend.utils.level_utils import graph_to_array
 from solving_pacman_backend.utils.level_utils import in_bounds
 from solving_pacman_backend.utils.level_utils import remaining_pickups
@@ -40,3 +41,8 @@ def test_in_bounds():
 
 def test_out_of_bounds():
     assert not in_bounds(31, 28, (28, 14))
+
+
+def test_first_non_wall_node():
+    level_handler = LevelHandler()
+    assert first_non_wall_node(level_handler.get_map(1)) == (1, 1)

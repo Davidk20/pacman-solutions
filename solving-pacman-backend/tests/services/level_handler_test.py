@@ -52,7 +52,3 @@ def test_flood_search(level_handler: LevelHandler):
     """
     graph = level_handler.flood_search(1)
     assert graph.num_of_nodes() == 306
-
-
-def test_first_non_wall_node(level_handler: LevelHandler):
-    assert level_handler.first_non_wall_node(level_handler.get_map(1)) == (1, 1)
