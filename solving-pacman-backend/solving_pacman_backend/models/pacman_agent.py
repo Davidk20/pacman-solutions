@@ -1,6 +1,6 @@
 """Model representing the agent for Pac-man."""
 from solving_pacman_backend.models.agent import Agent
-from solving_pacman_backend.models.ghost_agent import GhostAgent
+from solving_pacman_backend.models.movement_types import MovementTypes
 from solving_pacman_backend.models.pickups import Pickup
 from solving_pacman_backend.models.pickups import PowerPellet
 
@@ -10,10 +10,7 @@ class PacmanAgent(Agent):
 
     def __init__(self):
         """Initialise the class."""
-        super().__init__()
-        self.name = "Pac-Man"
-        self.current_score = 0
-        """Store the current score the user agent has accumulated."""
+        super().__init__("Pac-Man", "User-Controlled", MovementTypes.CUSTOM, 44)
         self.current_lives = 3
         """Store the number of lives the user agent has remaining."""
         self.energized = False
@@ -26,19 +23,15 @@ class PacmanAgent(Agent):
         Counter to store the number of ghosts that Pac-man has consumed during
         a single energizer run
         """
-        self.value = 44
-        """
-        The value held by this item in the Array representation
-        """
 
     def __repr__(self) -> str:
         return (
-            f"(Name: {self.name}, Current Score: {self.current_score},"
+            f"(Name: {self.name}, Current Score: {self.score},"
             f" Lives: {self.current_lives}, Energized: {self.energized}, "
             f"Ghosts Consumed: {self.temp_ghost_counter})"
         )
 
-    def handle_consume(self, pickup: Pickup | GhostAgent):
+    def handle_consume(self, pickup: Pickup | Agent):
         """
         Handle the logic behind Pac-man consuming an item.
 
@@ -46,22 +39,18 @@ class PacmanAgent(Agent):
         """
         if isinstance(pickup, PowerPellet):
             self.energized = True
-        if isinstance(pickup, GhostAgent):
+        if isinstance(pickup, Agent):
             if self.energized:
                 # If Pac-man has successfully consumed a ghost
                 self.temp_ghost_counter += 1
-                self.current_score += (
+                self.score += (
                     (pickup.get_score() / 100) ** self.temp_ghost_counter
                 ) * 100
             else:
                 # If Pac-man has consumed a ghost without energizer
                 self.current_lives -= 1
-        if not isinstance(pickup, GhostAgent):
-            self.current_score += pickup.get_score()
-
-    def get_score(self) -> int:
-        """Return the current score."""
-        return self.current_score
+        if not isinstance(pickup, Agent):
+            self.score += pickup.get_score()
 
     def deenergize(self):
         """Restore Pac-man agent to a de-energized state."""
