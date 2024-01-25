@@ -42,6 +42,10 @@ def test_get_overview(level_handler: LevelHandler):
     assert level_handler.get_overview() == ["Level 1"]
 
 
+def test_get_ghost_home(level_handler: LevelHandler):
+    assert level_handler.get_home(1, "Blinky") == [(1, 1), (1, 6), (5, 5), (5, 1)]
+
+
 def test_flood_search(level_handler: LevelHandler):
     """
     Tests that the flood search correctly finds all nodes in the first level.

@@ -25,7 +25,9 @@ class LevelHandler:
         absolute_path = os.path.dirname(__file__)
         relative_path = "../models/levels.json"
         self.__raw_levels = open(os.path.join(absolute_path, relative_path))
-        self.levels: dict = json.load(self.__raw_levels)
+        self.levels: dict[
+            str, str | list[list[int]] | dict[str, list[list[int]]]
+        ] = json.load(self.__raw_levels)
 
     def get_level(self, level_num: int) -> dict:
         """
@@ -38,7 +40,7 @@ class LevelHandler:
         if level is None:
             raise LevelNotFoundException(level_num)
         else:
-            return level
+            return level  # type: ignore
 
     def get_map(self, level_num: int) -> list[list[int]]:
         """
@@ -51,7 +53,7 @@ class LevelHandler:
         if level is None:
             raise LevelNotFoundException(level_num)
         else:
-            return level.get("map")
+            return level.get("map")  # type: ignore
 
     def get_overview(self) -> list[str]:
         """
@@ -63,9 +65,32 @@ class LevelHandler:
         """
         available = []
         level: dict
-        for level in self.levels.values():
+        for level in self.levels.values():  # type: ignore
             available.append(level.get("name"))
         return available
+
+    def get_home(self, level_num: int, ghost: str) -> list[tuple[int, int]]:
+        """
+        Returns the home path for a given ghost.
+
+        Parameters
+        ----------
+        `level_num` : `int`
+            The number of the desired level
+        `ghost` : `str`
+            The name of the ghost.
+
+        Returns
+        -------
+        A `list` containing the path of coordinates which the ghost should
+        follow when returning "home".
+        """
+        level: dict[str, dict] = self.levels.get(("level " + str(level_num)))
+        patterns: dict[str, list[list[int]]] = level.get("homes")
+        home: list[tuple[int, int]] = [
+            tuple([coord[0], coord[1]]) for coord in patterns.get(ghost)
+        ]
+        return home
 
     def close(self) -> None:
         """Closes the levels.json file after use."""
