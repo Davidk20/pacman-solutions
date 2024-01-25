@@ -56,3 +56,12 @@ class PacmanAgent(Agent):
         """Restore Pac-man agent to a de-energized state."""
         self.energized = False
         self.temp_ghost_counter = 0
+
+    def perceive(self):
+        raise NotImplementedError
+
+    def revise(self):
+        raise NotImplementedError
+
+    def execute(self):
+        raise NotImplementedError
