@@ -1,13 +1,15 @@
-"""Service to read and manage the levels."""
+"""
+Service to read and manage the levels.
+
+This service runs as standalone functions as opposed to a class as
+`LevelHandler` is used in a number of different classes during a single
+run and therefore would mean that the file is open in a number of places
+at any one time. Standalone functions mean that the file can be opened
+and closed within the lifetime of a function and also prevents the instantiation
+of a number of unnecessary files.
+"""
 import json
 import os
-
-from solving_pacman_backend.models.graph import Graph
-from solving_pacman_backend.models.node import Node
-from solving_pacman_backend.utils.entity_utils import convert_value_to_entity
-from solving_pacman_backend.utils.level_utils import first_non_wall_node
-from solving_pacman_backend.utils.level_utils import in_bounds
-from solving_pacman_backend.utils.level_utils import is_wall
 
 
 class LevelNotFoundException(Exception):
@@ -18,143 +20,92 @@ class LevelNotFoundException(Exception):
         super().__init__(message)
 
 
-class LevelHandler:
-    """Service to read and manage the levels."""
+def get_levels():
+    """
+    Parses the levels.json file and returns a dictionary containing the levels
+    and their data.
 
-    def __init__(self) -> None:
-        absolute_path = os.path.dirname(__file__)
-        relative_path = "../models/levels.json"
-        self.__raw_levels = open(os.path.join(absolute_path, relative_path))
-        self.levels: dict[
-            str, str | list[list[int]] | dict[str, list[list[int]]]
-        ] = json.load(self.__raw_levels)
+    Returns
+    -------
+    A `dict` object containing the levels and their data.
+    """
+    absolute_path = os.path.dirname(__file__)
+    relative_path = "../models/levels.json"
+    raw_levels = open(os.path.join(absolute_path, relative_path))
+    json_data = json.load(raw_levels)
+    yield json_data
+    raw_levels.close()
 
-    def get_level(self, level_num: int) -> dict:
-        """
-        Returns all info for a level when provided with the level number.
 
-        :param level_num: The number of the desired level
-        :returns: The level data for the desired level
-        """
-        level = self.levels.get(("level " + str(level_num)))
-        if level is None:
-            raise LevelNotFoundException(level_num)
-        else:
-            return level  # type: ignore
+def get_level(level_num: int) -> dict:
+    """
+    Returns all info for a level when provided with the level number.
 
-    def get_map(self, level_num: int) -> list[list[int]]:
-        """
-        Returns only the map for a given level.
+    Parameters
+    ----------
+    `level_num` : `int`
+        The number of the desired level
 
-        :param level_num: The number of the desired level
-        :returns: The map data for the desired level
-        """
-        level = self.levels.get(("level " + str(level_num)))
-        if level is None:
-            raise LevelNotFoundException(level_num)
-        else:
-            return level.get("map")  # type: ignore
+    Returns
+    -------
+    The level data for the desired level
+    """
+    for levels in get_levels():
+        for key, value in levels.items():
+            if key == f"level {level_num}":
+                return value
+    raise LevelNotFoundException(level_num)
 
-    def get_overview(self) -> list[str]:
-        """
-        Returns an overview of all levels.
 
-        Returns
-        -------
-        A list of all of the available levels to be solved.
-        """
-        available = []
-        level: dict
-        for level in self.levels.values():  # type: ignore
+def get_map(level_num: int) -> list[list[int]]:
+    """
+    Returns only the map for a given level.
+
+    Parameters level_num: The number of the desired level
+    :returns: The map data for the desired level
+    """
+    level = get_level(level_num)
+    if level is None:
+        raise LevelNotFoundException(level_num)
+    else:
+        return level.get("map")  # type: ignore
+
+
+def get_overview() -> list[str]:
+    """
+    Returns an overview of all levels.
+
+    Returns
+    -------
+    A list of all of the available levels to be solved.
+    """
+    available = []
+    level: dict
+    for levels in get_levels():
+        for level in levels.values():
             available.append(level.get("name"))
-        return available
-
-    def get_home(self, level_num: int, ghost: str) -> list[tuple[int, int]]:
-        """
-        Returns the home path for a given ghost.
-
-        Parameters
-        ----------
-        `level_num` : `int`
-            The number of the desired level
-        `ghost` : `str`
-            The name of the ghost.
-
-        Returns
-        -------
-        A `list` containing the path of coordinates which the ghost should
-        follow when returning "home".
-        """
-        level: dict[str, dict] = self.levels.get(("level " + str(level_num)))
-        patterns: dict[str, list[list[int]]] = level.get("homes")
-        home: list[tuple[int, int]] = [
-            tuple([coord[0], coord[1]]) for coord in patterns.get(ghost)
-        ]
-        return home
-
-    def close(self) -> None:
-        """Closes the levels.json file after use."""
-        self.__raw_levels.close()
-
-    def flood_search(self, level_num: int) -> Graph:
-        """
-        Convert the map from an array into Graph.
-
-        Searches the level using "Flood Fill" search to filter out walls
-        and leave only the paths which are then used to generate the graph.
-
-        Inspired by https://lvngd.com/blog/flood-fill-algorithm-python/
-
-        Parameters
-        ----------
-        `level_num` : `int`
-            The level to convert
-
-        Returns
-        -------
-        A populated `Graph` object.
-        """
-        full_map = self.get_map(level_num)
-        height = len(full_map)
-        width = len(full_map[0])
-        # queue to store the positions to be looked into
-        queue: list[tuple[int, int]] = [first_non_wall_node(full_map)]
-        adjacency_list: dict[tuple[int, int], list[tuple[int, int]]] = {}
-        graph = Graph()
-
-        pos = []
-        for y in range(len(full_map)):
-            for x in range(len(full_map[0])):
-                if full_map[y][x] != 99:
-                    pos.append((x, y))
-
-        while len(queue) > 0:
-            current = queue.pop(0)
-            if (
-                in_bounds(height, width, current)
-                and not is_wall(full_map, current)
-                and current not in adjacency_list.keys()
-            ):
-                # if is valid space then build node and add adjacents
-                entity = convert_value_to_entity(full_map[current[1]][current[0]])
-                graph.add_node(Node(current, entity))
-                adjacency_list[current] = []
-                expansions = [
-                    (current[0] + 1, current[1]),
-                    (current[0], current[1] + 1),
-                    (current[0], current[1] - 1),
-                    (current[0] - 1, current[1]),
-                ]
-                for expansion in expansions:
-                    if in_bounds(height, width, expansion):
-                        if not is_wall(full_map, expansion):
-                            adjacency_list[current].append(expansion)
-                            queue.append(expansion)
-        graph.map_edges(adjacency_list)
-        return graph
+    return available
 
 
-if __name__ == "__main__":
-    level_handler = LevelHandler()
-    graph = level_handler.flood_search(1)
-    print(graph)
+def get_home(level_num: int, ghost: str) -> list[tuple[int, int]]:
+    """
+    Returns the home path for a given ghost.
+
+    Parameters
+    ----------
+    `level_num` : `int`
+        The number of the desired level
+    `ghost` : `str`
+        The name of the ghost.
+
+    Returns
+    -------
+    A `list` containing the path of coordinates which the ghost should
+    follow when returning "home".
+    """
+    level: dict[str, dict] = get_level(level_num)
+    patterns: dict[str, list[list[int]]] = level.get("homes")  # type: ignore
+    home: list[tuple[int, int]] = [
+        tuple([coord[0], coord[1]]) for coord in patterns.get(ghost)
+    ]  # type: ignore
+    return home
