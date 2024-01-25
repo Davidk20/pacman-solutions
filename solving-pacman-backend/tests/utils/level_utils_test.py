@@ -27,22 +27,22 @@ def test_array_to_graph():
     Tests that the flood search correctly finds all nodes in the first level.
 
     - In a 28x31 grid, there are 868 possible positions.
-    - There are 562 wall points within this grid.
-    - 868 - 562 = 306 playable spaces
+    - There are 559 wall points within this grid.
+    - 868 - 559 = 309 playable spaces
     """
     graph = level_utils.array_to_graph(1)
-    assert graph.num_of_nodes() == 306
+    assert graph.num_of_nodes() == 309
 
 
 def test_remaining_pickups():
     """
     Test that the number of pickups remaining is correctly counted.
 
-    Taking the assumption that there are 306 playable spaces on the first level,
+    Taking the assumption that there are 309 playable spaces on the first level,
     once the empty spaces, teleporters and character spaces are taken away this leaves
-    241 pickups on the map.
+    244 pickups on the map.
     """
-    assert level_utils.remaining_pickups(mocks_test.mock_graph()) == 241
+    assert level_utils.remaining_pickups(mocks_test.mock_graph()) == 244
 
 
 def test_in_bounds():
