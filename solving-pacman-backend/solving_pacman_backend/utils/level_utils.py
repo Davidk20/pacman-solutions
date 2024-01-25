@@ -42,34 +42,32 @@ def array_to_graph(level_num: int) -> Graph:
     adjacency_list: dict[tuple[int, int], list[tuple[int, int]]] = {}
     graph = Graph()
 
-    pos = []
-    for y in range(len(full_map)):
-        for x in range(len(full_map[0])):
-            if full_map[y][x] != 99:
-                pos.append((x, y))
-
     while len(queue) > 0:
         current = queue.pop(0)
+
+        # invalid positions should be ignored
         if (
-            in_bounds(height, width, current)
-            and not is_wall(full_map, current)
-            and current not in adjacency_list.keys()
+            not in_bounds(height, width, current)
+            or is_wall(full_map, current)
+            or current in adjacency_list.keys()
         ):
-            # if is valid space then build node and add adjacents
-            entity = convert_value_to_entity(full_map[current[1]][current[0]])
-            graph.add_node(Node(current, entity))
-            adjacency_list[current] = []
-            expansions = [
-                (current[0] + 1, current[1]),
-                (current[0], current[1] + 1),
-                (current[0], current[1] - 1),
-                (current[0] - 1, current[1]),
-            ]
-            for expansion in expansions:
-                if in_bounds(height, width, expansion):
-                    if not is_wall(full_map, expansion):
-                        adjacency_list[current].append(expansion)
-                        queue.append(expansion)
+            continue
+
+        # if is valid space then build node and add adjacents
+        entity = convert_value_to_entity(full_map[current[1]][current[0]])
+        graph.add_node(Node(current, entity))
+        adjacency_list[current] = []
+        expansions = [
+            (current[0] + 1, current[1]),
+            (current[0], current[1] + 1),
+            (current[0], current[1] - 1),
+            (current[0] - 1, current[1]),
+        ]
+        for expansion in expansions:
+            if in_bounds(height, width, expansion):
+                if not is_wall(full_map, expansion):
+                    adjacency_list[current].append(expansion)
+                    queue.append(expansion)
     graph.map_edges(adjacency_list)
     return graph
 
