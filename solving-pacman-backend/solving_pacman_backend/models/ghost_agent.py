@@ -1,6 +1,6 @@
 """Collection of models representing the Ghosts."""
 from solving_pacman_backend.models.agent import Agent
-from solving_pacman_backend.models.graph import Graph
+from solving_pacman_backend.models.game_state import GameState
 from solving_pacman_backend.models.movement_types import MovementTypes
 
 
@@ -11,7 +11,7 @@ class BlinkyAgent(Agent):
         """Initialise the class."""
         super().__init__("Blinky", "Shadow", MovementTypes.CHASE, 21, 200)
 
-    def perceive(self, state: Graph) -> None:
+    def perceive(self, state: GameState) -> None:
         raise NotImplementedError
 
     def revise(self):
@@ -28,7 +28,7 @@ class PinkyAgent(Agent):
         """Initialise the class."""
         super().__init__("Pinky", "Speedy", MovementTypes.HOMEBOUND, 22, 200)
 
-    def perceive(self, state: Graph) -> None:
+    def perceive(self, state: GameState) -> None:
         raise NotImplementedError
 
     def revise(self):
@@ -45,7 +45,7 @@ class InkyAgent(Agent):
         """Initialise the class."""
         super().__init__("Inky", "Bashful", MovementTypes.HOMEBOUND, 23, 200)
 
-    def perceive(self, state: Graph) -> None:
+    def perceive(self, state: GameState) -> None:
         raise NotImplementedError
 
     def revise(self):
@@ -62,7 +62,7 @@ class ClydeAgent(Agent):
         """Initialise the class."""
         super().__init__("Clyde", "Pokey", MovementTypes.HOMEBOUND, 24, 200)
 
-    def perceive(self, state: Graph) -> None:
+    def perceive(self, state: GameState) -> None:
         raise NotImplementedError
 
     def revise(self):
