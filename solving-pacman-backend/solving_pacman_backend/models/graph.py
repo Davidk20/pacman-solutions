@@ -29,6 +29,13 @@ class InvalidGraphConfigurationException(Exception):
         super().__init__(message)
 
 
+class NodeCollisionException(Exception):
+    """Raised when there is a collision when attempting to move an agent."""
+
+    def __init__(self, message: str) -> None:
+        super().__init__(message)
+
+
 class Graph:
     """Model representing the level as a graph data structure."""
 
