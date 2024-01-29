@@ -59,6 +59,8 @@ class Agent(ABC):
         """The score held by this agent."""
         self.state: GameState
         """The current state of the environment."""
+        self.position: tuple[int, int]
+        """The position of the agent."""
 
     def __repr__(self) -> str:
         return (
