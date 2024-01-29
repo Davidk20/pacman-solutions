@@ -107,6 +107,16 @@ class Graph:
         else:
             raise DuplicateNodeException("Node already in graph.")
 
+    def move_agent(self, old_pos: tuple[int, int], new_pos: tuple[int, int]):
+        """ """
+        new_node = self.find_node_by_pos(new_pos)
+        old_node = self.find_node_by_pos(old_pos)
+        if isinstance(new_node.entity, (Agent, Pickup)):
+            # If there is a collision, raise and break early.
+            raise NodeCollisionException(
+                f"{old_node.entity} collided with {new_node.entity}"
+            )
+
     def find_node_by_pos(self, pos: tuple[int, int]) -> Node:
         """
         Find and return the node at a given position
