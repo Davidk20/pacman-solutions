@@ -11,13 +11,10 @@ class BlinkyAgent(Agent):
         """Initialise the class."""
         super().__init__("Blinky", "Shadow", MovementTypes.CHASE, 21, 200)
 
-    def perceive(self, state: GameState) -> None:
+    def _perceive(self, state: GameState) -> None:
         raise NotImplementedError
 
-    def revise(self):
-        raise NotImplementedError
-
-    def execute(self):
+    def _execute(self):
         raise NotImplementedError
 
 
@@ -28,13 +25,10 @@ class PinkyAgent(Agent):
         """Initialise the class."""
         super().__init__("Pinky", "Speedy", MovementTypes.HOMEBOUND, 22, 200)
 
-    def perceive(self, state: GameState) -> None:
+    def _perceive(self, state: GameState) -> None:
         raise NotImplementedError
 
-    def revise(self):
-        raise NotImplementedError
-
-    def execute(self):
+    def _execute(self):
         raise NotImplementedError
 
 
@@ -45,13 +39,10 @@ class InkyAgent(Agent):
         """Initialise the class."""
         super().__init__("Inky", "Bashful", MovementTypes.HOMEBOUND, 23, 200)
 
-    def perceive(self, state: GameState) -> None:
+    def _perceive(self, state: GameState) -> None:
         raise NotImplementedError
 
-    def revise(self):
-        raise NotImplementedError
-
-    def execute(self):
+    def _execute(self):
         raise NotImplementedError
 
 
@@ -62,11 +53,8 @@ class ClydeAgent(Agent):
         """Initialise the class."""
         super().__init__("Clyde", "Pokey", MovementTypes.HOMEBOUND, 24, 200)
 
-    def perceive(self, state: GameState) -> None:
+    def _perceive(self, state: GameState) -> None:
         raise NotImplementedError
 
-    def revise(self):
-        raise NotImplementedError
-
-    def execute(self):
+    def _execute(self):
         raise NotImplementedError

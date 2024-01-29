@@ -58,11 +58,8 @@ class PacmanAgent(Agent):
         self.energized = False
         self.temp_ghost_counter = 0
 
-    def perceive(self, state: GameState) -> None:
+    def _perceive(self, state: GameState) -> None:
         raise NotImplementedError
 
-    def revise(self):
-        raise NotImplementedError
-
-    def execute(self):
+    def _execute(self):
         raise NotImplementedError

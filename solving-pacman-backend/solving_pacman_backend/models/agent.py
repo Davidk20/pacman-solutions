@@ -78,7 +78,7 @@ class Agent(ABC):
         return self.score
 
     @abstractmethod
-    def perceive(self, state: GameState) -> None:
+    def _perceive(self, state: GameState) -> None:
         """
         Perceive the environment and generate perceptions.
 
@@ -90,12 +90,7 @@ class Agent(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def revise(self) -> None:
-        """Revise internal states using the perceptions."""
-        raise NotImplementedError
-
-    @abstractmethod
-    def execute(self) -> tuple[int, int]:
+    def _execute(self) -> tuple[int, int]:
         """
         Returns the position which the `Agent` should move to.
 
@@ -106,3 +101,23 @@ class Agent(ABC):
         A `tuple` containing the coordinates for the agent to move to.
         """
         raise NotImplementedError
+
+    def cycle(self, state: GameState) -> tuple[int, int]:
+        """
+        Method encapsulating the entire agent cycle.
+
+        Rather than the GameManager calling each of the stages of the agent cycle,
+        this should be hidden from the outside so that only one function is needed
+        to allow an agent's decision making.
+
+        Parameters
+        ----------
+        `state` : `Graph`
+            The current state of the game used for decision making.
+
+        Returns
+        -------
+        A `tuple` containing the coordinates for the agent to move to.
+        """
+        self._perceive(state)
+        return self._execute()
