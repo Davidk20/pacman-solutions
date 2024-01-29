@@ -15,6 +15,7 @@ https://github.com/dicelab-rhul/vacuumworld
 from abc import ABC
 from abc import abstractmethod
 
+from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.movement_types import MovementTypes
 
 
@@ -56,6 +57,8 @@ class Agent(ABC):
         """The value held by this item in the Array representation."""
         self.score = score
         """The score held by this agent."""
+        self.state: Graph
+        """The current state of the environment."""
 
     def __repr__(self) -> str:
         return (
@@ -75,8 +78,15 @@ class Agent(ABC):
         return self.score
 
     @abstractmethod
-    def perceive(self) -> None:
-        """Perceive the environment and generate perceptions."""
+    def perceive(self, state: Graph) -> None:
+        """
+        Perceive the environment and generate perceptions.
+
+        Parameters
+        ----------
+        `state` : `Graph`
+            The current state of the game used for decision making.
+        """
         raise NotImplementedError
 
     @abstractmethod
