@@ -111,6 +111,8 @@ class Graph:
         """ """
         new_node = self.find_node_by_pos(new_pos)
         old_node = self.find_node_by_pos(old_pos)
+        if not isinstance(old_node.entity, Agent):
+            raise TypeError(f"Type {old_node.entity} is not moveable.")
         if isinstance(new_node.entity, (Agent, Pickup)):
             # If there is a collision, raise and break early.
             raise NodeCollisionException(

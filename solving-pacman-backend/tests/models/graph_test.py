@@ -141,3 +141,17 @@ def test_move_agent_collision(
     graph.map_edges(adjacency_list)
     with pytest.raises(NodeCollisionException):
         graph.move_agent((0, 0), (0, 1))
+
+
+def test_move_pickup(
+    graph: Graph,
+    nodes: list[Node],
+    adjacency_list: dict[tuple[int, int], list[tuple[int, int]]],
+):
+    """Tests that error is raised when a non-agent is moved."""
+    for node in nodes:
+        graph.add_node(node)
+
+    graph.map_edges(adjacency_list)
+    with pytest.raises(TypeError):
+        graph.move_agent((0, 1), (0, 0))
