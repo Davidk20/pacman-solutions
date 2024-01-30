@@ -181,3 +181,35 @@ def test_pacman_pickup_energizer(compiled_graph: Graph):
     assert isinstance(old.entity, Empty)
     assert isinstance(node.entity, PacmanAgent)
     assert node.entity.energized
+
+
+def test_pacman_collide_ghost(compiled_graph: Graph):
+    """
+    Tests that when Pac-Man collides with a ghost un-energized:
+    - A life is lost
+    - Pac-Man returns to original position
+    - Ghost stays in position
+    """
+    compiled_graph.move_agent((0, 0), (0, 6))
+    pacman = compiled_graph.find_node_by_pos((0, 0))
+    ghost = compiled_graph.find_node_by_pos((0, 6))
+    assert isinstance(pacman.entity, PacmanAgent)
+    assert isinstance(ghost.entity, BlinkyAgent)
+    assert pacman.entity.current_lives == 2
+
+
+def test_pacman_consume_ghost(compiled_graph: Graph):
+    """
+    Tests that when Pac-Man consumes with a ghost energized:
+    - Ghost is consumed - score increases
+    - Pac-Man moves
+    - Ghost returns "home"
+    """
+    compiled_graph.move_agent((0, 0), (0, 2))
+    compiled_graph.move_agent((0, 2), (0, 0))
+    compiled_graph.move_agent((0, 0), (0, 6))
+    old = compiled_graph.find_node_by_pos((0, 0))
+    new = compiled_graph.find_node_by_pos((0, 6))
+    assert isinstance(old.entity, Empty)
+    assert isinstance(new.entity, PacmanAgent)
+    assert new.entity.score == 250
