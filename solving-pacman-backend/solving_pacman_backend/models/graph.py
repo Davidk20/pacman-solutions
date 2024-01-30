@@ -5,6 +5,8 @@ from solving_pacman_backend.models.agent import Agent
 from solving_pacman_backend.models.environment import EnvironmentEntity
 from solving_pacman_backend.models.environment import Teleporter
 from solving_pacman_backend.models.node import Node
+from solving_pacman_backend.models.pacman_agent import PacmanAgent
+from solving_pacman_backend.models.pickups import Empty
 from solving_pacman_backend.models.pickups import Pickup
 
 
@@ -116,7 +118,15 @@ class Graph:
             raise NonAgentException(f"Type {old_node.entity.name} is not moveable.")
         if isinstance(new_node.entity, (Agent, Pickup)):
             # pass collisions through to PacmanAgent to handle
-            pass
+            if isinstance(old_node.entity, PacmanAgent):
+                old_node.entity.handle_consume(new_node.entity)
+        elif isinstance(new_node.entity, PacmanAgent) and isinstance(
+            old_node.entity, Agent
+        ):
+            # Handle when a ghost collides with Pac-Man
+            new_node.entity.handle_consume(old_node.entity)
+        new_node.entity = old_node.entity
+        old_node.entity = Empty()
 
     def find_node_by_pos(self, pos: tuple[int, int]) -> Node:
         """

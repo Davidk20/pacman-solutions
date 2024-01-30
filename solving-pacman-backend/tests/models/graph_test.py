@@ -56,7 +56,7 @@ def adjacency_list():
     yield adjacency_list
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="function", autouse=True)
 def compiled_graph():
     """
     Returns a fully-mapped graph.
@@ -161,3 +161,23 @@ def test_move_pickup(compiled_graph: Graph):
     """Tests that error is raised when a non-agent is moved."""
     with pytest.raises(NonAgentException):
         compiled_graph.move_agent((0, 1), (0, 0))
+
+
+def test_pacman_pickup_pellet(compiled_graph: Graph):
+    """Tests that Pac-Man correctly picks up a pellet."""
+    compiled_graph.move_agent((0, 0), (0, 1))
+    old = compiled_graph.find_node_by_pos((0, 0))
+    node = compiled_graph.find_node_by_pos((0, 1))
+    assert isinstance(old.entity, Empty)
+    assert isinstance(node.entity, PacmanAgent)
+    assert node.entity.score == 10
+
+
+def test_pacman_pickup_energizer(compiled_graph: Graph):
+    """Tests that Pac-Man correctly picks up a pellet."""
+    compiled_graph.move_agent((0, 0), (0, 2))
+    old = compiled_graph.find_node_by_pos((0, 0))
+    node = compiled_graph.find_node_by_pos((0, 2))
+    assert isinstance(old.entity, Empty)
+    assert isinstance(node.entity, PacmanAgent)
+    assert node.entity.energized
