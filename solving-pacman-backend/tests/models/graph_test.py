@@ -56,6 +56,40 @@ def adjacency_list():
     yield adjacency_list
 
 
+@pytest.fixture(scope="session", autouse=True)
+def compiled_graph():
+    """
+    Returns a fully-mapped graph.
+
+    For use where testing this functionality is not required.
+    """
+    graph = Graph()
+    nodes = [
+        Node((0, 0), PacmanAgent()),
+        Node((0, 1), PacDot()),
+        Node((0, 2), PowerPellet()),
+        Node((0, 3), Empty()),
+        Node((0, 4), Teleporter()),
+        Node((0, 5), Teleporter()),
+        Node((0, 6), BlinkyAgent()),
+    ]
+    adjacency_list: dict[tuple[int, int], list[tuple[int, int]]] = {
+        (0, 0): [(0, 1), (0, 2), (0, 6)],
+        (0, 1): [(0, 3), (0, 5)],
+        (0, 2): [(0, 1), (0, 4)],
+        (0, 3): [(0, 1), (0, 0)],
+        (0, 4): [(0, 1), (0, 5)],
+        (0, 5): [(0, 3), (0, 2)],
+        (0, 6): [(0, 1), (0, 4)],
+    }
+
+    for node in nodes:
+        graph.add_node(node)
+
+    graph.map_edges(adjacency_list)
+    yield graph
+
+
 def test_add_node(graph: Graph, node: Node):
     """Test that a node is correctly added to the graph."""
     graph.add_node(node)
@@ -118,29 +152,12 @@ def test_bfs(
     assert len(graph.bfs((0, 0))) == 7
 
 
-def test_is_connected(
-    graph: Graph,
-    nodes: list[Node],
-    adjacency_list: dict[tuple[int, int], list[tuple[int, int]]],
-):
+def test_is_connected(compiled_graph: Graph):
     """Test that a connected graph is correctly evaluated."""
-    for node in nodes:
-        graph.add_node(node)
-
-    graph.map_edges(adjacency_list)
-
-    assert graph.is_connected()
+    assert compiled_graph.is_connected()
 
 
-def test_move_pickup(
-    graph: Graph,
-    nodes: list[Node],
-    adjacency_list: dict[tuple[int, int], list[tuple[int, int]]],
-):
+def test_move_pickup(compiled_graph: Graph):
     """Tests that error is raised when a non-agent is moved."""
-    for node in nodes:
-        graph.add_node(node)
-
-    graph.map_edges(adjacency_list)
     with pytest.raises(NonAgentException):
-        graph.move_agent((0, 1), (0, 0))
+        compiled_graph.move_agent((0, 1), (0, 0))
