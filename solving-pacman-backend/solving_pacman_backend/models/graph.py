@@ -29,8 +29,8 @@ class InvalidGraphConfigurationException(Exception):
         super().__init__(message)
 
 
-class NodeCollisionException(Exception):
-    """Raised when there is a collision when attempting to move an agent."""
+class NonAgentException(Exception):
+    """Raised when there is an attempt to move a non-agent."""
 
     def __init__(self, message: str) -> None:
         super().__init__(message)
@@ -112,12 +112,11 @@ class Graph:
         new_node = self.find_node_by_pos(new_pos)
         old_node = self.find_node_by_pos(old_pos)
         if not isinstance(old_node.entity, Agent):
-            raise TypeError(f"Type {old_node.entity} is not moveable.")
+            # If non-agent attempts to move, raise and break.
+            raise NonAgentException(f"Type {old_node.entity.name} is not moveable.")
         if isinstance(new_node.entity, (Agent, Pickup)):
-            # If there is a collision, raise and break early.
-            raise NodeCollisionException(
-                f"{old_node.entity} collided with {new_node.entity}"
-            )
+            # pass collisions through to PacmanAgent to handle
+            pass
 
     def find_node_by_pos(self, pos: tuple[int, int]) -> Node:
         """

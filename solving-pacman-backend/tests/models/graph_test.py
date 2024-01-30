@@ -2,8 +2,8 @@ import pytest
 from solving_pacman_backend.models.environment import Teleporter
 from solving_pacman_backend.models.graph import DuplicateNodeException
 from solving_pacman_backend.models.graph import Graph
-from solving_pacman_backend.models.graph import NodeCollisionException
 from solving_pacman_backend.models.graph import NodeNotFoundException
+from solving_pacman_backend.models.graph import NonAgentException
 from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.models.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.pickups import Empty
@@ -129,20 +129,6 @@ def test_is_connected(
     assert graph.is_connected()
 
 
-def test_move_agent_collision(
-    graph: Graph,
-    nodes: list[Node],
-    adjacency_list: dict[tuple[int, int], list[tuple[int, int]]],
-):
-    """Tests that collisions are correctly handled when moving agents."""
-    for node in nodes:
-        graph.add_node(node)
-
-    graph.map_edges(adjacency_list)
-    with pytest.raises(NodeCollisionException):
-        graph.move_agent((0, 0), (0, 1))
-
-
 def test_move_pickup(
     graph: Graph,
     nodes: list[Node],
@@ -153,5 +139,5 @@ def test_move_pickup(
         graph.add_node(node)
 
     graph.map_edges(adjacency_list)
-    with pytest.raises(TypeError):
+    with pytest.raises(NonAgentException):
         graph.move_agent((0, 1), (0, 0))
