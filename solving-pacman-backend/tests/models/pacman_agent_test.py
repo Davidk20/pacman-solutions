@@ -5,6 +5,7 @@ import pytest
 from solving_pacman_backend.models import ghost_agent
 from solving_pacman_backend.models.agent import Agent
 from solving_pacman_backend.models.pacman_agent import PacmanAgent
+from solving_pacman_backend.models.pacman_agent import PacManDiedException
 from solving_pacman_backend.models.pickups import Orange
 from solving_pacman_backend.models.pickups import PowerPellet
 
@@ -12,8 +13,8 @@ from solving_pacman_backend.models.pickups import PowerPellet
 @pytest.fixture(autouse=True)
 def pacman():
     """Generate an agent of Pac-man which can be used for testing."""
-    pacmanAgent = PacmanAgent()
-    return pacmanAgent
+    pacman_agent = PacmanAgent()
+    return pacman_agent
 
 
 @pytest.fixture(autouse=True)
@@ -49,8 +50,8 @@ def test_valid_ghost_consume(pacman: PacmanAgent, ghost: Agent):
 
 def test_invalid_ghost_consume(pacman: PacmanAgent, ghost: Agent):
     """Test Pac-man loses a life when he consumes a ghost without energizer."""
-    pacman.handle_consume(ghost)
-    assert pacman.current_lives == 2
+    with pytest.raises(PacManDiedException):
+        pacman.handle_consume(ghost)
 
 
 def test_valid_multiple_ghost_consume(pacman: PacmanAgent, ghost: Agent):
@@ -76,6 +77,6 @@ def test_deenergize(pacman: PacmanAgent, ghost: Agent):
     # At this time, Pac-man should be able to consume
     assert pacman.get_score() == 250
     pacman.deenergize()
-    pacman.handle_consume(ghost)
     # After being de-energized, Pac-man should lose a life
-    assert pacman.current_lives == 2
+    with pytest.raises(PacManDiedException):
+        pacman.handle_consume(ghost)

@@ -6,6 +6,13 @@ from solving_pacman_backend.models.pickups import Pickup
 from solving_pacman_backend.models.pickups import PowerPellet
 
 
+class PacManDiedException(Exception):
+    """Raised when Pac-Man dies."""
+
+    def __init__(self) -> None:
+        super().__init__()
+
+
 class PacmanAgent(Agent):
     """Model representing the agent for Pac-man."""
 
@@ -50,6 +57,7 @@ class PacmanAgent(Agent):
             else:
                 # If Pac-man has consumed a ghost without energizer
                 self.current_lives -= 1
+                raise PacManDiedException()
         if not isinstance(pickup, Agent):
             self.score += pickup.get_score()
 
