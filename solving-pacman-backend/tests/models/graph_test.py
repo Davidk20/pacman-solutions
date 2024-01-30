@@ -1,5 +1,6 @@
 import pytest
 from solving_pacman_backend.models.environment import Teleporter
+from solving_pacman_backend.models.ghost_agent import BlinkyAgent
 from solving_pacman_backend.models.graph import DuplicateNodeException
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.graph import NodeNotFoundException
@@ -35,6 +36,7 @@ def nodes():
         Node((0, 3), Empty()),
         Node((0, 4), Teleporter()),
         Node((0, 5), Teleporter()),
+        Node((0, 6), BlinkyAgent()),
     ]
     yield nodes
 
@@ -43,12 +45,13 @@ def nodes():
 def adjacency_list():
     """Generate the adjacency list for testing, uses `nodes`."""
     adjacency_list: dict[tuple[int, int], list[tuple[int, int]]] = {
-        (0, 0): [(0, 1), (0, 2)],
+        (0, 0): [(0, 1), (0, 2), (0, 6)],
         (0, 1): [(0, 3), (0, 5)],
         (0, 2): [(0, 1), (0, 4)],
         (0, 3): [(0, 1), (0, 0)],
         (0, 4): [(0, 1), (0, 5)],
         (0, 5): [(0, 3), (0, 2)],
+        (0, 6): [(0, 1), (0, 4)],
     }
     yield adjacency_list
 
@@ -99,7 +102,7 @@ def test_map_edges(
 
     graph.map_edges(adjacency_list)
 
-    assert graph.num_of_edges() == 14
+    assert graph.num_of_edges() == 17
 
 
 def test_bfs(
@@ -112,7 +115,7 @@ def test_bfs(
         graph.add_node(node)
 
     graph.map_edges(adjacency_list)
-    assert len(graph.bfs((0, 0))) == 6
+    assert len(graph.bfs((0, 0))) == 7
 
 
 def test_is_connected(
