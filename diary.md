@@ -145,7 +145,6 @@
 - Added a function to test for connectedness of graphs
   - Important as all of the levels in Pac-Man should be connected graphs.
 
-
 ## 10/01/24
 
 - Tidied code and fixed small bugs
@@ -160,7 +159,6 @@
 
 - Added detailed documentation for the project
 - Updated `flood_fill` to dynamically find first non-wall node rather than a hardcoded position
-
 
 ## 16/01/24
 
@@ -178,3 +176,26 @@
 ## 20/01/24
 
 - Refactored code to move appropriate functions into utility classes
+
+## 23/01/24
+
+- Converted `Agent` into an abstract class.
+  - This creates an overarching wrapper which allows for all agents to function the same.
+- Refactored Pac-Man and Ghost agents to use this new wrapper.
+
+## 25/01/24
+
+- Added the ghost's home paths to the level configuration
+- Refactored `LevelHandler` to be a set of functions not a class
+  - Using a class meant that the app was cluttered with single-use instances of LevelHandler which meant that the file was also being opened and left open multiple times.
+  - By using a generator it is now able to open and use the file only when necessary and while this may result in more reads, this means that the file is safer and leaves less clutter in memory.
+
+## 29/01/24
+
+- Refined agent cycle functions to take in `GameState`.
+- Improved agent collision logic.
+
+## 30/01/24
+
+- Continued collision logic.
+- Developed death logic for when Pac-Man dies.
