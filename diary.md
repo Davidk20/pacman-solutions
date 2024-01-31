@@ -127,8 +127,8 @@
   - This was done as testing views / components using certain packages such as `Link` was causing tests to break and it was decided that this should not be a priority as components could be visually seen to be working and therefore could be manually tested
 - Created base `Node` structure
 - Implemented the initial draft of the Flood Fill algorithm
-  - Inspired by https://lvngd.com/blog/flood-fill-algorithm-python/
-- Tested networkx https://networkx.org/ package as potential solution to graph storage problem
+  - Inspired by [Flood Fill Inspiration](https://lvngd.com/blog/flood-fill-algorithm-python/)
+- Tested [networkx](https://networkx.org/) package as potential solution to graph storage problem
   - Needed a way to store the graphs accurately and efficiently
 
 ## 07/12/23
