@@ -199,3 +199,11 @@
 
 - Continued collision logic.
 - Developed death logic for when Pac-Man dies.
+
+## 31/01/24
+
+- Had first meeting of the term with supervisor.
+  - Discussed where the project is at and my performance last term.
+  - Discussed the issue I had related to state communication between API and client.
+    - Decided that it was best to send a list of the full arrays instead of trying to work out a way to reduce this and rebuild on the client.
+    - This was because the API will usually have more computing power than the client and also the increase in file size should be negligible as it is only a few arrays of single numbers and the data shouldn't be too large to cause a bottleneck in this format.
