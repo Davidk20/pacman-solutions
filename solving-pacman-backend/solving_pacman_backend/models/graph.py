@@ -110,8 +110,22 @@ class Graph:
         else:
             raise DuplicateNodeException("Node already in graph.")
 
-    def move_agent(self, old_pos: tuple[int, int], new_pos: tuple[int, int]):
-        """ """
+    def move_agent(self, old_pos: tuple[int, int], new_pos: tuple[int, int]) -> None:
+        """
+        Move an agent to the new position.
+
+        It is assumed that the move has already been validated before being passed
+        to the graph, as agents should only be able to move a distance of one node
+        per move.
+
+        Parameters
+        ----------
+        `old_pos` : `tuple[int, int]`
+            The current position of the agent.
+        `new_pos` : `tuple[int, int]`
+            The position the agent is moving to.
+
+        """
         new_node = self.find_node_by_pos(new_pos)
         old_node = self.find_node_by_pos(old_pos)
         if not isinstance(old_node.entity, Agent):
