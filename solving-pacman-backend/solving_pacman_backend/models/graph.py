@@ -270,3 +270,28 @@ class Graph:
         start: Node = random.choice(list(self.level.keys()))
         path = self.bfs(start)
         return len(path) == len(list(self.level.keys()))
+
+    def is_repeated_cycle(self, path: list[Node]) -> bool:
+        """
+        Checks whether there is a repeated cycle within the path.
+
+        This is done by checking for two consecutive Nodes being repeated at
+        any point within the path.
+
+        Parameters
+        ----------
+        `path` : `list[Node]`
+            The path to check for repetition.
+
+        Returns
+        -------
+        `True` if there is a repeated cycle.
+        """
+        for i in range(len(path) - 1):
+            pair = [path[i], path[i + 1]]
+            print(pair)
+            for j in range(i + 1, len(path) - 1):
+                print(j)
+                if [path[j], path[j + 1]] == pair:
+                    return True
+        return False

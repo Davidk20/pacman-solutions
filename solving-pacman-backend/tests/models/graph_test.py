@@ -213,3 +213,29 @@ def test_pacman_consume_ghost(compiled_graph: Graph):
     assert isinstance(old.entity, Empty)
     assert isinstance(new.entity, PacmanAgent)
     assert new.entity.score == 250
+
+
+def test_non_repeating_cycle(compiled_graph: Graph, nodes: list[Node]):
+    """Test that non-repeating paths are detected."""
+    test_1 = [nodes[0], nodes[1], nodes[2], nodes[3], nodes[4]]
+    test_2 = [nodes[4], nodes[3], nodes[2], nodes[1], nodes[0]]
+    test_3 = [nodes[2], nodes[0], nodes[5], nodes[3], nodes[2]]
+    test_4 = [nodes[5], nodes[5], nodes[1], nodes[4], nodes[2]]
+    test_5 = [nodes[6], nodes[5], nodes[5], nodes[6], nodes[2]]
+    assert not compiled_graph.is_repeated_cycle(test_1)
+    assert not compiled_graph.is_repeated_cycle(test_2)
+    assert not compiled_graph.is_repeated_cycle(test_3)
+    assert not compiled_graph.is_repeated_cycle(test_4)
+    assert not compiled_graph.is_repeated_cycle(test_5)
+
+
+def test_repeating_cycle(compiled_graph: Graph, nodes: list[Node]):
+    """Test that repeating paths are detected."""
+    test_1 = [nodes[0], nodes[1], nodes[2], nodes[3], nodes[4], nodes[1], nodes[2]]
+    test_2 = [nodes[6], nodes[5], nodes[6], nodes[5], nodes[4], nodes[1], nodes[2]]
+    test_3 = [nodes[4], nodes[1], nodes[2], nodes[3], nodes[4], nodes[1], nodes[2]]
+    test_4 = [nodes[0], nodes[0], nodes[0], nodes[0], nodes[0], nodes[0], nodes[0]]
+    assert compiled_graph.is_repeated_cycle(test_1)
+    assert compiled_graph.is_repeated_cycle(test_2)
+    assert compiled_graph.is_repeated_cycle(test_3)
+    assert compiled_graph.is_repeated_cycle(test_4)
