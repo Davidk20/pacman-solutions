@@ -207,3 +207,9 @@
   - Discussed the issue I had related to state communication between API and client.
     - Decided that it was best to send a list of the full arrays instead of trying to work out a way to reduce this and rebuild on the client.
     - This was because the API will usually have more computing power than the client and also the increase in file size should be negligible as it is only a few arrays of single numbers and the data shouldn't be too large to cause a bottleneck in this format.
+  - I also had the idea during the meeting for how to calculate the Heuristic function for using with an A* implementation
+    - Idea is that each edge has a uniform cost of 1 which is then increased by the score of each pickup within that path.
+      - Ghosts would usually prune a path, however if Pac-Man is energised it would mean that ghosts increment the score the same as pickups
+      - This is designed to reward Pac-Man for venturing down higher scoring paths and prioritising collecting dots when traversing
+      - This also allows for expansion should I develop a reinforcement model, as this would act as the reward function
+        - This should mean that Pac-Man would learn a level of risk taking as with also having three lives, it may attempt to go down higher scoring paths even if the risk of being caught by a ghost is high.
