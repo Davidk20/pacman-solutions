@@ -264,3 +264,10 @@ def test_find_all_paths_node_not_found(compiled_graph: Graph):
 def test_find_all_paths_already_at_goal(compiled_graph: Graph, nodes: list[Node]):
     """Test that a single path is returned when the starting node is the goal node."""
     assert compiled_graph.find_paths_between((0, 0), (0, 0)) == [[nodes[0]]]
+
+
+def test_find_all_paths_simple_path(compiled_graph: Graph, nodes: list[Node]):
+    """Test that a simple, single path can be found connecting two nodes."""
+    assert compiled_graph.find_paths_between((0, 6), (0, 9)) == [
+        [nodes[6], nodes[7], nodes[8], nodes[9]]
+    ]
