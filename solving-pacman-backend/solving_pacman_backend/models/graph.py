@@ -295,3 +295,34 @@ class Graph:
                 if [path[j], path[j + 1]] == pair:
                     return True
         return False
+
+    def find_paths_between(
+        self, start_pos: tuple[int, int], end_pos: tuple[int, int], path=[]
+    ) -> list[list[Node]]:
+        """
+        Find all valid paths between two points.
+
+        This function uses a recursive Depth-First Search algorithm to
+        find all of the valid paths between the start and goal nodes.
+
+        Parameters
+        ----------
+        `start_pos` : `tuple[int, int]`
+            The starting position.
+        `end_pos` : `tuple[int, int]`
+            The goal position.
+
+        Returns
+        -------
+        A `list` containing paths of `Node`'s.
+        """
+        start_node = self.find_node_by_pos(start_pos)
+        end_node = self.find_node_by_pos(end_pos)
+        if any(node not in self.level.keys() for node in [start_node, end_node]):
+            raise NodeNotFoundException(
+                f"One of {start_pos}, {end_pos} could not be found."
+            )
+        path = path + [start_pos]
+        if start_pos == end_pos:
+            return [path]
+        return []

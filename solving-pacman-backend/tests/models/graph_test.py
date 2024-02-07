@@ -239,3 +239,16 @@ def test_repeating_cycle(compiled_graph: Graph, nodes: list[Node]):
     assert compiled_graph.is_repeated_cycle(test_2)
     assert compiled_graph.is_repeated_cycle(test_3)
     assert compiled_graph.is_repeated_cycle(test_4)
+
+
+def test_find_all_paths_node_not_found(compiled_graph: Graph):
+    """
+    Test that an exception is raised when an invalid node is passed as an argument.
+    """
+    with pytest.raises(NodeNotFoundException):
+        compiled_graph.find_paths_between((100, 0), (0, 0))
+
+
+def test_find_all_paths_already_at_goal(compiled_graph: Graph):
+    """Test that a single path is returned when the starting node is the goal node."""
+    assert compiled_graph.find_paths_between((0, 0), (0, 0)) == [[(0, 0)]]
