@@ -148,7 +148,7 @@ def test_map_edges(
 
     graph.map_edges(adjacency_list)
 
-    assert graph.num_of_edges() == 17
+    assert graph.num_of_edges() == 21
 
 
 def test_bfs(
@@ -161,7 +161,7 @@ def test_bfs(
         graph.add_node(node)
 
     graph.map_edges(adjacency_list)
-    assert len(graph.bfs((0, 0))) == 7
+    assert len(graph.bfs((0, 0))) == 10
 
 
 def test_is_connected(compiled_graph: Graph):
