@@ -37,6 +37,9 @@ def nodes():
         Node((0, 4), Teleporter()),
         Node((0, 5), Teleporter()),
         Node((0, 6), BlinkyAgent()),
+        Node((0, 7), PacDot()),
+        Node((0, 8), PacDot()),
+        Node((0, 9), PacDot()),
     ]
     yield nodes
 
@@ -51,7 +54,10 @@ def adjacency_list():
         (0, 3): [(0, 1), (0, 0)],
         (0, 4): [(0, 1), (0, 5)],
         (0, 5): [(0, 3), (0, 2)],
-        (0, 6): [(0, 1), (0, 4)],
+        (0, 6): [(0, 1), (0, 4), (0, 7)],
+        (0, 7): [(0, 8)],
+        (0, 8): [(0, 9)],
+        (0, 9): [(0, 6)],
     }
     yield adjacency_list
 
@@ -72,6 +78,9 @@ def compiled_graph():
         Node((0, 4), Teleporter()),
         Node((0, 5), Teleporter()),
         Node((0, 6), BlinkyAgent()),
+        Node((0, 7), PacDot()),
+        Node((0, 8), PacDot()),
+        Node((0, 9), PacDot()),
     ]
     adjacency_list: dict[tuple[int, int], list[tuple[int, int]]] = {
         (0, 0): [(0, 1), (0, 2), (0, 6)],
@@ -80,7 +89,10 @@ def compiled_graph():
         (0, 3): [(0, 1), (0, 0)],
         (0, 4): [(0, 1), (0, 5)],
         (0, 5): [(0, 3), (0, 2)],
-        (0, 6): [(0, 1), (0, 4)],
+        (0, 6): [(0, 1), (0, 4), (0, 7)],
+        (0, 7): [(0, 8)],
+        (0, 8): [(0, 9)],
+        (0, 9): [(0, 6)],
     }
 
     for node in nodes:
