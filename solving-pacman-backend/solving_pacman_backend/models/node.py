@@ -37,3 +37,8 @@ class Node:
 
     def __repr__(self) -> str:
         return f"""\nPosition: {self.position}, Contains: {self.entity}"""
+
+    def __eq__(self, __value: object) -> bool:
+        if isinstance(__value, Node):
+            return self.position == __value.position
+        return False
