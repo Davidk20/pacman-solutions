@@ -42,3 +42,6 @@ class Node:
         if isinstance(__value, Node):
             return self.position == __value.position
         return False
+
+    def __hash__(self) -> int:
+        return hash(self.position)
