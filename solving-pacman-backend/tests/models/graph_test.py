@@ -271,3 +271,20 @@ def test_find_all_paths_simple_path(compiled_graph: Graph, nodes: list[Node]):
     assert compiled_graph.find_paths_between((0, 6), (0, 9)) == [
         [nodes[6], nodes[7], nodes[8], nodes[9]]
     ]
+
+
+def test_find_all_paths_multiple_paths(compiled_graph: Graph, nodes: list[Node]):
+    """Test that multiple paths are returned where appropriate."""
+    assert compiled_graph.find_paths_between((0, 1), (0, 9)) == [
+        [
+            nodes[1],
+            nodes[5],
+            nodes[3],
+            nodes[0],
+            nodes[6],
+            nodes[7],
+            nodes[8],
+            nodes[9],
+        ],
+        [nodes[1], nodes[3], nodes[0], nodes[6], nodes[7], nodes[8], nodes[9]],
+    ]
