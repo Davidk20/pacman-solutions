@@ -16,9 +16,18 @@ class PacManDiedException(Exception):
 class PacmanAgent(Agent):
     """Model representing the agent for Pac-man."""
 
-    def __init__(self):
-        """Initialise the class."""
-        super().__init__("Pac-Man", "User-Controlled", MovementTypes.CUSTOM, 44)
+    def __init__(self, home_path: list[tuple[int, int]]):
+        """
+        Initialise the class.
+
+        Parameters
+        ----------
+        `home_path` : `list[tuple[int, int]]`
+            The agents's home path.
+        """
+        super().__init__(
+            "Pac-Man", "User-Controlled", MovementTypes.CUSTOM, home_path, 44
+        )
         self.current_lives = 3
         """Store the number of lives the user agent has remaining."""
         self.energized = False
