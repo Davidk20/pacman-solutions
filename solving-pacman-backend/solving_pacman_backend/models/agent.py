@@ -27,6 +27,7 @@ class Agent(ABC):
         name: str,
         behaviour: str,
         movement_type: MovementTypes,
+        home_path: list[tuple[int, int]],
         value: int,
         score: int = 0,
     ):
@@ -41,6 +42,8 @@ class Agent(ABC):
             The agents behaviour.
         `movement_type` : `MovementTypes`
             The agent's movement behaviours.
+        `home_path` : `list[tuple[int, int]]`
+            The agents's home path.
         `value` : `int`
             The agent's representation within the array.
         `score` : `int` : `default = 0`
@@ -53,6 +56,8 @@ class Agent(ABC):
         """The agent's behaviour."""
         self.movement_type = movement_type
         """The agents Movement type"""
+        self.home_path = home_path
+        """The agents's home path."""
         self.value = value
         """The value held by this item in the Array representation."""
         self.score = score
