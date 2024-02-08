@@ -61,12 +61,15 @@ class Agent(ABC):
         """The current state of the environment."""
         self.position: tuple[int, int]
         """The position of the agent."""
+        self.target: list[tuple[int, int]] = []
+        """The target path for the agent to follow."""
 
     def __repr__(self) -> str:
         return (
             f"(Name: {self.name}, Score: {self.score}, "
             f"Behaviour: {self.behaviour}, "
-            f"Movement: {self.movement_type})"
+            f"Movement: {self.movement_type}), "
+            f"Target: {self.target}), "
         )
 
     def get_score(self) -> int:
