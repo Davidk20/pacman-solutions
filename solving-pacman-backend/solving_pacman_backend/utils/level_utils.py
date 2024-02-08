@@ -5,7 +5,6 @@ from solving_pacman_backend.models.graph import NodeNotFoundException
 from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.models.pickups import Empty
 from solving_pacman_backend.models.pickups import Pickup
-from solving_pacman_backend.services import level_handler
 from solving_pacman_backend.utils.entity_utils import convert_value_to_entity
 from solving_pacman_backend.utils.entity_utils import EntityNotFoundException
 
@@ -16,7 +15,7 @@ def print_level(level: list[list[int]]) -> None:
         print(row)
 
 
-def array_to_graph(level_num: int) -> Graph:
+def array_to_graph(level: list[list[int]]) -> Graph:
     """
     Convert the map from an array into Graph.
 
@@ -27,18 +26,17 @@ def array_to_graph(level_num: int) -> Graph:
 
     Parameters
     ----------
-    `level_num` : `int`
+    `level` : `list[list[int]]`
         The level to convert
 
     Returns
     -------
     A populated `Graph` object.
     """
-    full_map = level_handler.get_map(level_num)
-    height = len(full_map)
-    width = len(full_map[0])
+    height = len(level)
+    width = len(level[0])
     # queue to store the positions to be looked into
-    queue: list[tuple[int, int]] = [first_non_wall_node(full_map)]
+    queue: list[tuple[int, int]] = [first_non_wall_node(level)]
     adjacency_list: dict[tuple[int, int], list[tuple[int, int]]] = {}
     graph = Graph()
 
@@ -48,13 +46,13 @@ def array_to_graph(level_num: int) -> Graph:
         # invalid positions should be ignored
         if (
             not in_bounds(height, width, current)
-            or is_wall(full_map, current)
+            or is_wall(level, current)
             or current in adjacency_list.keys()
         ):
             continue
 
         # if is valid space then build node and add adjacents
-        entity = convert_value_to_entity(full_map[current[1]][current[0]])
+        entity = convert_value_to_entity(level[current[1]][current[0]])
         graph.add_node(Node(current, entity))
         adjacency_list[current] = []
         expansions = [
@@ -65,7 +63,7 @@ def array_to_graph(level_num: int) -> Graph:
         ]
         for expansion in expansions:
             if in_bounds(height, width, expansion):
-                if not is_wall(full_map, expansion):
+                if not is_wall(level, expansion):
                     adjacency_list[current].append(expansion)
                     queue.append(expansion)
     graph.map_edges(adjacency_list)

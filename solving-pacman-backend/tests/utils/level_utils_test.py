@@ -30,7 +30,8 @@ def test_array_to_graph():
     - There are 559 wall points within this grid.
     - 868 - 559 = 309 playable spaces
     """
-    graph = level_utils.array_to_graph(1)
+    array = level_handler.get_map(1)
+    graph = level_utils.array_to_graph(array)
     assert graph.num_of_nodes() == 309
 
 
