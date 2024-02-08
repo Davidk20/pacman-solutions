@@ -13,7 +13,7 @@ from solving_pacman_backend.models.pickups import PowerPellet
 @pytest.fixture(autouse=True)
 def pacman():
     """Generate an agent of Pac-man which can be used for testing."""
-    pacman_agent = PacmanAgent()
+    pacman_agent = PacmanAgent([(0, 0)])
     return pacman_agent
 
 
