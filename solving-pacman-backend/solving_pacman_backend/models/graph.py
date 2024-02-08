@@ -297,13 +297,20 @@ class Graph:
         return False
 
     def find_paths_between(
-        self, start_pos: tuple[int, int], end_pos: tuple[int, int], path=[]
+        self, start_pos: tuple[int, int], end_pos: tuple[int, int]
     ) -> list[list[Node]]:
         """
         Find all valid paths between two points.
 
-        This function uses a recursive Depth-First Search algorithm to
-        find all of the valid paths between the start and goal nodes.
+        This function uses a iterative Depth-First Search algorithm to
+        find all of the valid paths between the start and goal nodes. An iterative
+        approach was taken over recursion because the graphs used for the levels
+        are very complex and therefore could risk a RecursionError.
+
+        This function will find and return ALL paths available. It is up
+        to the agents internal decision making to decide which paths are to be
+        kept and which are to be pruned. This is because all agents will have a
+        different set of criteria for what constitutes a valid path.
 
         Parameters
         ----------
@@ -316,13 +323,24 @@ class Graph:
         -------
         A `list` containing paths of `Node`'s.
         """
+        # collect the nodes early so that error raised if they don't exist.
         start_node = self.find_node_by_pos(start_pos)
         end_node = self.find_node_by_pos(end_pos)
-        if any(node not in self.level.keys() for node in [start_node, end_node]):
-            raise NodeNotFoundException(
-                f"One of {start_pos}, {end_pos} could not be found."
-            )
-        path = path + [start_pos]
-        if start_pos == end_pos:
-            return [path]
-        return []
+        # if the goal node is already found, return
+        if start_node == end_node:
+            return [[start_node]]
+        # stack stores tuples of the start node and the path taken
+        stack = [(start_node, [start_node])]
+        paths = []
+        while len(stack) > 0:
+            current, path = stack.pop()
+            if current == end_node:
+                # once goal is reached, add path to paths
+                paths.append(path)
+                continue
+            for node in self.level[current]:
+                # expand in all directions from current
+                if node not in path:
+                    # adds an updated path back into the stack
+                    stack.append((node, path + [node]))
+        return paths
