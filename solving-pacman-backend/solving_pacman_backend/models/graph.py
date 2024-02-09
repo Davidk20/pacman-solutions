@@ -1,5 +1,6 @@
 """Model representing the level as a graph data structure."""
 import random
+from typing import Type
 
 from solving_pacman_backend.models.agent import Agent
 from solving_pacman_backend.models.environment import EnvironmentEntity
@@ -167,15 +168,15 @@ class Graph:
         raise NodeNotFoundException("Node not found.")
 
     def find_node_by_entity(
-        self, item: Agent | Pickup | EnvironmentEntity
+        self, entity: Type[Agent | Pickup | EnvironmentEntity]
     ) -> list[Node]:
         """
-        Find and return all `Node` objects on the graph with the corresponding value.
+        Find all `Node` objects matching the type provided.
 
         Parameters
         ----------
-        `item` : `Agent | Pickup`
-            The item to search for. Can be an `Agent` or `Pickup` item.
+        `entity` : Type[Agent | Pickup]
+            The type of entity to search for.
 
         Returns
         -------
@@ -184,15 +185,15 @@ class Graph:
         """
         nodes = []
         for node in self.level.keys():
-            if node.entity.value == item.value:
+            if isinstance(node, entity):
                 nodes.append(node)
-        if isinstance(item, Agent) and len(nodes) > 1:
+        if entity == Agent and len(nodes) > 1:
             raise InvalidGraphConfigurationException(
-                f"Only one of type {item.value} should be present."
+                f"Only one of type {entity} should be present."
             )
         elif len(nodes) == 0:
             raise InvalidGraphConfigurationException(
-                f"No instances of {item.value} could be found."
+                f"No instances of {entity} could be found."
             )
         else:
             return nodes
@@ -216,7 +217,7 @@ class Graph:
                 self.level[parent].append(self.find_node_by_pos(child))
         # Manual mapping of portal edges. Assumed that there are only two teleporters
         # and so it is a one-to-one mapping.
-        portals = self.find_node_by_entity(Teleporter())
+        portals = self.find_node_by_entity(Teleporter)
         self.level[portals[0]].append(portals[1])
         self.level[portals[1]].append(portals[0])
 
