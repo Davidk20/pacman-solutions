@@ -21,10 +21,10 @@ def pacman():
 def ghost():
     """Generate an agent of a Ghost which can be used for testing."""
     ghosts = [
-        ghost_agent.BlinkyAgent(),
-        ghost_agent.ClydeAgent(),
-        ghost_agent.InkyAgent(),
-        ghost_agent.PinkyAgent(),
+        ghost_agent.BlinkyAgent([]),
+        ghost_agent.ClydeAgent([]),
+        ghost_agent.InkyAgent([]),
+        ghost_agent.PinkyAgent([]),
     ]
     yield choice(ghosts)
 
