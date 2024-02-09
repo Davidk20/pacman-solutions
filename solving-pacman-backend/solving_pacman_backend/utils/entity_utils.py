@@ -1,4 +1,7 @@
+from solving_pacman_backend.models import agent
 from solving_pacman_backend.models import environment
+from solving_pacman_backend.models import ghost_agent
+from solving_pacman_backend.models import pacman_agent
 from solving_pacman_backend.models import pickups
 
 
@@ -11,7 +14,7 @@ class EntityNotFoundException(Exception):
 
 def convert_value_to_entity(
     value: int,
-) -> pickups.Pickup | environment.EnvironmentEntity:
+) -> pickups.Pickup | agent.Agent | environment.EnvironmentEntity:
     """
     Convert a numerical value into a game entity.
 
@@ -49,6 +52,16 @@ def convert_value_to_entity(
             return pickups.Key()
         case 20:
             return environment.Gate()
+        case 21:
+            return ghost_agent.BlinkyAgent([])
+        case 22:
+            return ghost_agent.PinkyAgent([])
+        case 23:
+            return ghost_agent.InkyAgent([])
+        case 24:
+            return ghost_agent.ClydeAgent([])
+        case 44:
+            return pacman_agent.PacmanAgent([])
         case 88:
             return environment.Teleporter()
         case _:
