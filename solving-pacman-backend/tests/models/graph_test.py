@@ -133,7 +133,7 @@ def test_find_by_entity(graph: Graph, nodes: list[Node]):
     """Test that a node can be found by searching for entity."""
     for node in nodes:
         graph.add_node(node)
-    result = graph.find_node_by_entity(PowerPellet())
+    result = graph.find_node_by_entity(PowerPellet)
     assert result[0].entity.value == nodes[2].entity.value and len(result) == 1
 
 
