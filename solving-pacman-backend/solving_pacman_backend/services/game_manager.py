@@ -61,6 +61,18 @@ class GameManager:
         self.clyde = ghost_agent.ClydeAgent(self.agent_home["Clyde"])
         """Representation of the Clyde agent."""
 
+    def setup_game(self) -> None:
+        """
+        Setup the game and board before the game starts.
+
+        Injects the populated agents into the place of the dummy agents.
+        """
+        self.game.find_node_by_entity(PacmanAgent)[0].entity = self.pacman
+        self.game.find_node_by_entity(ghost_agent.BlinkyAgent)[0].entity = self.blinky
+        self.game.find_node_by_entity(ghost_agent.PinkyAgent)[0].entity = self.pinky
+        self.game.find_node_by_entity(ghost_agent.InkyAgent)[0].entity = self.inky
+        self.game.find_node_by_entity(ghost_agent.ClydeAgent)[0].entity = self.clyde
+
     def win(self) -> bool:
         """
         Checks whether the conditions for a win have been met.
