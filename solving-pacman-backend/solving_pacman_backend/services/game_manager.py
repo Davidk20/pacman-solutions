@@ -41,7 +41,15 @@ class GameManager:
         """The graph containing the game."""
         self.running = False
         """Indicates whether the game is currently running."""
-        self.pacman = PacmanAgent()
+        self.agent_home = {
+            "Pac-Man": level_handler.get_home(level_num, "Pac-Man"),
+            "Blinky": level_handler.get_home(level_num, "Blinky"),
+            "Pinky": level_handler.get_home(level_num, "Pinky"),
+            "Inky": level_handler.get_home(level_num, "Inky"),
+            "Clyde": level_handler.get_home(level_num, "Clyde"),
+        }
+        """Dictionary containing the homes of the agents."""
+        self.pacman = PacmanAgent(self.agent_home["Pac-Man"])
         """Representation of the Pac-Man agent."""
 
     def win(self) -> bool:
