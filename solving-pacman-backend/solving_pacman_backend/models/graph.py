@@ -185,7 +185,7 @@ class Graph:
         """
         nodes = []
         for node in self.level.keys():
-            if isinstance(node, entity):
+            if isinstance(node.entity, entity):
                 nodes.append(node)
         if entity == Agent and len(nodes) > 1:
             raise InvalidGraphConfigurationException(
