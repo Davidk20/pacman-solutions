@@ -1,4 +1,5 @@
 """Service managing the running of the game."""
+from solving_pacman_backend.models import ghost_agent
 from solving_pacman_backend.models.game_state import GameState
 from solving_pacman_backend.models.game_state_store import GameStateStore
 from solving_pacman_backend.models.graph import Graph
@@ -51,6 +52,14 @@ class GameManager:
         """Dictionary containing the homes of the agents."""
         self.pacman = PacmanAgent(self.agent_home["Pac-Man"])
         """Representation of the Pac-Man agent."""
+        self.blinky = ghost_agent.BlinkyAgent(self.agent_home["Blinky"])
+        """Representation of the Blinky agent."""
+        self.pinky = ghost_agent.PinkyAgent(self.agent_home["Pinky"])
+        """Representation of the Pinky agent."""
+        self.inky = ghost_agent.InkyAgent(self.agent_home["Inky"])
+        """Representation of the Inky agent."""
+        self.clyde = ghost_agent.ClydeAgent(self.agent_home["Clyde"])
+        """Representation of the Clyde agent."""
 
     def win(self) -> bool:
         """
