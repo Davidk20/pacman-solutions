@@ -101,3 +101,16 @@ class GameManager:
             self.running = False
         else:
             self.timer += 1
+
+    def start(self) -> None:
+        """Start the game loop."""
+        self.running = True
+        self.setup_game()
+        while self.running:
+            self.tick()
+
+
+if __name__ == "__main__":
+    # entry point to run a single game.
+    game = GameManager(1)
+    game.start()
