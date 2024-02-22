@@ -11,13 +11,7 @@ of a number of unnecessary files.
 import json
 import os
 
-
-class LevelNotFoundException(Exception):
-    """Raised when a level is not found"""
-
-    def __init__(self, level_num: int) -> None:
-        message = f"Level {level_num} not found."
-        super().__init__(message)
+from solving_pacman_backend import exceptions
 
 
 def get_levels():
@@ -37,7 +31,9 @@ def get_levels():
     raw_levels.close()
 
 
-def get_level(level_num: int) -> dict:
+def get_level(
+    level_num: int,
+) -> dict[str, str | list[list[int]] | dict[str, list[list[int]]]]:
     """
     Returns all info for a level when provided with the level number.
 
@@ -54,7 +50,7 @@ def get_level(level_num: int) -> dict:
         for key, value in levels.items():
             if key == f"level {level_num}":
                 return value
-    raise LevelNotFoundException(level_num)
+    raise exceptions.LevelNotFoundException(level_num)
 
 
 def get_map(level_num: int) -> list[list[int]]:
@@ -66,7 +62,7 @@ def get_map(level_num: int) -> list[list[int]]:
     """
     level = get_level(level_num)
     if level is None:
-        raise LevelNotFoundException(level_num)
+        raise exceptions.LevelNotFoundException(level_num)
     else:
         return level.get("map")  # type: ignore
 
@@ -87,25 +83,52 @@ def get_overview() -> list[str]:
     return available
 
 
-def get_home(level_num: int, ghost: str) -> list[tuple[int, int]]:
+def get_homes(level_num: int) -> dict[str, list[list[int]]]:
     """
-    Returns the home path for a given ghost.
+    Return the homes for all agents.
 
     Parameters
     ----------
     `level_num` : `int`
         The number of the desired level
-    `ghost` : `str`
-        The name of the ghost.
 
     Returns
     -------
-    A `list` containing the path of coordinates which the ghost should
+    A `dict` containing the mapping of agents to their path of coordinates
+    which the agent should follow when returning "home".
+    """
+    level = get_level(level_num)
+    homes = level.get("homes")
+    if isinstance(homes, dict):
+        return homes
+    else:
+        raise exceptions.InvalidLevelConfigurationException(level_num)
+
+
+def get_home(level_num: int, agent: str) -> list[tuple[int, int]]:
+    """
+    Returns the home path for a given agent.
+
+    Parameters
+    ----------
+    `level_num` : `int`
+        The number of the desired level
+    `agent` : `str`
+        The name of the agent.
+
+    Returns
+    -------
+    A `list` containing the path of coordinates which the agent should
     follow when returning "home".
     """
-    level: dict[str, dict] = get_level(level_num)
-    patterns: dict[str, list[list[int]]] = level.get("homes")  # type: ignore
-    home: list[tuple[int, int]] = [
-        tuple([coord[0], coord[1]]) for coord in patterns.get(ghost)
-    ]  # type: ignore
+    homes: dict[str, list[list[int]]] = get_homes(level_num)
+    home: list[tuple[int, int]] = []
+    agent_home = homes.get(agent)
+    if agent_home is not None:
+        for coord in agent_home:
+            # Ignored type as it is a determined number of args for tuple.
+            home.append(tuple([coord[0], coord[1]]))  # type: ignore
+    else:
+        raise exceptions.InvalidLevelConfigurationException(level_num)
+
     return home
