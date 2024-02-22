@@ -1,4 +1,5 @@
 """Service managing the running of the game."""
+from solving_pacman_backend.models import agent
 from solving_pacman_backend.models import ghost_agent
 from solving_pacman_backend.models.game_state import GameState
 from solving_pacman_backend.models.game_state_store import GameStateStore
@@ -60,6 +61,14 @@ class GameManager:
         """Representation of the Inky agent."""
         self.clyde = ghost_agent.ClydeAgent(self.agent_home["Clyde"])
         """Representation of the Clyde agent."""
+        self.agents: list[agent.Agent] = [
+            self.pacman,
+            self.blinky,
+            self.pinky,
+            self.inky,
+            self.clyde,
+        ]
+        """Array containing all of the agents."""
 
     def setup_game(self) -> None:
         """
@@ -67,11 +76,9 @@ class GameManager:
 
         Injects the populated agents into the place of the dummy agents.
         """
-        self.game.find_node_by_entity(PacmanAgent)[0].entity = self.pacman
-        self.game.find_node_by_entity(ghost_agent.BlinkyAgent)[0].entity = self.blinky
-        self.game.find_node_by_entity(ghost_agent.PinkyAgent)[0].entity = self.pinky
-        self.game.find_node_by_entity(ghost_agent.InkyAgent)[0].entity = self.inky
-        self.game.find_node_by_entity(ghost_agent.ClydeAgent)[0].entity = self.clyde
+        for ag in self.agents:
+            self.game.find_node_by_entity(type(ag))[0].entity = ag
+            ag.position = self.game.find_node_by_entity(type(ag))[0].position
 
     def win(self) -> bool:
         """
