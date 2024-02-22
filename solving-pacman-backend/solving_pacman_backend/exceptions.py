@@ -11,7 +11,7 @@ class LevelNotFoundException(Exception):
         super().__init__(f"Level {level_num} not found.")
 
 
-class IncorrectLevelConfigurationException(Exception):
+class InvalidLevelConfigurationException(Exception):
     """Raised when a level is not configured correctly."""
 
     def __init__(self, level_num: int) -> None:
