@@ -108,6 +108,8 @@ class GameManager:
             self.running = False
         else:
             self.timer += 1
+        for ag in self.agents:
+            self.game.move_agent(ag.position, ag.cycle(self.state_store.get()[0]))
 
     def start(self) -> None:
         """Start the game loop."""
