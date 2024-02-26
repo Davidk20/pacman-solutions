@@ -37,8 +37,6 @@ class Path:
         This value is seen as the reward for travelling down this path
         and is based on the sum of all score obtained should the agent
         successfully make it to the end of this path.
-
-        TODO need to establish how ghosts factor in without knowing if energised
         """
         score = 0
         for node in self.path:
