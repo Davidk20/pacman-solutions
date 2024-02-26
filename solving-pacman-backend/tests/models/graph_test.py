@@ -280,3 +280,9 @@ def test_find_all_paths_multiple_paths(compiled_graph: Graph, nodes: list[Node])
         [nodes[1], nodes[3], nodes[0], nodes[6], nodes[7], nodes[8], nodes[9]]
     )
     assert compiled_graph.find_paths_between((0, 1), (0, 9)) == [path_1, path_2]
+
+
+def test_find_shortest_path(compiled_graph: Graph, nodes: list[Node]):
+    """Test that the shortest path is found."""
+    path = Path([nodes[1], nodes[3], nodes[0], nodes[6], nodes[7], nodes[8], nodes[9]])
+    assert compiled_graph.shortest_path_to((0, 1), (0, 9)) == path

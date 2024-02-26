@@ -346,3 +346,22 @@ class Graph:
                     # adds an updated path back into the stack
                     stack.append((node, path + [node]))
         return paths
+
+    def shortest_path_to(self, current: tuple[int, int], goal: tuple[int, int]) -> Path:
+        """
+        Finds the shortest path between two nodes,
+        irrespective of reward or the presence of ghosts.
+
+        Parameters
+        ----------
+        `current` : `tuple[int, int]`
+            The starting position.
+        `goal` : `tuple[int, int]`
+            The goal position.
+
+        Returns
+        -------
+        The shortest `Path`.
+        """
+        all_paths = self.find_paths_between(current, goal)
+        return min(all_paths, key=lambda path: len(path))
