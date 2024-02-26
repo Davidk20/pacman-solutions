@@ -8,6 +8,7 @@ from solving_pacman_backend.models.environment import Teleporter
 from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.models.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.pacman_agent import PacManDiedException
+from solving_pacman_backend.models.path import Path
 from solving_pacman_backend.models.pickups import Empty
 from solving_pacman_backend.models.pickups import Pickup
 
@@ -299,7 +300,7 @@ class Graph:
 
     def find_paths_between(
         self, start_pos: tuple[int, int], end_pos: tuple[int, int]
-    ) -> list[list[Node]]:
+    ) -> list[Path]:
         """
         Find all valid paths between two points.
 
@@ -329,7 +330,7 @@ class Graph:
         end_node = self.find_node_by_pos(end_pos)
         # if the goal node is already found, return
         if start_node == end_node:
-            return [[start_node]]
+            return [Path([start_node])]
         # stack stores tuples of the start node and the path taken
         stack = [(start_node, [start_node])]
         paths = []
@@ -337,7 +338,7 @@ class Graph:
             current, path = stack.pop()
             if current == end_node:
                 # once goal is reached, add path to paths
-                paths.append(path)
+                paths.append(Path(path))
                 continue
             for node in self.level[current]:
                 # expand in all directions from current

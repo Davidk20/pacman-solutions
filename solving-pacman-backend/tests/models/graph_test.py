@@ -8,6 +8,7 @@ from solving_pacman_backend.models.graph import NodeNotFoundException
 from solving_pacman_backend.models.graph import NonAgentException
 from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.models.pacman_agent import PacmanAgent
+from solving_pacman_backend.models.path import Path
 
 
 @pytest.fixture(autouse=True)
@@ -261,28 +262,21 @@ def test_find_all_paths_node_not_found(compiled_graph: Graph):
 
 def test_find_all_paths_already_at_goal(compiled_graph: Graph, nodes: list[Node]):
     """Test that a single path is returned when the starting node is the goal node."""
-    assert compiled_graph.find_paths_between((0, 0), (0, 0)) == [[nodes[0]]]
+    assert compiled_graph.find_paths_between((0, 0), (0, 0)) == [Path([nodes[0]])]
 
 
 def test_find_all_paths_simple_path(compiled_graph: Graph, nodes: list[Node]):
     """Test that a simple, single path can be found connecting two nodes."""
-    assert compiled_graph.find_paths_between((0, 6), (0, 9)) == [
-        [nodes[6], nodes[7], nodes[8], nodes[9]]
-    ]
+    path = Path([nodes[6], nodes[7], nodes[8], nodes[9]])
+    assert compiled_graph.find_paths_between((0, 6), (0, 9)) == [path]
 
 
 def test_find_all_paths_multiple_paths(compiled_graph: Graph, nodes: list[Node]):
     """Test that multiple paths are returned where appropriate."""
-    assert compiled_graph.find_paths_between((0, 1), (0, 9)) == [
-        [
-            nodes[1],
-            nodes[5],
-            nodes[3],
-            nodes[0],
-            nodes[6],
-            nodes[7],
-            nodes[8],
-            nodes[9],
-        ],
-        [nodes[1], nodes[3], nodes[0], nodes[6], nodes[7], nodes[8], nodes[9]],
-    ]
+    path_1 = Path(
+        [nodes[1], nodes[5], nodes[3], nodes[0], nodes[6], nodes[7], nodes[8], nodes[9]]
+    )
+    path_2 = Path(
+        [nodes[1], nodes[3], nodes[0], nodes[6], nodes[7], nodes[8], nodes[9]]
+    )
+    assert compiled_graph.find_paths_between((0, 1), (0, 9)) == [path_1, path_2]
