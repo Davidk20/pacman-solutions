@@ -12,13 +12,13 @@ class Path:
     """
 
     def __init__(self, path: list[Node]) -> None:
-        self.path = path
+        self.route = path
 
     def __repr__(self) -> str:
-        return f"Path from {self.path[0].position} to {self.path[-1].position}"
+        return f"Path from {self.route[0].position} to {self.route[-1].position}"
 
     def __len__(self) -> int:
-        return len(self.path)
+        return len(self.route)
 
     def is_safe(self) -> bool:
         """
@@ -28,7 +28,7 @@ class Path:
         -------
         `True` if there are no Ghosts on a path.
         """
-        return all(not isinstance(node.entity, Agent) for node in self.path)
+        return all(not isinstance(node.entity, Agent) for node in self.route)
 
     def cost(self) -> int:
         """
@@ -39,7 +39,7 @@ class Path:
         successfully make it to the end of this path.
         """
         score = 0
-        for node in self.path:
+        for node in self.route:
             if isinstance(node.entity, pickups.Pickup):
                 score += node.entity.score
         return score
