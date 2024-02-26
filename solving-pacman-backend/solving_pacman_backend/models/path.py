@@ -20,6 +20,14 @@ class Path:
     def __len__(self) -> int:
         return len(self.route)
 
+    def __eq__(self, __value: object) -> bool:
+        if not isinstance(__value, Path) or len(self.route) != len(__value):
+            return False
+        for a, b in zip(self.route, __value.route):
+            if a != b:
+                return False
+        return True
+
     def is_safe(self) -> bool:
         """
         Checks whether a path is safe.
