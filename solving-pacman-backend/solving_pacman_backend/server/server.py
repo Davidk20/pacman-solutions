@@ -5,6 +5,7 @@ from flask import Flask
 from flask import jsonify
 from flask import request
 from flask_cors import CORS
+from solving_pacman_backend.exceptions import LevelNotFoundException
 from solving_pacman_backend.services import level_handler
 
 app = Flask(__name__)
@@ -33,7 +34,7 @@ def get_board():
     try:
         message = level_handler.get_map(level_num)
         status = 200
-    except level_handler.LevelNotFoundException as e:
+    except LevelNotFoundException as e:
         message = str(e)
         status = 400
     return jsonify(message), status
