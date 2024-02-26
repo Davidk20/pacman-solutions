@@ -1,5 +1,6 @@
 import pytest
-from solving_pacman_backend.models.environment import Teleporter
+from solving_pacman_backend.models import environment
+from solving_pacman_backend.models import pickups
 from solving_pacman_backend.models.ghost_agent import BlinkyAgent
 from solving_pacman_backend.models.graph import DuplicateNodeException
 from solving_pacman_backend.models.graph import Graph
@@ -7,9 +8,6 @@ from solving_pacman_backend.models.graph import NodeNotFoundException
 from solving_pacman_backend.models.graph import NonAgentException
 from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.models.pacman_agent import PacmanAgent
-from solving_pacman_backend.models.pickups import Empty
-from solving_pacman_backend.models.pickups import PacDot
-from solving_pacman_backend.models.pickups import PowerPellet
 
 
 @pytest.fixture(autouse=True)
@@ -22,7 +20,7 @@ def graph():
 @pytest.fixture(scope="session", autouse=True)
 def node():
     """Generate an instance of a Node for testing"""
-    node = Node((0, 0), PacDot())
+    node = Node((0, 0), pickups.PacDot())
     yield node
 
 
@@ -31,15 +29,15 @@ def nodes():
     """Generate an list of a Node for testing"""
     nodes = [
         Node((0, 0), PacmanAgent([(0, 0)])),
-        Node((0, 1), PacDot()),
-        Node((0, 2), PowerPellet()),
-        Node((0, 3), Empty()),
-        Node((0, 4), Teleporter()),
-        Node((0, 5), Teleporter()),
+        Node((0, 1), pickups.PacDot()),
+        Node((0, 2), pickups.PowerPellet()),
+        Node((0, 3), pickups.Empty()),
+        Node((0, 4), environment.Teleporter()),
+        Node((0, 5), environment.Teleporter()),
         Node((0, 6), BlinkyAgent([])),
-        Node((0, 7), PacDot()),
-        Node((0, 8), PacDot()),
-        Node((0, 9), PacDot()),
+        Node((0, 7), pickups.PacDot()),
+        Node((0, 8), pickups.PacDot()),
+        Node((0, 9), pickups.PacDot()),
     ]
     yield nodes
 
@@ -72,15 +70,15 @@ def compiled_graph():
     graph = Graph()
     nodes = [
         Node((0, 0), PacmanAgent([(0, 0)])),
-        Node((0, 1), PacDot()),
-        Node((0, 2), PowerPellet()),
-        Node((0, 3), Empty()),
-        Node((0, 4), Teleporter()),
-        Node((0, 5), Teleporter()),
+        Node((0, 1), pickups.PacDot()),
+        Node((0, 2), pickups.PowerPellet()),
+        Node((0, 3), pickups.Empty()),
+        Node((0, 4), environment.Teleporter()),
+        Node((0, 5), environment.Teleporter()),
         Node((0, 6), BlinkyAgent([])),
-        Node((0, 7), PacDot()),
-        Node((0, 8), PacDot()),
-        Node((0, 9), PacDot()),
+        Node((0, 7), pickups.PacDot()),
+        Node((0, 8), pickups.PacDot()),
+        Node((0, 9), pickups.PacDot()),
     ]
     adjacency_list: dict[tuple[int, int], list[tuple[int, int]]] = {
         (0, 0): [(0, 1), (0, 2), (0, 6)],
@@ -133,7 +131,7 @@ def test_find_by_entity(graph: Graph, nodes: list[Node]):
     """Test that a node can be found by searching for entity."""
     for node in nodes:
         graph.add_node(node)
-    result = graph.find_node_by_entity(PowerPellet)
+    result = graph.find_node_by_entity(pickups.PowerPellet)
     assert result[0].entity.value == nodes[2].entity.value and len(result) == 1
 
 
@@ -180,7 +178,7 @@ def test_pacman_pickup_pellet(compiled_graph: Graph):
     compiled_graph.move_agent((0, 0), (0, 1))
     old = compiled_graph.find_node_by_pos((0, 0))
     node = compiled_graph.find_node_by_pos((0, 1))
-    assert isinstance(old.entity, Empty)
+    assert isinstance(old.entity, pickups.Empty)
     assert isinstance(node.entity, PacmanAgent)
     assert node.entity.score == 10
 
@@ -190,7 +188,7 @@ def test_pacman_pickup_energizer(compiled_graph: Graph):
     compiled_graph.move_agent((0, 0), (0, 2))
     old = compiled_graph.find_node_by_pos((0, 0))
     node = compiled_graph.find_node_by_pos((0, 2))
-    assert isinstance(old.entity, Empty)
+    assert isinstance(old.entity, pickups.Empty)
     assert isinstance(node.entity, PacmanAgent)
     assert node.entity.energized
 
@@ -222,7 +220,7 @@ def test_pacman_consume_ghost(compiled_graph: Graph):
     compiled_graph.move_agent((0, 0), (0, 6))
     old = compiled_graph.find_node_by_pos((0, 0))
     new = compiled_graph.find_node_by_pos((0, 6))
-    assert isinstance(old.entity, Empty)
+    assert isinstance(old.entity, pickups.Empty)
     assert isinstance(new.entity, PacmanAgent)
     assert new.entity.score == 250
 
