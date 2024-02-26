@@ -213,3 +213,36 @@
       - This is designed to reward Pac-Man for venturing down higher scoring paths and prioritising collecting dots when traversing
       - This also allows for expansion should I develop a reinforcement model, as this would act as the reward function
         - This should mean that Pac-Man would learn a level of risk taking as with also having three lives, it may attempt to go down higher scoring paths even if the risk of being caught by a ghost is high.
+
+## 01/02/24
+
+- Implemented check to identify repeated cyclic paths
+  - While cyclic paths are valid, the path finding algorithm needs a way to prevent paths which endlessly repeat the same cycles. This function achieves this by checking for a two-node repeated sequence within the path which would indicate the algorithm attemping to go down the same path twice.
+
+## 07/02/24
+
+- Created `find_all_paths` function
+  - Given two points, the function will recursively attempt to find all valid paths between these points.
+  - Initially, can only find a single, simple path
+
+## 08/02/24
+
+- Developed `find_all_path` to be able to find multiple paths
+- Refactored `find_all_path` function from recursive function to iterative function
+  - While a recursive approach works on simple graphs, the graphs created from the levels were too complex and often caused a `RecursionError`
+- Was also decided that no filtering would be applied to the paths returned, and so this would be down to the agents own mind to decide
+  - This allows for decision making to be left to the agents, where they can decide whether it is worth taking a valid or 'safe' path.
+- Added home path attributes to all agents
+
+## 15/02/24
+
+- Refactored `GameManager` to take an `integer` as a starting argument rather than an already instantiated `Graph`
+  - There was no need to handle this externally as the graph is not used other than in the game and so prevents unnecessary coupling.
+- Implemented a `setup_game` function to inject the agents into the game state
+- Implemented a `start` game function
+- Implemented an external entry point to the class
+
+## 22/02/24
+
+- Simplified `setup_game`
+- Added call to agents movement within game's `tick` function
