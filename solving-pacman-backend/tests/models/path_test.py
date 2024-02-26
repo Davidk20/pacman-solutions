@@ -50,3 +50,8 @@ def test_safe_path(path_no_agents: Path):
 def test_unsafe_path(path_with_agents: Path):
     """Checks that paths are marked unsafe."""
     assert not path_with_agents.is_safe()
+
+
+def test_path_cost(path_no_agents: Path):
+    """Checks that the path cost is correctly calculated."""
+    assert path_no_agents.cost() == 90

@@ -1,3 +1,4 @@
+from solving_pacman_backend.models import pickups
 from solving_pacman_backend.models.agent import Agent
 from solving_pacman_backend.models.node import Node
 
@@ -28,3 +29,19 @@ class Path:
         `True` if there are no Ghosts on a path.
         """
         return all(not isinstance(node.entity, Agent) for node in self.path)
+
+    def cost(self) -> int:
+        """
+        Calculates the reward cost of the path.
+
+        This value is seen as the reward for travelling down this path
+        and is based on the sum of all score obtained should the agent
+        successfully make it to the end of this path.
+
+        TODO need to establish how ghosts factor in without knowing if energised
+        """
+        score = 0
+        for node in self.path:
+            if isinstance(node.entity, pickups.Pickup):
+                score += node.entity.score
+        return score
