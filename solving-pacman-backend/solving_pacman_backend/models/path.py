@@ -1,3 +1,4 @@
+from solving_pacman_backend.models.agent import Agent
 from solving_pacman_backend.models.node import Node
 
 
@@ -17,3 +18,13 @@ class Path:
 
     def __len__(self) -> int:
         return len(self.path)
+
+    def is_safe(self) -> bool:
+        """
+        Checks whether a path is safe.
+
+        Returns
+        -------
+        `True` if there are no Ghosts on a path.
+        """
+        return all(not isinstance(node.entity, Agent) for node in self.path)
