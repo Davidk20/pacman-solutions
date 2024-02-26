@@ -246,3 +246,13 @@
 
 - Simplified `setup_game`
 - Added call to agents movement within game's `tick` function
+
+## 26/02/24
+
+- Created a model to represent a `Path`
+  - Added magic methods for length, representation and equality
+  - Implemented a path cost function
+- Used `Path` to create a shortest path function in `Graph`
+- Begun implementing logic for `PacmanAgent`
+  - Initial version of agent is going to be very basic, looking at basic and well-documented patterns from original strategies
+    - This will be discussed further in [Path Finding](docs/path-finding.md)
