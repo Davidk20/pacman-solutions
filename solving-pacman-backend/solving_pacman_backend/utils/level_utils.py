@@ -12,7 +12,11 @@ from solving_pacman_backend.utils.entity_utils import EntityNotFoundException
 def print_level(level: list[list[int]]) -> None:
     """Prints a formatted version of the 2-D array level."""
     for row in level:
-        print(row)
+        row_str = str(row)
+        row_str = row_str.replace(" 0,", "  0,")
+        row_str = row_str.replace(" 1,", "  1,")
+        row_str = row_str.replace(" 2,", "  2,")
+        print(row_str)
 
 
 def array_to_graph(level: list[list[int]]) -> Graph:
