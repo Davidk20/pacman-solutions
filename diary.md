@@ -254,5 +254,6 @@
   - Implemented a path cost function
 - Used `Path` to create a shortest path function in `Graph`
 - Begun implementing logic for `PacmanAgent`
-  - Initial version of agent is going to be very basic, looking at basic and well-documented patterns from original strategies
-    - This will be discussed further in [Path Finding](docs/path-finding.md)
+  - The first version of the agent will keep Pac-Man static and simply eliminate the `NotImplementedError` so that the game methods can be tested correctly.
+  - After this, I will be looking at basic and well-documented patterns from original strategies
+    - This will be discussed further in [Path Finding](docs/agent-minds.md)
