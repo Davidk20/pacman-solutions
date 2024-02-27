@@ -55,3 +55,9 @@ def test_unsafe_path(path_with_agents: Path):
 def test_path_cost(path_no_agents: Path):
     """Checks that the path cost is correctly calculated."""
     assert path_no_agents.cost() == 90
+
+
+def test_get_next_pos(path_no_agents: Path):
+    """Checks that getting the next position is correctly handled."""
+    assert path_no_agents.get_next_pos().position == (0, 0)
+    assert len(path_no_agents) == 7

@@ -51,3 +51,13 @@ class Path:
             if isinstance(node.entity, pickups.Pickup):
                 score += node.entity.score
         return score
+
+    def get_next_pos(self) -> Node:
+        """
+        Returns the next position to move to and removes this from the queue.
+
+        Returns
+        -------
+        The `Node` corresponding to the next target position.
+        """
+        return self.route.pop(0)
