@@ -130,6 +130,9 @@ class Graph:
         """
         new_node = self.find_node_by_pos(new_pos)
         old_node = self.find_node_by_pos(old_pos)
+        if new_node == old_node:
+            # If the agent is not moving, nothing should happen
+            return
         if not isinstance(old_node.entity, Agent):
             # If non-agent attempts to move, raise and break.
             raise NonAgentException(f"Type {old_node.entity.name} is not moveable.")
