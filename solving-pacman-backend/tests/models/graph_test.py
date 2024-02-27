@@ -226,6 +226,12 @@ def test_pacman_consume_ghost(compiled_graph: Graph):
     assert new.entity.score == 250
 
 
+def test_move_nowhere(compiled_graph: Graph):
+    """Test that Pac-Man is able to "move" to the same spot."""
+    compiled_graph.move_agent((0, 0), (0, 0))
+    assert compiled_graph.find_node_by_entity(PacmanAgent)[0].position == (0, 0)
+
+
 def test_non_repeating_cycle(compiled_graph: Graph, nodes: list[Node]):
     """Test that non-repeating paths are detected."""
     test_1 = [nodes[0], nodes[1], nodes[2], nodes[3], nodes[4]]
