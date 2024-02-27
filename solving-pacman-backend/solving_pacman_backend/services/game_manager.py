@@ -116,7 +116,25 @@ class GameManager:
         self.running = True
         self.setup_game()
         while self.running:
-            self.tick()
+            try:
+                self.tick()
+            except KeyboardInterrupt:
+                print("\nSimulation manually stopped")
+                self.print_current_state()
+                break
+            except Exception as e:
+                print(f"Error: {e}")
+                self.print_current_state()
+                break
+
+    def print_current_state(self) -> None:
+        """
+        Print the latest state of the game.
+
+        Used for debugging and should only be called when an exception is caught.
+        """
+        print(f"Iteration {self.timer}")
+        print(level_utils.print_level(level_utils.graph_to_array(self.game)))
 
 
 if __name__ == "__main__":
