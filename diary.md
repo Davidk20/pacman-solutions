@@ -257,3 +257,28 @@
   - The first version of the agent will keep Pac-Man static and simply eliminate the `NotImplementedError` so that the game methods can be tested correctly.
   - After this, I will be looking at basic and well-documented patterns from original strategies
     - This will be discussed further in [Path Finding](docs/agent-minds.md)
+
+## 27/02/24
+
+- Decided instead of trying to implement Pac-Man logic that I should instead implement a Ghost as they are pre-defined and easier
+- I have temporarily removed the `NotImplementedError` uses in the agents methods so that I could test the game running
+- I implemented some basic logic for the ghost based on its current state and then using the `find_all_paths` method to target Pac-Man
+- I was attempting to run the game but it was hanging on the first iteration of the game
+  - After some debugging, I found this to be because there were so many valid paths that even within a few seconds it was reaching 500 possible paths.
+    - Most of my testing so far had taken place on mock graphs with far less nodes and so this wasn't spotted sooner
+- I have had an idea to limit the number of paths by using a length check idea
+  - Once the first valid path is found, its length is used as a comparison
+  - Any path being built which reaches a length 1.5 times bigger than the first valid list will be ignored and a new path will be explored
+  - The idea is that this gives enough of a buffer to allow a variety of paths to be generated while also pruning unnecessarily long paths
+  - *The margin can be adapted later depending on its performance*
+- After more testing, the length limiting idea didn't work, even when reducing this margin to any path that is even 1 node longer than the first found path.
+  - This is because, in the first path found, the path taken is going sideways towards the teleporter and then coming at Pac-Man from the right hand side, creating the unexpectedly long path.
+- To fix this, the length filter will have to be more intelligent, The first test I am attempting will use the average length of the lists as a marker instead of the length of the first.
+  - This should bring down the threshold for filtering as shorter paths are found as the average will lower over time, while never allowing longer lists.
+- This new threshold was successful and the simulation is now running in much more reasonable time.
+
+- A new bug was then discovered once I had the simulation actually running
+  - Once the Ghost started moving, for some reason, it begun to target the teleporter as the quickest path
+    - I am unsure why this is the case as this is definitely not the quickest path
+  - Once the ghost reaches the teleporter, it appears to get caught in an endless loop of moving between the two teleporters
+    - I have one idea to fix this which involves adding a `path_history` attribute to agents which will give me the ability to identify when these loops are occuring.
