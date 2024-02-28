@@ -149,6 +149,7 @@ class Graph:
                 # Handle when a ghost collides with Pac-Man
                 new_node.entity.handle_consume(old_node.entity)
             new_node.entity = old_node.entity
+            new_node.entity.position = new_node.position
             old_node.entity = Empty()
         except PacManDiedException:
             # TODO Handle correct death logic here
