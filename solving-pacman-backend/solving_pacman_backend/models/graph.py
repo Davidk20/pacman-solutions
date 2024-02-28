@@ -128,11 +128,11 @@ class Graph:
             The position the agent is moving to.
 
         """
-        new_node = self.find_node_by_pos(new_pos)
-        old_node = self.find_node_by_pos(old_pos)
-        if new_node == old_node:
+        if new_pos == old_pos:
             # If the agent is not moving, nothing should happen
             return
+        new_node = self.find_node_by_pos(new_pos)
+        old_node = self.find_node_by_pos(old_pos)
         if not isinstance(old_node.entity, Agent):
             # If non-agent attempts to move, raise and break.
             raise NonAgentException(f"Type {old_node.entity.name} is not moveable.")
