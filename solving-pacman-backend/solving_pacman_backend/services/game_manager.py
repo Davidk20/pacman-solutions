@@ -127,6 +127,7 @@ class GameManager:
                 print(f"Error: {e}")
                 self.print_current_state()
                 break
+        self.print_current_state()
 
     def print_current_state(self) -> None:
         """
