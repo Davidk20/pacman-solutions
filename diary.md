@@ -281,4 +281,18 @@
   - Once the Ghost started moving, for some reason, it begun to target the teleporter as the quickest path
     - I am unsure why this is the case as this is definitely not the quickest path
   - Once the ghost reaches the teleporter, it appears to get caught in an endless loop of moving between the two teleporters
-    - I have one idea to fix this which involves adding a `path_history` attribute to agents which will give me the ability to identify when these loops are occuring.
+    - I have one idea to fix this which involves adding a `path_history` attribute to agents which will give me the ability to identify when these loops are occurring.
+
+## 28/02/24
+
+- I have begun to look at alternatives to using DFS in my path finding algorithm.
+  - My priority for this algorithm is to find a collection of paths that are reasonably short (within an acceptable range)
+  - Assuming the systems that will be running this application, memory is not an issue
+  - Because of the above, I am leaning towards BFS instead (there is already an existing bfs function within `Graph`)
+- I also looked into IDDFS however this is incompatible with my needs
+  - I do not just want the single-shortest path, but a collection so that they can be evaluated to ensure they are compatible with the needs of the agent.
+
+- I now plan to modify the `find_all_paths` function to use BFS
+  - As this will now provide the most optimal paths first, I will no longer look to iterate through all paths until exhausted, but instead I will set a hard cap to only provide the agent with a limited set of paths.
+  - I will start this cap at 5 but I will change if necessary
+    - This is not an expectation that all calls to the function will return 5 (as this may not always be possible) but rather that if this cap is hit, the function can return early and stop unnecessary computation.
