@@ -4,6 +4,7 @@ from solving_pacman_backend.models import ghost_agent
 from solving_pacman_backend.models.game_state import GameState
 from solving_pacman_backend.models.game_state_store import GameStateStore
 from solving_pacman_backend.models.graph import Graph
+from solving_pacman_backend.models.graph import NonAgentException
 from solving_pacman_backend.models.pacman_agent import PacmanAgent
 from solving_pacman_backend.services import level_handler
 from solving_pacman_backend.utils import level_utils
@@ -122,7 +123,7 @@ class GameManager:
                 print("\nSimulation manually stopped")
                 self.print_current_state()
                 break
-            except Exception as e:
+            except NonAgentException as e:
                 print(f"Error: {e}")
                 self.print_current_state()
                 break
