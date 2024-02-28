@@ -296,3 +296,6 @@
   - As this will now provide the most optimal paths first, I will no longer look to iterate through all paths until exhausted, but instead I will set a hard cap to only provide the agent with a limited set of paths.
   - I will start this cap at 5 but I will change if necessary
     - This is not an expectation that all calls to the function will return 5 (as this may not always be possible) but rather that if this cap is hit, the function can return early and stop unnecessary computation.
+
+- I refactored `find_all_paths` using a combination of my `bfs` function and the exiting "multi-path" dfs solution I had been using previously.
+  - It was instantly more efficient than using dfs and so this will be adopted moving forward.
