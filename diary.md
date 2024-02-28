@@ -299,3 +299,5 @@
 
 - I refactored `find_all_paths` using a combination of my `bfs` function and the exiting "multi-path" dfs solution I had been using previously.
   - It was instantly more efficient than using dfs and so this will be adopted moving forward.
+
+- Once I had managed to implement this successfully and tidy the code, I realised that it was more logical to create a single `GhostAgent` class which all 4 ghosts could implement, rather than creating separate logic for each ghost. While they do have more advanced and differing behaviours which later, may, be implemented. Right now, all ghosts behave and act the same and so there would be a large amount of unnecessary code duplication which can otherwise be corrected.
