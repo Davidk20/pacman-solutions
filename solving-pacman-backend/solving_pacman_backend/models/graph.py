@@ -137,11 +137,13 @@ class Graph:
             # If non-agent attempts to move, raise and break.
             raise NonAgentException(f"Type {old_node.entity.name} is not moveable.")
         try:
-            if isinstance(new_node.entity, (Agent, Pickup)):
+            if isinstance(old_node.entity, PacmanAgent) and isinstance(
+                new_node.entity, (Agent, Pickup)
+            ):
                 # pass collisions through to PacmanAgent to handle
-                if isinstance(old_node.entity, PacmanAgent):
-                    old_node.entity.handle_consume(new_node.entity)
-            elif isinstance(new_node.entity, PacmanAgent) and isinstance(
+                old_node.entity.handle_consume(new_node.entity)
+
+            if isinstance(new_node.entity, PacmanAgent) and isinstance(
                 old_node.entity, Agent
             ):
                 # Handle when a ghost collides with Pac-Man
