@@ -310,12 +310,16 @@ class Graph:
         """
         Find all valid paths between two points.
 
-        This function uses a iterative Depth-First Search algorithm to
-        find all of the valid paths between the start and goal nodes. An iterative
-        approach was taken over recursion because the graphs used for the levels
-        are very complex and therefore could risk a RecursionError.
+        This function uses a Breadth-First Search algorithm to find all of
+        the valid paths between the start and goal nodes. The reason that
+        BFS is chosen is that it is the fastest algorithm for finding short
+        paths to the goal. Optimal paths are provided early allowing the
+        function to be terminated early if the quota for paths (5) has been
+        met. An iterative approach was taken over recursion because the graphs
+        used for the levels are very complex and therefore could risk a
+        RecursionError.
 
-        This function will find and return ALL paths available. It is up
+        This function will find and return the five shortest paths. It is up
         to the agents internal decision making to decide which paths are to be
         kept and which are to be pruned. This is because all agents will have a
         different set of criteria for what constitutes a valid path.
@@ -337,20 +341,21 @@ class Graph:
         # if the goal node is already found, return
         if start_node == end_node:
             return [Path([start_node])]
-        # stack stores tuples of the start node and the path taken
-        stack = [(start_node, [start_node])]
-        paths = []
-        while len(stack) > 0:
-            current, path = stack.pop()
+        queue = [(start_node, [start_node])]
+        paths: list[Path] = []
+
+        while len(queue) > 0:
+            current, path = queue.pop(0)
             if current == end_node:
-                # once goal is reached, add path to paths
                 paths.append(Path(path))
-                continue
+                if len(paths) == 5:
+                    # Add breakpoint here once enough paths have been collected
+                    break
+
             for node in self.level[current]:
-                # expand in all directions from current
                 if node not in path:
-                    # adds an updated path back into the stack
-                    stack.append((node, path + [node]))
+                    queue.append((node, path + [node]))
+
         return paths
 
     def shortest_path_to(self, current: tuple[int, int], goal: tuple[int, int]) -> Path:
