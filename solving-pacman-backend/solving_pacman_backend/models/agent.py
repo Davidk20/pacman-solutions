@@ -88,7 +88,7 @@ class Agent(ABC):
         return self.score
 
     @abstractmethod
-    def _perceive(self, state: GameState) -> None:
+    def _perceive(self, time: int, level: list[list[int]]) -> None:
         """
         Perceive the environment and generate perceptions.
 
@@ -112,7 +112,7 @@ class Agent(ABC):
         """
         raise NotImplementedError
 
-    def cycle(self, state: GameState) -> tuple[int, int]:
+    def cycle(self, time: int, level: list[list[int]]) -> tuple[int, int]:
         """
         Method encapsulating the entire agent cycle.
 
@@ -129,5 +129,5 @@ class Agent(ABC):
         -------
         A `tuple` containing the coordinates for the agent to move to.
         """
-        self._perceive(state)
+        self._perceive(time, level)
         return self._execute()
