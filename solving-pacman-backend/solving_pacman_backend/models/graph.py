@@ -12,6 +12,7 @@ from solving_pacman_backend.models.pacman_agent import PacManDiedException
 from solving_pacman_backend.models.path import Path
 from solving_pacman_backend.models.pickups import Empty
 from solving_pacman_backend.models.pickups import Pickup
+from solving_pacman_backend.models.placeholder_agent import PlaceholderAgent
 
 
 class Graph:
@@ -163,20 +164,24 @@ class Graph:
         A `List` containing all matching `Node` Objects.
         - If `item == Agent`, the list should only contain one value.
         """
-        nodes = []
+        nodes: list[Node] = []
         for node in self.level.keys():
             if isinstance(node.entity, entity):
                 nodes.append(node)
-        if entity == Agent and len(nodes) > 1:
-            raise exceptions.InvalidGraphConfigurationException(
-                f"Only one of type {entity} should be present."
-            )
-        elif len(nodes) == 0:
+        if len(nodes) == 0:
             raise exceptions.InvalidGraphConfigurationException(
                 f"No instances of {entity} could be found."
             )
-        else:
-            return nodes
+        if (
+            not isinstance(
+                nodes[0].entity, Pickup | PlaceholderAgent | EnvironmentEntity
+            )
+            and len(nodes) > 1
+        ):
+            raise exceptions.InvalidGraphConfigurationException(
+                f"Only one of type {entity} should be present."
+            )
+        return nodes
 
     def map_edges(self, mapping: dict[tuple[int, int], list[tuple[int, int]]]) -> None:
         """
