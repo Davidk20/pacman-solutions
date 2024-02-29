@@ -301,3 +301,10 @@
   - It was instantly more efficient than using dfs and so this will be adopted moving forward.
 
 - Once I had managed to implement this successfully and tidy the code, I realised that it was more logical to create a single `GhostAgent` class which all 4 ghosts could implement, rather than creating separate logic for each ghost. While they do have more advanced and differing behaviours which later, may, be implemented. Right now, all ghosts behave and act the same and so there would be a large amount of unnecessary code duplication which can otherwise be corrected.
+
+29/02/24
+
+- Started implementing `TypedDict` to give safer access to dictionaries and JSON's
+- Moved mocks to make them more useful by all files and classes
+  - This was reverted as there were too many circular imports caused by this action
+  - It may be reimplemented in future once the code is restructured
