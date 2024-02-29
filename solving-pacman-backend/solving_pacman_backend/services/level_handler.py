@@ -130,7 +130,7 @@ def get_home(level_num: int, agent: str) -> list[tuple[int, int]]:
     """
     homes = get_homes(level_num)
     home: list[tuple[int, int]] = []
-    agent_home = homes.get(agent)
+    agent_home = homes[agent.lower()]
     if agent_home is not None:
         for coord in agent_home:
             # Ignored type as it is a determined number of args for tuple.
