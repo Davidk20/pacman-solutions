@@ -7,8 +7,6 @@ from solving_pacman_backend.models.agent import Agent
 from solving_pacman_backend.models.environment import EnvironmentEntity
 from solving_pacman_backend.models.environment import Teleporter
 from solving_pacman_backend.models.node import Node
-from solving_pacman_backend.models.pacman_agent import PacmanAgent
-from solving_pacman_backend.models.pacman_agent import PacManDiedException
 from solving_pacman_backend.models.path import Path
 from solving_pacman_backend.models.pickups import Empty
 from solving_pacman_backend.models.pickups import Pickup
@@ -94,6 +92,11 @@ class Graph:
         to the graph, as agents should only be able to move a distance of one node
         per move.
 
+        If a collision occurs between an `Agent` and an `Agent` or a `Pickup`, an
+        exception will be raised. This is done so that the event can be passed
+        back to the `GameManager` so that the collision can be handled here with
+        the correct game logic.
+
         Parameters
         ----------
         `old_pos` : `tuple[int, int]`
@@ -110,24 +113,19 @@ class Graph:
         if not isinstance(old_node.entity, Agent):
             # If non-agent attempts to move, raise and break.
             raise exceptions.NonAgentException(old_node.entity.name)
-        try:
-            if isinstance(old_node.entity, PacmanAgent) and isinstance(
-                new_node.entity, (Agent, Pickup)
-            ):
-                # pass collisions through to PacmanAgent to handle
-                old_node.entity.handle_consume(new_node.entity)
-
-            if isinstance(new_node.entity, PacmanAgent) and isinstance(
-                old_node.entity, Agent
-            ):
-                # Handle when a ghost collides with Pac-Man
-                new_node.entity.handle_consume(old_node.entity)
-            new_node.entity = old_node.entity
-            new_node.entity.position = new_node.position
-            old_node.entity = Empty()
-        except PacManDiedException:
-            # TODO Handle correct death logic here
-            pass
+        # if passing the above, it is a valid move
+        # the move will occur and then it will check if a collision took place
+        # which is then raised to be handled by the GameManager
+        temp_entity = new_node.entity
+        new_node.entity = old_node.entity
+        new_node.entity.position = new_node.position
+        old_node.entity = Empty()
+        if isinstance(new_node.entity, Agent) and not isinstance(
+            temp_entity, Empty | Teleporter
+        ):
+            # If there is a collision between an agent and a non-empty space,
+            # raise exception so that game logic can handle the collision.
+            raise exceptions.CollisionException(new_node.entity, temp_entity)
 
     def find_node_by_pos(self, pos: tuple[int, int]) -> Node:
         """

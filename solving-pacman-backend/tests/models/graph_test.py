@@ -2,7 +2,6 @@ import pytest
 from solving_pacman_backend import exceptions
 from solving_pacman_backend.models import environment
 from solving_pacman_backend.models import pickups
-from solving_pacman_backend.models.ghost_agent import GhostAgent
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.models.pacman_agent import PacmanAgent
@@ -46,7 +45,7 @@ def nodes():
 def adjacency_list():
     """Generate the adjacency list for testing, uses `nodes`."""
     adjacency_list: dict[tuple[int, int], list[tuple[int, int]]] = {
-        (0, 0): [(0, 1), (0, 2), (0, 6)],
+        (0, 0): [(0, 1), (0, 2), (0, 3), (0, 6)],
         (0, 1): [(0, 3), (0, 5)],
         (0, 2): [(0, 1), (0, 4)],
         (0, 3): [(0, 1), (0, 0)],
@@ -144,7 +143,7 @@ def test_map_edges(
 
     graph.map_edges(adjacency_list)
 
-    assert graph.num_of_edges() == 21
+    assert graph.num_of_edges() == 22
 
 
 def test_bfs(
@@ -171,56 +170,21 @@ def test_move_pickup(compiled_graph: Graph):
         compiled_graph.move_agent((0, 1), (0, 0))
 
 
-def test_pacman_pickup_pellet(compiled_graph: Graph):
-    """Tests that Pac-Man correctly picks up a pellet."""
-    compiled_graph.move_agent((0, 0), (0, 1))
-    old = compiled_graph.find_node_by_pos((0, 0))
-    node = compiled_graph.find_node_by_pos((0, 1))
-    assert isinstance(old.entity, pickups.Empty)
-    assert isinstance(node.entity, PacmanAgent)
-    assert node.entity.score == 10
+def test_agent_collision_with_pickup(compiled_graph: Graph):
+    """Tests that an agent correctly handles collision with an item."""
+    with pytest.raises(exceptions.CollisionException):
+        compiled_graph.move_agent((0, 0), (0, 1))
 
 
-def test_pacman_pickup_energizer(compiled_graph: Graph):
-    """Tests that Pac-Man correctly picks up a pellet."""
-    compiled_graph.move_agent((0, 0), (0, 2))
-    old = compiled_graph.find_node_by_pos((0, 0))
-    node = compiled_graph.find_node_by_pos((0, 2))
-    assert isinstance(old.entity, pickups.Empty)
-    assert isinstance(node.entity, PacmanAgent)
-    assert node.entity.energized
+def test_agent_collision_with_ghost(compiled_graph: Graph):
+    """Tests that an agent correctly handles collision with a ghost."""
+    with pytest.raises(exceptions.CollisionException):
+        compiled_graph.move_agent((0, 0), (0, 6))
 
 
-def test_pacman_collide_ghost(compiled_graph: Graph):
-    """
-    Tests that when Pac-Man collides with a ghost un-energized:
-    - A life is lost
-    - Pac-Man returns to original position
-    - Ghost stays in position
-    """
-    compiled_graph.move_agent((0, 0), (0, 6))
-    pacman = compiled_graph.find_node_by_pos((0, 0))
-    ghost = compiled_graph.find_node_by_pos((0, 6))
-    assert isinstance(pacman.entity, PacmanAgent)
-    assert isinstance(ghost.entity, GhostAgent)
-    assert pacman.entity.current_lives == 2
-
-
-def test_pacman_consume_ghost(compiled_graph: Graph):
-    """
-    Tests that when Pac-Man consumes with a ghost energized:
-    - Ghost is consumed - score increases
-    - Pac-Man moves
-    - Ghost returns "home"
-    """
-    compiled_graph.move_agent((0, 0), (0, 2))
-    compiled_graph.move_agent((0, 2), (0, 0))
-    compiled_graph.move_agent((0, 0), (0, 6))
-    old = compiled_graph.find_node_by_pos((0, 0))
-    new = compiled_graph.find_node_by_pos((0, 6))
-    assert isinstance(old.entity, pickups.Empty)
-    assert isinstance(new.entity, PacmanAgent)
-    assert new.entity.score == 250
+def test_agent_move_no_collision(compiled_graph: Graph):
+    """Tests that an agent can move into an empty space."""
+    compiled_graph.move_agent((0, 0), (0, 3))
 
 
 def test_move_nowhere(compiled_graph: Graph):
