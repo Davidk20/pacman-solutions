@@ -1,13 +1,11 @@
 """Tests for the Pac-man Agent."""
-from random import choice
-
 import pytest
-from solving_pacman_backend.models import ghost_agent
 from solving_pacman_backend.models.agent import Agent
 from solving_pacman_backend.models.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.pacman_agent import PacManDiedException
 from solving_pacman_backend.models.pickups import Orange
 from solving_pacman_backend.models.pickups import PowerPellet
+from tests.mocks.mock_agent_test import mock_ghost
 
 
 @pytest.fixture(autouse=True)
@@ -20,13 +18,7 @@ def pacman():
 @pytest.fixture(autouse=True)
 def ghost():
     """Generate an agent of a Ghost which can be used for testing."""
-    ghosts = [
-        ghost_agent.BlinkyAgent([]),
-        ghost_agent.ClydeAgent([]),
-        ghost_agent.InkyAgent([]),
-        ghost_agent.PinkyAgent([]),
-    ]
-    yield choice(ghosts)
+    yield mock_ghost()
 
 
 def test_increase_score(pacman: PacmanAgent):

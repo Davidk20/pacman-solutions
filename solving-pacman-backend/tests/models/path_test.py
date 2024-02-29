@@ -1,10 +1,10 @@
 """Tests for the Path class."""
 import pytest
 from solving_pacman_backend.models import environment
-from solving_pacman_backend.models import ghost_agent
 from solving_pacman_backend.models import pickups
 from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.models.path import Path
+from tests.mocks.mock_agent_test import mock_ghost
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -36,7 +36,7 @@ def path_with_agents():
         Node((0, 5), pickups.PacDot()),
         Node((0, 6), pickups.PacDot()),
         Node((0, 7), pickups.PacDot()),
-        Node((0, 8), ghost_agent.BlinkyAgent([])),
+        Node((0, 8), mock_ghost()),
     ]
     path = Path(nodes)
     yield path

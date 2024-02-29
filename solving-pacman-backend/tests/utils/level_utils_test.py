@@ -1,7 +1,7 @@
 """Tests on the level utility functions."""
 from solving_pacman_backend.services import level_handler
 from solving_pacman_backend.utils import level_utils
-from tests import mocks_test
+from tests.mocks.mock_graph_test import mock_graph
 
 
 def test_graph_to_array_size():
@@ -9,7 +9,7 @@ def test_graph_to_array_size():
     Test that the array returned by the conversion function
     is the correct size.
     """
-    graph = mocks_test.mock_graph()
+    graph = mock_graph()
     array = level_utils.graph_to_array(graph)
     assert len(array) == 31
     assert len(array[0]) == 28
@@ -17,9 +17,7 @@ def test_graph_to_array_size():
 
 def test_graph_to_array_conversion():
     """Test that the conversion is valid."""
-    assert level_utils.graph_to_array(mocks_test.mock_graph()) == level_handler.get_map(
-        1
-    )
+    assert level_utils.graph_to_array(mock_graph()) == level_handler.get_map(1)
 
 
 def test_array_to_graph():
@@ -43,7 +41,7 @@ def test_remaining_pickups():
     once the empty spaces, teleporters and character spaces are taken away this leaves
     244 pickups on the map.
     """
-    assert level_utils.remaining_pickups(mocks_test.mock_graph()) == 244
+    assert level_utils.remaining_pickups(mock_graph()) == 244
 
 
 def test_in_bounds():

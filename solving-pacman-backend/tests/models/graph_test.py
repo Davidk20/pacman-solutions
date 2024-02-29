@@ -1,7 +1,7 @@
 import pytest
 from solving_pacman_backend.models import environment
 from solving_pacman_backend.models import pickups
-from solving_pacman_backend.models.ghost_agent import BlinkyAgent
+from solving_pacman_backend.models.ghost_agent import GhostAgent
 from solving_pacman_backend.models.graph import DuplicateNodeException
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.graph import NodeNotFoundException
@@ -9,6 +9,7 @@ from solving_pacman_backend.models.graph import NonAgentException
 from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.models.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.path import Path
+from tests.mocks.mock_agent_test import mock_ghost
 
 
 @pytest.fixture(autouse=True)
@@ -35,7 +36,7 @@ def nodes():
         Node((0, 3), pickups.Empty()),
         Node((0, 4), environment.Teleporter()),
         Node((0, 5), environment.Teleporter()),
-        Node((0, 6), BlinkyAgent([])),
+        Node((0, 6), mock_ghost()),
         Node((0, 7), pickups.PacDot()),
         Node((0, 8), pickups.PacDot()),
         Node((0, 9), pickups.PacDot()),
@@ -76,7 +77,7 @@ def compiled_graph():
         Node((0, 3), pickups.Empty()),
         Node((0, 4), environment.Teleporter()),
         Node((0, 5), environment.Teleporter()),
-        Node((0, 6), BlinkyAgent([])),
+        Node((0, 6), mock_ghost()),
         Node((0, 7), pickups.PacDot()),
         Node((0, 8), pickups.PacDot()),
         Node((0, 9), pickups.PacDot()),
@@ -205,7 +206,7 @@ def test_pacman_collide_ghost(compiled_graph: Graph):
     pacman = compiled_graph.find_node_by_pos((0, 0))
     ghost = compiled_graph.find_node_by_pos((0, 6))
     assert isinstance(pacman.entity, PacmanAgent)
-    assert isinstance(ghost.entity, BlinkyAgent)
+    assert isinstance(ghost.entity, GhostAgent)
     assert pacman.entity.current_lives == 2
 
 
