@@ -291,3 +291,10 @@ def test_find_shortest_path(compiled_graph: Graph, nodes: list[Node]):
     """Test that the shortest path is found."""
     path = Path([nodes[1], nodes[3], nodes[0], nodes[6], nodes[7], nodes[8], nodes[9]])
     assert compiled_graph.shortest_path_to((0, 1), (0, 9)) == path
+
+
+def test_remaining_pickups(compiled_graph: Graph):
+    """
+    Test that the number of pickups remaining is correctly counted.
+    """
+    assert compiled_graph.remaining_pickups() == 5

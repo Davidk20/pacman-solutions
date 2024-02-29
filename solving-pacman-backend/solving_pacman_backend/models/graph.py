@@ -347,3 +347,17 @@ class Graph:
         """
         all_paths = self.find_paths_between(current, goal)
         return min(all_paths, key=lambda path: len(path))
+
+    def remaining_pickups(self) -> int:
+        """
+        Counts the number of pickups remaining on the level.
+
+        Returns
+        -------
+        The number of non-empty nodes on the graph.
+        """
+        count = 0
+        for node in self.nodes():
+            if isinstance(node.entity, Pickup) and not isinstance(node.entity, Empty):
+                count += 1
+        return count

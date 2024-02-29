@@ -70,7 +70,7 @@ class GameManager:
         -------
         `True` if the game is won and `False` otherwise.
         """
-        return level_utils.remaining_pickups(self.game) == 0
+        return self.game.remaining_pickups() == 0
 
     def lost(self) -> bool:
         """

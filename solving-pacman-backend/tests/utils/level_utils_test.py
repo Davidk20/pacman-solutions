@@ -33,17 +33,6 @@ def test_array_to_graph():
     assert graph.num_of_nodes() == 309
 
 
-def test_remaining_pickups():
-    """
-    Test that the number of pickups remaining is correctly counted.
-
-    Taking the assumption that there are 309 playable spaces on the first level,
-    once the empty spaces, teleporters and character spaces are taken away this leaves
-    244 pickups on the map.
-    """
-    assert level_utils.remaining_pickups(mock_graph()) == 244
-
-
 def test_in_bounds():
     assert level_utils.in_bounds(31, 28, (1, 1))
 
