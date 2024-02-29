@@ -297,9 +297,7 @@ class Graph:
         """
         for i in range(len(path) - 1):
             pair = [path[i], path[i + 1]]
-            print(pair)
             for j in range(i + 1, len(path) - 1):
-                print(j)
                 if [path[j], path[j + 1]] == pair:
                     return True
         return False
