@@ -1,7 +1,7 @@
 """Generic functions to be applied to instances of Levels."""
 from solving_pacman_backend import constants
+from solving_pacman_backend.exceptions import NodeNotFoundException
 from solving_pacman_backend.models.graph import Graph
-from solving_pacman_backend.models.graph import NodeNotFoundException
 from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.models.pickups import Empty
 from solving_pacman_backend.models.pickups import Pickup

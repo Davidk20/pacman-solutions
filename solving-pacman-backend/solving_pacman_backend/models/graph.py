@@ -2,6 +2,7 @@
 import random
 from typing import Type
 
+from solving_pacman_backend import exceptions
 from solving_pacman_backend.models.agent import Agent
 from solving_pacman_backend.models.environment import EnvironmentEntity
 from solving_pacman_backend.models.environment import Teleporter
@@ -11,34 +12,6 @@ from solving_pacman_backend.models.pacman_agent import PacManDiedException
 from solving_pacman_backend.models.path import Path
 from solving_pacman_backend.models.pickups import Empty
 from solving_pacman_backend.models.pickups import Pickup
-
-
-class NodeNotFoundException(Exception):
-    """Raised when a queried Node cannot be found."""
-
-    def __init__(self, message: str) -> None:
-        super().__init__(message)
-
-
-class DuplicateNodeException(Exception):
-    """Raised when it is attempted to add a repeated node."""
-
-    def __init__(self, message: str) -> None:
-        super().__init__(message)
-
-
-class InvalidGraphConfigurationException(Exception):
-    """Raised when the graph does not fit the required configuration."""
-
-    def __init__(self, message: str) -> None:
-        super().__init__(message)
-
-
-class NonAgentException(Exception):
-    """Raised when there is an attempt to move a non-agent."""
-
-    def __init__(self, message: str) -> None:
-        super().__init__(message)
 
 
 class Graph:
@@ -110,7 +83,7 @@ class Graph:
             self.level[node] = []
             self.node_count += 1
         else:
-            raise DuplicateNodeException("Node already in graph.")
+            raise exceptions.DuplicateNodeException(str(node))
 
     def move_agent(self, old_pos: tuple[int, int], new_pos: tuple[int, int]) -> None:
         """
@@ -135,7 +108,7 @@ class Graph:
         old_node = self.find_node_by_pos(old_pos)
         if not isinstance(old_node.entity, Agent):
             # If non-agent attempts to move, raise and break.
-            raise NonAgentException(f"Type {old_node.entity.name} is not moveable.")
+            raise exceptions.NonAgentException(old_node.entity.name)
         try:
             if isinstance(old_node.entity, PacmanAgent) and isinstance(
                 new_node.entity, (Agent, Pickup)
@@ -172,7 +145,7 @@ class Graph:
         for node in self.level.keys():
             if node.position == pos:
                 return node
-        raise NodeNotFoundException("Node not found.")
+        raise exceptions.NodeNotFoundException(pos)
 
     def find_node_by_entity(
         self, entity: Type[Agent | Pickup | EnvironmentEntity]
@@ -195,11 +168,11 @@ class Graph:
             if isinstance(node.entity, entity):
                 nodes.append(node)
         if entity == Agent and len(nodes) > 1:
-            raise InvalidGraphConfigurationException(
+            raise exceptions.InvalidGraphConfigurationException(
                 f"Only one of type {entity} should be present."
             )
         elif len(nodes) == 0:
-            raise InvalidGraphConfigurationException(
+            raise exceptions.InvalidGraphConfigurationException(
                 f"No instances of {entity} could be found."
             )
         else:
@@ -230,7 +203,7 @@ class Graph:
 
         # Check that the graph is connected before returning.
         if not self.is_connected():
-            raise InvalidGraphConfigurationException(
+            raise exceptions.InvalidGraphConfigurationException(
                 "Graph is not connected, check edges"
             )
 

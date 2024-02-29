@@ -1,11 +1,9 @@
 import pytest
+from solving_pacman_backend import exceptions
 from solving_pacman_backend.models import environment
 from solving_pacman_backend.models import pickups
 from solving_pacman_backend.models.ghost_agent import GhostAgent
-from solving_pacman_backend.models.graph import DuplicateNodeException
 from solving_pacman_backend.models.graph import Graph
-from solving_pacman_backend.models.graph import NodeNotFoundException
-from solving_pacman_backend.models.graph import NonAgentException
 from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.models.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.path import Path
@@ -112,7 +110,7 @@ def test_add_node(graph: Graph, node: Node):
 def test_add_repeated_node(graph: Graph, node: Node):
     """Test that exception is raised when duplicate node is added."""
     graph.add_node(node)
-    with pytest.raises(DuplicateNodeException):
+    with pytest.raises(exceptions.DuplicateNodeException):
         graph.add_node(node)
 
 
@@ -125,7 +123,7 @@ def test_find_node_by_pos(graph: Graph, node: Node):
 def test_find_node_by_pos_raises(graph: Graph, node: Node):
     """Test that an error is raised if a node cannot be found when not in the graph."""
     graph.add_node(node)
-    with pytest.raises(NodeNotFoundException):
+    with pytest.raises(exceptions.NodeNotFoundException):
         graph.find_node_by_pos((0, 1))
 
 
@@ -171,7 +169,7 @@ def test_is_connected(compiled_graph: Graph):
 
 def test_move_pickup(compiled_graph: Graph):
     """Tests that error is raised when a non-agent is moved."""
-    with pytest.raises(NonAgentException):
+    with pytest.raises(exceptions.NonAgentException):
         compiled_graph.move_agent((0, 1), (0, 0))
 
 
@@ -263,7 +261,7 @@ def test_find_all_paths_node_not_found(compiled_graph: Graph):
     """
     Test that an exception is raised when an invalid node is passed as an argument.
     """
-    with pytest.raises(NodeNotFoundException):
+    with pytest.raises(exceptions.NodeNotFoundException):
         compiled_graph.find_paths_between((100, 0), (0, 0))
 
 
