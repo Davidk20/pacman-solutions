@@ -3,8 +3,6 @@ from solving_pacman_backend import constants
 from solving_pacman_backend.exceptions import NodeNotFoundException
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.node import Node
-from solving_pacman_backend.models.pickups import Empty
-from solving_pacman_backend.models.pickups import Pickup
 from solving_pacman_backend.utils.entity_utils import convert_value_to_entity
 from solving_pacman_backend.utils.entity_utils import EntityNotFoundException
 
@@ -98,26 +96,6 @@ def graph_to_array(graph: Graph) -> list[list[int]]:
                 level[row].append(99)
                 continue
     return level
-
-
-def remaining_pickups(graph: Graph) -> int:
-    """
-    Counts the number of pickups remaining on the level.
-
-    Parameters
-    ----------
-    `graph` : `Graph`
-        The level to count.
-
-    Returns
-    -------
-    The number of non-empty nodes on the graph.
-    """
-    count = 0
-    for node in graph.nodes():
-        if isinstance(node.entity, Pickup) and not isinstance(node.entity, Empty):
-            count += 1
-    return count
 
 
 def in_bounds(height: int, width: int, pos: tuple[int, int]) -> bool:
