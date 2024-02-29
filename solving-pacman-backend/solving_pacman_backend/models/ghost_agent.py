@@ -1,28 +1,36 @@
 """Collection of models representing the Ghosts."""
 from solving_pacman_backend.models.agent import Agent
-from solving_pacman_backend.models.game_state import GameState
+from solving_pacman_backend.models.data_types import AgentHomes
 from solving_pacman_backend.models.movement_types import MovementTypes
 from solving_pacman_backend.models.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.path import Path
 from solving_pacman_backend.utils import level_utils
 
 
-class BlinkyAgent(Agent):
-    """Agent Representing Blinky."""
+class GhostAgent(Agent):
+    """
+    Generic agent representing the behaviour of all 4 ghosts.
 
-    def __init__(self, home_path: list[tuple[int, int]]):
-        """
-        Initialise the class.
+    Initially, all four ghosts will have the same behaviour and
+    therefore can be represented by the same agent. In future
+    iterations, they may be evolved to include the subtle differences
+    that the ghosts exhibit and so they would be separated into the
+    four separate classes again.
+    """
 
-        Parameters
-        ----------
-        `home_path` : `list[tuple[int, int]]`
-            The agents's home path.
-        """
-        super().__init__("Blinky", "Shadow", MovementTypes.CHASE, home_path, 21, 200)
+    def __init__(
+        self,
+        name: str,
+        behaviour: str,
+        movement_type: MovementTypes,
+        home_path: list[tuple[int, int]],
+        value: int,
+        score: int = 0,
+    ):
+        super().__init__(name, behaviour, movement_type, home_path, value, score)
 
-    def _perceive(self, state: GameState) -> None:
-        graph = level_utils.array_to_graph(state.board_state)
+    def _perceive(self, time: int, level: list[list[int]]) -> None:
+        graph = level_utils.array_to_graph(level)
         # When returning an agent it should return a single item
         pacman_node = graph.find_node_by_entity(PacmanAgent)[0]
         self.path: Path = Path([])
@@ -45,64 +53,10 @@ class BlinkyAgent(Agent):
         return self.path.get_next_pos().position
 
 
-class PinkyAgent(Agent):
-    """Agent Representing Pinky."""
-
-    def __init__(self, home_path: list[tuple[int, int]]):
-        """
-        Initialise the class.
-
-        Parameters
-        ----------
-        `home_path` : `list[tuple[int, int]]`
-            The agents's home path.
-        """
-        super().__init__("Pinky", "Speedy", MovementTypes.HOMEBOUND, home_path, 22, 200)
-
-    def _perceive(self, state: GameState) -> None:
-        raise NotImplementedError
-
-    def _execute(self):
-        raise NotImplementedError
-
-
-class InkyAgent(Agent):
-    """Agent Representing Inky."""
-
-    def __init__(self, home_path: list[tuple[int, int]]):
-        """
-        Initialise the class.
-
-        Parameters
-        ----------
-        `home_path` : `list[tuple[int, int]]`
-            The agents's home path.
-        """
-        super().__init__("Inky", "Bashful", MovementTypes.HOMEBOUND, home_path, 23, 200)
-
-    def _perceive(self, state: GameState) -> None:
-        raise NotImplementedError
-
-    def _execute(self):
-        raise NotImplementedError
-
-
-class ClydeAgent(Agent):
-    """Agent Representing Clyde."""
-
-    def __init__(self, home_path: list[tuple[int, int]]):
-        """
-        Initialise the class.
-
-        Parameters
-        ----------
-        `home_path` : `list[tuple[int, int]]`
-            The agents's home path.
-        """
-        super().__init__("Clyde", "Pokey", MovementTypes.HOMEBOUND, home_path, 24, 200)
-
-    def _perceive(self, state: GameState) -> None:
-        raise NotImplementedError
-
-    def _execute(self):
-        raise NotImplementedError
+def gen_all_ghosts(homes: AgentHomes) -> list[GhostAgent]:
+    return [
+        GhostAgent("Blinky", "Shadow", MovementTypes.CHASE, homes["blinky"], 21, 200),
+        GhostAgent("Pinky", "Speedy", MovementTypes.HOMEBOUND, homes["pinky"], 22, 200),
+        GhostAgent("Inky", "Bashful", MovementTypes.HOMEBOUND, homes["inky"], 23, 200),
+        GhostAgent("Clyde", "Pokey", MovementTypes.HOMEBOUND, homes["clyde"], 24, 200),
+    ]
