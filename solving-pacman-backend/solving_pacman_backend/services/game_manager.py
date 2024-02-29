@@ -1,5 +1,4 @@
 """Service managing the running of the game."""
-from solving_pacman_backend.models import agent
 from solving_pacman_backend.models import ghost_agent
 from solving_pacman_backend.models.game_state import GameState
 from solving_pacman_backend.models.game_state_store import GameStateStore
@@ -44,31 +43,13 @@ class GameManager:
         """The graph containing the game."""
         self.running = False
         """Indicates whether the game is currently running."""
-        self.agent_home = {
-            "Pac-Man": level_handler.get_home(level_num, "Pac-Man"),
-            "Blinky": level_handler.get_home(level_num, "Blinky"),
-            "Pinky": level_handler.get_home(level_num, "Pinky"),
-            "Inky": level_handler.get_home(level_num, "Inky"),
-            "Clyde": level_handler.get_home(level_num, "Clyde"),
-        }
+        self.agent_home = level_handler.get_homes(level_num)
         """Dictionary containing the homes of the agents."""
-        self.pacman = PacmanAgent(self.agent_home["Pac-Man"])
+        self.pacman = PacmanAgent(self.agent_home["pacman"])
         """Representation of the Pac-Man agent."""
-        self.blinky = ghost_agent.BlinkyAgent(self.agent_home["Blinky"])
-        """Representation of the Blinky agent."""
-        self.pinky = ghost_agent.PinkyAgent(self.agent_home["Pinky"])
-        """Representation of the Pinky agent."""
-        self.inky = ghost_agent.InkyAgent(self.agent_home["Inky"])
-        """Representation of the Inky agent."""
-        self.clyde = ghost_agent.ClydeAgent(self.agent_home["Clyde"])
-        """Representation of the Clyde agent."""
-        self.agents: list[agent.Agent] = [
-            self.pacman,
-            self.blinky,
-            self.pinky,
-            self.inky,
-            self.clyde,
-        ]
+        self.agents: list[PacmanAgent | ghost_agent.GhostAgent] = [
+            self.pacman
+        ] + ghost_agent.gen_all_ghosts(self.agent_home)
         """Array containing all of the agents."""
 
     def setup_game(self) -> None:
@@ -110,7 +91,7 @@ class GameManager:
         else:
             self.timer += 1
         for ag in self.agents:
-            self.game.move_agent(ag.position, ag.cycle(self.state_store.get()[0]))
+            self.game.move_agent(ag.position, ag.cycle(self.timer, level_array))
 
     def start(self) -> None:
         """Start the game loop."""
