@@ -12,6 +12,7 @@ import json
 import os
 
 from solving_pacman_backend import exceptions
+from solving_pacman_backend.models import data_types
 
 
 def get_levels():
@@ -31,9 +32,7 @@ def get_levels():
     raw_levels.close()
 
 
-def get_level(
-    level_num: int,
-) -> dict[str, str | list[list[int]] | dict[str, list[list[int]]]]:
+def get_level(level_num: int) -> data_types.LevelData:
     """
     Returns all info for a level when provided with the level number.
 
@@ -83,7 +82,7 @@ def get_overview() -> list[str]:
     return available
 
 
-def get_homes(level_num: int) -> dict[str, list[list[int]]]:
+def get_homes(level_num: int) -> data_types.AgentHomes:
     """
     Return the homes for all agents.
 
@@ -97,10 +96,18 @@ def get_homes(level_num: int) -> dict[str, list[list[int]]]:
     A `dict` containing the mapping of agents to their path of coordinates
     which the agent should follow when returning "home".
     """
-    level = get_level(level_num)
-    homes = level.get("homes")
-    if isinstance(homes, dict):
-        return homes
+    level: data_types.LevelData = get_level(level_num)
+    # Type ignored as it is known what
+    homes: dict[str, list[list[int]]] = level.get("homes")
+    formatted_homes: dict[str, list[tuple[int, int]]] = {}
+    if homes is not None:
+        for agent, home in homes.items():
+            path: list[tuple[int, int]] = []
+            for coord in home:
+                # Ignored type as it is a determined number of args for tuple.
+                path.append(tuple([coord[0], coord[1]]))  # type: ignore
+            formatted_homes[agent] = path
+        return formatted_homes  # type: ignore
     else:
         raise exceptions.InvalidLevelConfigurationException(level_num)
 
@@ -121,7 +128,7 @@ def get_home(level_num: int, agent: str) -> list[tuple[int, int]]:
     A `list` containing the path of coordinates which the agent should
     follow when returning "home".
     """
-    homes: dict[str, list[list[int]]] = get_homes(level_num)
+    homes = get_homes(level_num)
     home: list[tuple[int, int]] = []
     agent_home = homes.get(agent)
     if agent_home is not None:
