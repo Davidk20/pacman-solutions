@@ -1,8 +1,9 @@
-from solving_pacman_backend.mocks import mock_ghost
 from solving_pacman_backend.models import agent
 from solving_pacman_backend.models import environment
 from solving_pacman_backend.models import pacman_agent
 from solving_pacman_backend.models import pickups
+from solving_pacman_backend.models.ghost_agent import GhostAgent
+from solving_pacman_backend.models.movement_types import MovementTypes
 
 
 class EntityNotFoundException(Exception):
@@ -53,13 +54,13 @@ def convert_value_to_entity(
         case 20:
             return environment.Gate()
         case 21:
-            return mock_ghost()
+            return GhostAgent("Blinky", "Shadow", MovementTypes.CHASE, [], 21, 200)
         case 22:
-            return mock_ghost()
+            return GhostAgent("Pinky", "Shadow", MovementTypes.CHASE, [], 21, 200)
         case 23:
-            return mock_ghost()
+            return GhostAgent("Inky", "Shadow", MovementTypes.CHASE, [], 21, 200)
         case 24:
-            return mock_ghost()
+            return GhostAgent("Clyde", "Shadow", MovementTypes.CHASE, [], 21, 200)
         case 44:
             return pacman_agent.PacmanAgent([])
         case 88:

@@ -1,6 +1,6 @@
 """Tests for the Ghost Agent."""
 import pytest
-from solving_pacman_backend.mocks import mock_ghost
+from tests.mocks_test import mock_ghost
 
 
 @pytest.fixture(autouse=True)
