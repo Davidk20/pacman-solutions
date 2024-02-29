@@ -1,6 +1,6 @@
+from solving_pacman_backend.mocks import mock_ghost
 from solving_pacman_backend.models import agent
 from solving_pacman_backend.models import environment
-from solving_pacman_backend.models import ghost_agent
 from solving_pacman_backend.models import pacman_agent
 from solving_pacman_backend.models import pickups
 
@@ -53,13 +53,13 @@ def convert_value_to_entity(
         case 20:
             return environment.Gate()
         case 21:
-            return ghost_agent.BlinkyAgent([])
+            return mock_ghost()
         case 22:
-            return ghost_agent.PinkyAgent([])
+            return mock_ghost()
         case 23:
-            return ghost_agent.InkyAgent([])
+            return mock_ghost()
         case 24:
-            return ghost_agent.ClydeAgent([])
+            return mock_ghost()
         case 44:
             return pacman_agent.PacmanAgent([])
         case 88:
