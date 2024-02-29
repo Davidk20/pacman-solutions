@@ -127,12 +127,10 @@ def test_find_node_by_pos_raises(graph: Graph, node: Node):
         graph.find_node_by_pos((0, 1))
 
 
-def test_find_by_entity(graph: Graph, nodes: list[Node]):
+def test_find_by_entity(compiled_graph: Graph):
     """Test that a node can be found by searching for entity."""
-    for node in nodes:
-        graph.add_node(node)
-    result = graph.find_node_by_entity(pickups.PowerPellet)
-    assert result[0].entity.value == nodes[2].entity.value and len(result) == 1
+    result = compiled_graph.find_node_by_entity(pickups.PacDot)
+    assert len(result) == 4
 
 
 def test_map_edges(
