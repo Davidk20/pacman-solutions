@@ -1,6 +1,5 @@
 """Model representing the agent for Pac-man."""
 from solving_pacman_backend.models.agent import Agent
-from solving_pacman_backend.models.game_state import GameState
 from solving_pacman_backend.models.movement_types import MovementTypes
 from solving_pacman_backend.models.pickups import Pickup
 from solving_pacman_backend.models.pickups import PowerPellet
@@ -75,7 +74,7 @@ class PacmanAgent(Agent):
         self.energized = False
         self.temp_ghost_counter = 0
 
-    def _perceive(self, state: GameState) -> None:
+    def _perceive(self, time: int, level: list[list[int]]) -> None:
         raise NotImplementedError
 
     def _execute(self):
