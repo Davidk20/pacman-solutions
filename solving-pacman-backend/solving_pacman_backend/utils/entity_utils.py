@@ -1,6 +1,5 @@
 from solving_pacman_backend.models import agent
 from solving_pacman_backend.models import environment
-from solving_pacman_backend.models import pacman_agent
 from solving_pacman_backend.models import pickups
 from solving_pacman_backend.models.movement_types import MovementTypes
 from solving_pacman_backend.models.placeholder_agent import PlaceholderAgent
@@ -62,7 +61,7 @@ def convert_value_to_entity(
         case 24:
             return PlaceholderAgent("Clyde", MovementTypes.CHASE, 24)
         case 44:
-            return pacman_agent.PacmanAgent([])
+            return PlaceholderAgent("Pacman", MovementTypes.CUSTOM, 44)
         case 88:
             return environment.Teleporter()
         case _:
