@@ -41,7 +41,6 @@ class GhostAgent(Agent):
                 self.path = graph.shortest_path_to(self.position, self.target[0])
                 # The path contains the current pos which must be popped from the list
                 self.path.get_next_pos()
-                # print(self.path.route)
             case MovementTypes.SCATTER:
                 # When scattering to home, this should become their target.
                 self.target = self.home_path
