@@ -47,3 +47,22 @@ class NonAgentException(Exception):
 
     def __init__(self, entity: str) -> None:
         super().__init__(f"Type {entity} is not moveable.")
+
+
+class CollisionException(Exception):
+    """Raised when there is a collision between agents."""
+
+    def __init__(self, moving_agent, colliding_agent) -> None:
+        """
+        Exception raised when two agents collide
+
+        Parameters
+        ----------
+        `moving_agent` : `Agent`
+            The agent which is moving
+        `colliding_agent` : `Agent`
+            The agent being collided with.
+        """
+        self.moving_agent = moving_agent
+        self.colliding_agent = colliding_agent
+        super().__init__(f"{moving_agent} collided with {colliding_agent}")
