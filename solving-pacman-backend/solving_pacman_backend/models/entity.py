@@ -15,9 +15,24 @@ class Entity:
         `value` : `int`
             The agent's representation within the array.
         """
-        self.name = name
+        self._name = name
         """The name of the entity."""
-        self.score = score
+        self._score = score
         """The score the entity has."""
-        self.value = value
+        self._value = value
         """The agent's representation within the array."""
+
+    def __repr__(self) -> str:
+        return f"""(Name: {self._name}, Score: {self._score}, Value: {self._value})"""
+
+    def name(self) -> str:
+        """Return the entities name."""
+        return self._name
+
+    def score(self) -> int:
+        """Return the entities score."""
+        return self._score
+
+    def value(self) -> int:
+        """Return the entities name."""
+        return self._value
