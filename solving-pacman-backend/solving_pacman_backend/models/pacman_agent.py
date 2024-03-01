@@ -24,9 +24,7 @@ class PacmanAgent(Agent):
         `home_path` : `list[tuple[int, int]]`
             The agents's home path.
         """
-        super().__init__(
-            "Pac-Man", "User-Controlled", MovementTypes.CUSTOM, home_path, 44
-        )
+        super().__init__("Pac-Man", "Player", MovementTypes.CUSTOM, home_path, 44)
         self.current_lives = 3
         """Store the number of lives the user agent has remaining."""
         self.energized = False
@@ -42,10 +40,21 @@ class PacmanAgent(Agent):
 
     def __repr__(self) -> str:
         return (
-            f"(Name: {self.name}, Current Score: {self.score},"
+            f"(Name: {self.name()}, Current Score: {self.score()},"
             f" Lives: {self.current_lives}, Energized: {self.energized}, "
             f"Ghosts Consumed: {self.temp_ghost_counter})"
         )
+
+    def increase_score(self, score: int) -> None:
+        """
+        Increase the agents score.
+
+        Parameters
+        ----------
+        `score` : `int`
+            The amount of score to increase the Pac-Man's score by.
+        """
+        self._score += score
 
     def handle_consume(self, pickup: Pickup | Agent):
         """
@@ -59,15 +68,14 @@ class PacmanAgent(Agent):
             if self.energized:
                 # If Pac-man has successfully consumed a ghost
                 self.temp_ghost_counter += 1
-                self.score += (
-                    (pickup.get_score() / 100) ** self.temp_ghost_counter
-                ) * 100
+                score = int(((pickup.score() / 100) ** self.temp_ghost_counter) * 100)
+                self.increase_score(score)
             else:
                 # If Pac-man has consumed a ghost without energizer
                 self.current_lives -= 1
                 raise PacManDiedException()
         if not isinstance(pickup, Agent):
-            self.score += pickup.get_score()
+            self.increase_score(pickup.score())
 
     def deenergize(self):
         """Restore Pac-man agent to a de-energized state."""
