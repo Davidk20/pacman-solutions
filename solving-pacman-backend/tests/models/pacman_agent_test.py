@@ -24,7 +24,7 @@ def ghost():
 def test_increase_score(pacman: PacmanAgent):
     """Test that Pacman's score is correctly increased when consuming items."""
     pacman.handle_consume(Orange())
-    assert pacman.get_score() == 500
+    assert pacman.score() == 500
 
 
 def test_enable_energizer(pacman: PacmanAgent):
@@ -37,7 +37,7 @@ def test_valid_ghost_consume(pacman: PacmanAgent, ghost: Agent):
     """Test that Pac-man correctly consumes ghost when energised."""
     pacman.handle_consume(PowerPellet())
     pacman.handle_consume(ghost)
-    assert pacman.get_score() == 250
+    assert pacman.score() == 250
 
 
 def test_invalid_ghost_consume(pacman: PacmanAgent, ghost: Agent):
@@ -53,13 +53,13 @@ def test_valid_multiple_ghost_consume(pacman: PacmanAgent, ghost: Agent):
     """
     pacman.handle_consume(PowerPellet())
     pacman.handle_consume(ghost)
-    assert pacman.get_score() == 250
+    assert pacman.score() == 250
     pacman.handle_consume(ghost)
-    assert pacman.get_score() == 650
+    assert pacman.score() == 650
     pacman.handle_consume(ghost)
-    assert pacman.get_score() == 1450
+    assert pacman.score() == 1450
     pacman.handle_consume(ghost)
-    assert pacman.get_score() == 3050
+    assert pacman.score() == 3050
 
 
 def test_deenergize(pacman: PacmanAgent, ghost: Agent):
@@ -67,7 +67,7 @@ def test_deenergize(pacman: PacmanAgent, ghost: Agent):
     pacman.handle_consume(PowerPellet())
     pacman.handle_consume(ghost)
     # At this time, Pac-man should be able to consume
-    assert pacman.get_score() == 250
+    assert pacman.score() == 250
     pacman.deenergize()
     # After being de-energized, Pac-man should lose a life
     with pytest.raises(PacManDiedException):
