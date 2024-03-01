@@ -15,10 +15,11 @@ https://github.com/dicelab-rhul/vacuumworld
 from abc import ABC
 from abc import abstractmethod
 
+from solving_pacman_backend.models.entity import Entity
 from solving_pacman_backend.models.movement_types import MovementTypes
 
 
-class Agent(ABC):
+class Agent(ABC, Entity):
     """Abstract class used to provide core functionality to all agents."""
 
     def __init__(
@@ -49,18 +50,13 @@ class Agent(ABC):
             The score of the agent. Only ghost agents should override the
             score attribute as they have a score for `Pac-Man` to collect.
         """
-        self.name = name
-        """The name descriptor for the `Agent`."""
+        super().__init__(name, score, value)
         self.behaviour = behaviour
         """The agent's behaviour."""
         self.movement_type = movement_type
         """The agents Movement type"""
         self.home_path = home_path
         """The agents's home path."""
-        self.value = value
-        """The value held by this item in the Array representation."""
-        self.score = score
-        """The score held by this agent."""
         self.position: tuple[int, int]
         """The position of the agent."""
         self.target: list[tuple[int, int]] = []
@@ -73,16 +69,6 @@ class Agent(ABC):
             f"Movement: {self.movement_type}), "
             f"Target: {self.target}), "
         )
-
-    def get_score(self) -> int:
-        """
-        Return the score for this agent.
-
-        Returns
-        -------
-        The agents score.
-        """
-        return self.score
 
     @abstractmethod
     def _perceive(self, time: int, level: list[list[int]]) -> None:
