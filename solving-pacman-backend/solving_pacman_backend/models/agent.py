@@ -64,7 +64,7 @@ class Agent(ABC, Entity):
 
     def __repr__(self) -> str:
         return (
-            f"(Name: {self.name}, Score: {self.score}, "
+            f"(Name: {self.name()}, Score: {self.score()}, "
             f"Behaviour: {self.behaviour}, "
             f"Movement: {self.movement_type}), "
             f"Target: {self.target}), "
