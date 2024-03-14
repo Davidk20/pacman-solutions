@@ -65,8 +65,9 @@ class GameManager:
         """
         for placeholder in self.game.find_node_by_entity(PlaceholderAgent):
             for ag in self.agents:
-                if placeholder.entity.value() == ag.value():
-                    placeholder.entity = ag
+                if placeholder.get_higher_entity().value() == ag.value():
+                    placeholder.remove_entity(placeholder.get_higher_entity())
+                    placeholder.add_entity(ag)
                     break
 
     def win(self) -> bool:
