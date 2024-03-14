@@ -62,17 +62,19 @@ class NonAgentException(Exception):
 class CollisionException(Exception):
     """Raised when there is a collision between agents."""
 
-    def __init__(self, moving_agent, colliding_agent) -> None:
+    def __init__(self, colliding_node) -> None:
         """
-        Exception raised when two agents collide
+        Exception raised when an agent collides with an entity.
 
         Parameters
         ----------
-        `moving_agent` : `Agent`
+        `colliding_node` : `Agent`
             The agent which is moving
-        `colliding_agent` : `Agent`
-            The agent being collided with.
         """
-        self.moving_agent = moving_agent
-        self.colliding_agent = colliding_agent
-        super().__init__(f"{moving_agent} collided with {colliding_agent}")
+        self.node = colliding_node
+        self.agent = colliding_node.get_higher_entity()
+        self.colliding_entity = colliding_node.get_lower_entity()
+        super().__init__(
+            f"{self.agent.name()} collided with {self.colliding_entity.name()}"
+            f" at {self.node.position}"
+        )
