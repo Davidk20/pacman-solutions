@@ -109,15 +109,11 @@ class Graph:
             return
         new_node = self.find_node_by_pos(new_pos)
         old_node = self.find_node_by_pos(old_pos)
-        if not isinstance(old_node.entity, Agent):
-            # If non-agent attempts to move, raise and break.
-            raise exceptions.NonAgentException(old_node.entity.name())
         # if passing the above, it is a valid move
         # the move will occur and then it will check if a collision took place
         # which is then raised to be handled by the GameManager
         temp_entity = new_node.entity
         new_node.entity = old_node.entity
-        new_node.entity.position = new_node.position
         old_node.entity = Empty()
         if isinstance(new_node.entity, Agent) and not isinstance(
             temp_entity, Empty | Teleporter
