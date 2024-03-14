@@ -32,7 +32,7 @@ class Node:
         """Stores the entity currently within this space."""
 
     def __repr__(self) -> str:
-        return f"""\nPosition: {self.position}, Contains: {self.entity.name}"""
+        return f"""\nPosition: {self.position}, Contains: {self.entity.name()}"""
 
     def __eq__(self, __value: object) -> bool:
         if isinstance(__value, Node):
