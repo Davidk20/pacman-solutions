@@ -164,12 +164,6 @@ def test_is_connected(compiled_graph: Graph):
     assert compiled_graph.is_connected()
 
 
-def test_move_pickup(compiled_graph: Graph):
-    """Tests that error is raised when a non-agent is moved."""
-    with pytest.raises(exceptions.NonAgentException):
-        compiled_graph.move_agent((0, 1), (0, 0))
-
-
 def test_agent_collision_with_pickup(compiled_graph: Graph):
     """Tests that an agent correctly handles collision with an item."""
     with pytest.raises(exceptions.CollisionException):

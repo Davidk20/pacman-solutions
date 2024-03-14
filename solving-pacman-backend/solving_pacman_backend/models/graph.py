@@ -5,13 +5,11 @@ from typing import Type
 from solving_pacman_backend import exceptions
 from solving_pacman_backend.models.agent import Agent
 from solving_pacman_backend.models.entity import Entity
-from solving_pacman_backend.models.environment import EnvironmentEntity
 from solving_pacman_backend.models.environment import Teleporter
 from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.models.path import Path
 from solving_pacman_backend.models.pickups import Empty
 from solving_pacman_backend.models.pickups import Pickup
-from solving_pacman_backend.models.placeholder_agent import PlaceholderAgent
 
 
 class Graph:
@@ -168,15 +166,6 @@ class Graph:
         if len(nodes) == 0:
             raise exceptions.InvalidGraphConfigurationException(
                 f"No instances of {entity} could be found."
-            )
-        if (
-            not isinstance(
-                nodes[0].entity, Pickup | PlaceholderAgent | EnvironmentEntity
-            )
-            and len(nodes) > 1
-        ):
-            raise exceptions.InvalidGraphConfigurationException(
-                f"Only one of type {entity} should be present."
             )
         return nodes
 
