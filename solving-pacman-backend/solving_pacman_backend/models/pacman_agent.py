@@ -19,7 +19,7 @@ class PacmanAgent(Agent):
             The agents's home path.
         """
         super().__init__("Pac-Man", "Player", MovementTypes.CUSTOM, home_path, 44)
-        self.current_lives = 3
+        self.current_lives = 1
         """Store the number of lives the user agent has remaining."""
         self.energized = False
         """
