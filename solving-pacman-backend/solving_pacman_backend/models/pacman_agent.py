@@ -1,15 +1,9 @@
 """Model representing the agent for Pac-man."""
+from solving_pacman_backend.exceptions import PacManDiedException
 from solving_pacman_backend.models.agent import Agent
 from solving_pacman_backend.models.movement_types import MovementTypes
 from solving_pacman_backend.models.pickups import Pickup
 from solving_pacman_backend.models.pickups import PowerPellet
-
-
-class PacManDiedException(Exception):
-    """Raised when Pac-Man dies."""
-
-    def __init__(self) -> None:
-        super().__init__()
 
 
 class PacmanAgent(Agent):

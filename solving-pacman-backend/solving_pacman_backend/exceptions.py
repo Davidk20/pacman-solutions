@@ -1,5 +1,17 @@
 """Centralised file for all exceptions."""
 ##########################################
+#            Game Exceptions
+##########################################
+
+
+class PacManDiedException(Exception):
+    """Raised when Pac-Man dies."""
+
+    def __init__(self) -> None:
+        super().__init__()
+
+
+##########################################
 #            Level Exceptions
 ##########################################
 
