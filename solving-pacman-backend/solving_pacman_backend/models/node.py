@@ -1,7 +1,5 @@
 """Model representing a node within a graph."""
-from solving_pacman_backend.models.agent import Agent
-from solving_pacman_backend.models.environment import EnvironmentEntity
-from solving_pacman_backend.models.pickups import Pickup
+from solving_pacman_backend.models.entity import Entity
 
 
 class Node:
@@ -13,9 +11,7 @@ class Node:
     as well as what items or agents are currently in that position.
     """
 
-    def __init__(
-        self, position: tuple[int, int], entity: Agent | Pickup | EnvironmentEntity
-    ) -> None:
+    def __init__(self, position: tuple[int, int], entity: Entity) -> None:
         """
         Initialise a `Node` object.
 
