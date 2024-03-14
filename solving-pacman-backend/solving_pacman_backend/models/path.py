@@ -1,5 +1,5 @@
 from solving_pacman_backend.models import pickups
-from solving_pacman_backend.models.agent import Agent
+from solving_pacman_backend.models.environment import EnvironmentEntity
 from solving_pacman_backend.models.node import Node
 
 
@@ -36,7 +36,10 @@ class Path:
         -------
         `True` if there are no Ghosts on a path.
         """
-        return all(not isinstance(node.entity, Agent) for node in self.route)
+        return all(
+            isinstance(node.entity, pickups.Pickup | EnvironmentEntity)
+            for node in self.route
+        )
 
     def cost(self) -> int:
         """
