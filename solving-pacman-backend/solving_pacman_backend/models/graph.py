@@ -112,7 +112,7 @@ class Graph:
         old_node = self.find_node_by_pos(old_pos)
         if not isinstance(old_node.entity, Agent):
             # If non-agent attempts to move, raise and break.
-            raise exceptions.NonAgentException(old_node.entity.name)
+            raise exceptions.NonAgentException(old_node.entity.name())
         # if passing the above, it is a valid move
         # the move will occur and then it will check if a collision took place
         # which is then raised to be handled by the GameManager
