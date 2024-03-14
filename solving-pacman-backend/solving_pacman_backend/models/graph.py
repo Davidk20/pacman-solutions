@@ -3,7 +3,6 @@ import random
 from typing import Type
 
 from solving_pacman_backend import exceptions
-from solving_pacman_backend.models.agent import Agent
 from solving_pacman_backend.models.entity import Entity
 from solving_pacman_backend.models.environment import Teleporter
 from solving_pacman_backend.models.node import Node
@@ -115,9 +114,7 @@ class Graph:
         temp_entity = new_node.entity
         new_node.entity = old_node.entity
         old_node.entity = Empty()
-        if isinstance(new_node.entity, Agent) and not isinstance(
-            temp_entity, Empty | Teleporter
-        ):
+        if not isinstance(temp_entity, Empty | Teleporter):
             # If there is a collision between an agent and a non-empty space,
             # raise exception so that game logic can handle the collision.
             raise exceptions.CollisionException(new_node.entity, temp_entity)
