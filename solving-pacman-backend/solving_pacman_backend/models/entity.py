@@ -25,6 +25,11 @@ class Entity:
     def __repr__(self) -> str:
         return f"""(Name: {self._name}, Score: {self._score}, Value: {self._value})"""
 
+    def __eq__(self, __value: object) -> bool:
+        if not isinstance(__value, Entity):
+            return False
+        return self.name == __value.name() and self._value == __value.value()
+
     def name(self) -> str:
         """Return the entities name."""
         return self._name
