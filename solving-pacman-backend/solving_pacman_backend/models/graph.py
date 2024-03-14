@@ -7,7 +7,6 @@ from solving_pacman_backend.models.entity import Entity
 from solving_pacman_backend.models.environment import Teleporter
 from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.models.path import Path
-from solving_pacman_backend.models.pickups import Empty
 from solving_pacman_backend.models.pickups import Pickup
 
 
@@ -340,8 +339,4 @@ class Graph:
         -------
         The number of non-empty nodes on the graph.
         """
-        count = 0
-        for node in self.nodes():
-            if isinstance(node.entity, Pickup) and not isinstance(node.entity, Empty):
-                count += 1
-        return count
+        return sum(node.contains(Pickup) for node in self.nodes())
