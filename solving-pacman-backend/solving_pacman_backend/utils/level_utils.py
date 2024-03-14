@@ -91,7 +91,10 @@ def graph_to_array(graph: Graph) -> list[list[int]]:
         for column in range(constants.PACMAN_BOARD_WIDTH):
             try:
                 node = graph.find_node_by_pos((column, row))
-                level[row].append(node.entity.value())
+                if node.empty():
+                    level[row].append(0)
+                else:
+                    level[row].append(node.get_higher_entity().value())
             except NodeNotFoundException:
                 level[row].append(99)
                 continue
