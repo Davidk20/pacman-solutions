@@ -49,7 +49,7 @@ class Path:
         score = 0
         for node in self.route:
             if isinstance(node.entity, pickups.Pickup):
-                score += node.entity.score
+                score += node.entity.score()
         return score
 
     def get_next_pos(self) -> Node:
