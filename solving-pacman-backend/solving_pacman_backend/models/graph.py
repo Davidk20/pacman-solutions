@@ -4,6 +4,7 @@ from typing import Type
 
 from solving_pacman_backend import exceptions
 from solving_pacman_backend.models.agent import Agent
+from solving_pacman_backend.models.entity import Entity
 from solving_pacman_backend.models.environment import EnvironmentEntity
 from solving_pacman_backend.models.environment import Teleporter
 from solving_pacman_backend.models.node import Node
@@ -146,15 +147,13 @@ class Graph:
                 return node
         raise exceptions.NodeNotFoundException(pos)
 
-    def find_node_by_entity(
-        self, entity: Type[Agent | Pickup | EnvironmentEntity]
-    ) -> list[Node]:
+    def find_node_by_entity(self, entity: Type[Entity]) -> list[Node]:
         """
         Find all `Node` objects matching the type provided.
 
         Parameters
         ----------
-        `entity` : Type[Agent | Pickup]
+        `entity` : Type[Entity]
             The type of entity to search for.
 
         Returns
