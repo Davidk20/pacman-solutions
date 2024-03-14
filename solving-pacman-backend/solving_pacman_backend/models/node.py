@@ -105,17 +105,20 @@ class Node:
         -------
         The highest priority entity. This will be an `Agent` if there is an `Agent`
         in the `Node`, otherwise it will be a `Pickup`. If the `Node` is empty
-        then it will return `Empty`.
+        then it will return `Empty`. If the `Node` contains two `Agent`'s, then the
+        higher priority `Node` should be the most recently added `Agent`.
         """
         if self.empty():
             return Empty()
         if len(self.entities) == 1:
             return self.entities[0]
-        return (
-            self.entities[1]
-            if isinstance(self.entities[0], Pickup)
-            else self.entities[0]
-        )
+        if isinstance(self.entities[0], Pickup):
+            return self.entities[1]
+        if not isinstance(self.entities[0], Pickup) and not isinstance(
+            self.entities[1], Pickup
+        ):
+            return self.entities[1]
+        return self.entities[-1]
 
     def get_lower_entity(self) -> Entity:
         """
@@ -124,14 +127,18 @@ class Node:
         Returns
         -------
         The lowest priority entity. If there is a `Pickup` then this will be
-        returned otherwise it will return an `Agent`.
+        returned otherwise it will return an `Agent`. If the `Node` contains
+        two `Agent`'s, then the lower priority `Node` should be the first
+        added `Agent`.
         """
         if self.empty():
             return Empty()
         if len(self.entities) == 1:
             return self.entities[0]
-        return (
-            self.entities[0]
-            if isinstance(self.entities[0], Pickup)
-            else self.entities[1]
-        )
+        if isinstance(self.entities[0], Pickup):
+            return self.entities[0]
+        if not isinstance(self.entities[0], Pickup) and not isinstance(
+            self.entities[1], Pickup
+        ):
+            return self.entities[0]
+        return self.entities[0]

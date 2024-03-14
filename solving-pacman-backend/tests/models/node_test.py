@@ -75,10 +75,24 @@ def test_get_higher_entity(pickup_node: Node):
     assert isinstance(pickup_node.get_higher_entity(), PlaceholderAgent)
 
 
+def test_get_higher_agent(empty_node: Node):
+    """Test that the higher agent is returned when the node contains two agents."""
+    empty_node.add_entity(PlaceholderAgent("", 0))
+    empty_node.add_entity(PlaceholderAgent("", 1))
+    assert empty_node.get_higher_entity().value() == 1
+
+
 def test_get_lower_entity(pickup_node: Node):
     """Test that the higher priority entity is returned"""
     pickup_node.add_entity(PlaceholderAgent("", 0))
     assert isinstance(pickup_node.get_lower_entity(), PacDot)
+
+
+def test_get_lower_agent(empty_node: Node):
+    """Test that the lower agent is returned when the node contains two agents."""
+    empty_node.add_entity(PlaceholderAgent("", 0))
+    empty_node.add_entity(PlaceholderAgent("", 1))
+    assert empty_node.get_lower_entity().value() == 0
 
 
 def test_get_empty_entity(empty_node: Node):
