@@ -1,9 +1,10 @@
 """Service managing the running of the game."""
+from solving_pacman_backend import exceptions
+from solving_pacman_backend.exceptions import NonAgentException
 from solving_pacman_backend.models import ghost_agent
 from solving_pacman_backend.models.game_state import GameState
 from solving_pacman_backend.models.game_state_store import GameStateStore
 from solving_pacman_backend.models.graph import Graph
-from solving_pacman_backend.models.graph import NonAgentException
 from solving_pacman_backend.models.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.placeholder_agent import PlaceholderAgent
 from solving_pacman_backend.services import level_handler
@@ -99,7 +100,19 @@ class GameManager:
         else:
             self.timer += 1
         for ag in self.agents:
-            self.game.move_agent(ag.position, ag.cycle(self.timer, level_array))
+            try:
+                ag.position = self.game.find_node_by_entity(type(ag))[0].position
+                self.game.move_agent(ag.position, ag.cycle(self.timer, self.game))
+            except exceptions.CollisionException as collision:
+                if isinstance(
+                    collision.agent, ghost_agent.GhostAgent
+                ) and not isinstance(collision.colliding_entity, PacmanAgent):
+                    # If the ghost collides with anything other than Pac-Man then ignore
+                    return
+                print(collision)
+                if isinstance(collision.colliding_entity, PacmanAgent):
+                    print("GAME OVER")
+                    self.running = False
 
     def start(self) -> None:
         """Start the game loop."""
