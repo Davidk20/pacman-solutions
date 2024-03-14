@@ -49,8 +49,12 @@ class GameManager:
         self.pacman = PacmanAgent(self.agent_home["pacman"])
         """Representation of the Pac-Man agent."""
         self.agents: list[PacmanAgent | ghost_agent.GhostAgent] = [
-            self.pacman
-        ] + ghost_agent.gen_all_ghosts(self.agent_home)
+            self.pacman,
+            ghost_agent.BlinkyAgent(self.agent_home["blinky"]),
+            ghost_agent.PinkyAgent(self.agent_home["pinky"]),
+            ghost_agent.InkyAgent(self.agent_home["inky"]),
+            ghost_agent.ClydeAgent(self.agent_home["clyde"]),
+        ]
         """Array containing all of the agents."""
 
     def setup_game(self) -> None:
