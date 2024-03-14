@@ -16,6 +16,7 @@ from abc import ABC
 from abc import abstractmethod
 
 from solving_pacman_backend.models.entity import Entity
+from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.movement_types import MovementTypes
 
 
@@ -71,7 +72,7 @@ class Agent(ABC, Entity):
         )
 
     @abstractmethod
-    def _perceive(self, time: int, level: list[list[int]]) -> None:
+    def _perceive(self, time: int, level: Graph) -> None:
         """
         Perceive the environment and generate perceptions.
 
@@ -95,7 +96,7 @@ class Agent(ABC, Entity):
         """
         raise NotImplementedError
 
-    def cycle(self, time: int, level: list[list[int]]) -> tuple[int, int]:
+    def cycle(self, time: int, level: Graph) -> tuple[int, int]:
         """
         Method encapsulating the entire agent cycle.
 
