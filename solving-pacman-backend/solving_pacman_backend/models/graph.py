@@ -111,13 +111,13 @@ class Graph:
         # if passing the above, it is a valid move
         # the move will occur and then it will check if a collision took place
         # which is then raised to be handled by the GameManager
-        temp_entity = new_node.entity
-        new_node.entity = old_node.entity
-        old_node.entity = Empty()
-        if not isinstance(temp_entity, Empty | Teleporter):
+        entity = old_node.get_higher_entity()
+        old_node.remove_entity(entity)
+        new_node.add_entity(entity)
+        if new_node.is_collision():
             # If there is a collision between an agent and a non-empty space,
             # raise exception so that game logic can handle the collision.
-            raise exceptions.CollisionException(new_node.entity, temp_entity)
+            raise exceptions.CollisionException(new_node)
 
     def find_node_by_pos(self, pos: tuple[int, int]) -> Node:
         """
@@ -154,7 +154,7 @@ class Graph:
         """
         nodes: list[Node] = []
         for node in self.level.keys():
-            if isinstance(node.entity, entity):
+            if node.contains(entity):
                 nodes.append(node)
         if len(nodes) == 0:
             raise exceptions.InvalidGraphConfigurationException(
