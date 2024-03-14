@@ -36,10 +36,14 @@ class Path:
         -------
         `True` if there are no Ghosts on a path.
         """
-        return all(
-            isinstance(node.entity, pickups.Pickup | EnvironmentEntity)
-            for node in self.route
-        )
+        for node in self.route:
+            if node.empty():
+                continue
+            if not node.contains(pickups.Pickup) and not node.contains(
+                EnvironmentEntity
+            ):
+                return False
+        return True
 
     def cost(self) -> int:
         """
@@ -51,8 +55,9 @@ class Path:
         """
         score = 0
         for node in self.route:
-            if isinstance(node.entity, pickups.Pickup):
-                score += node.entity.score()
+            if not node.empty():
+                if isinstance(node.get_lower_entity(), pickups.Pickup):
+                    score += node.get_lower_entity().score()
         return score
 
     def get_next_pos(self) -> Node:
