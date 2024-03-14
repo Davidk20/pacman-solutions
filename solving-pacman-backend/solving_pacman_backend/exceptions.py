@@ -19,6 +19,16 @@ class InvalidLevelConfigurationException(Exception):
 
 
 ##########################################
+#            Node Exceptions
+##########################################
+class InvalidNodeException(Exception):
+    """Raised when a queried Node cannot be found."""
+
+    def __init__(self, message: str) -> None:
+        super().__init__(message)
+
+
+##########################################
 #            Graph Exceptions
 ##########################################
 class NodeNotFoundException(Exception):
