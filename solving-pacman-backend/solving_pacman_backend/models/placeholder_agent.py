@@ -15,8 +15,8 @@ class PlaceholderAgent(Agent):
     successfully.
     """
 
-    def __init__(self, name: str, movement_type: MovementTypes, value: int):
-        super().__init__(name, "", movement_type, [], value, 200)
+    def __init__(self, name: str, value: int):
+        super().__init__(name, "", MovementTypes.CUSTOM, [], value, 200)
 
     def _perceive(self, time: int, level: list[list[int]]) -> None:
         raise NotImplementedError
