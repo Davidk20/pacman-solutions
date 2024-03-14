@@ -5,6 +5,7 @@ from solving_pacman_backend.models.game_state_store import GameStateStore
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.graph import NonAgentException
 from solving_pacman_backend.models.pacman_agent import PacmanAgent
+from solving_pacman_backend.models.placeholder_agent import PlaceholderAgent
 from solving_pacman_backend.services import level_handler
 from solving_pacman_backend.utils import level_utils
 
@@ -58,9 +59,11 @@ class GameManager:
 
         Injects the populated agents into the place of the dummy agents.
         """
-        for ag in self.agents:
-            self.game.find_node_by_entity(type(ag))[0].entity = ag
-            ag.position = self.game.find_node_by_entity(type(ag))[0].position
+        for placeholder in self.game.find_node_by_entity(PlaceholderAgent):
+            for ag in self.agents:
+                if placeholder.entity.value() == ag.value():
+                    placeholder.entity = ag
+                    break
 
     def win(self) -> bool:
         """
