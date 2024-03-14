@@ -52,3 +52,23 @@ class GhostAgent(Agent):
                 return self.path.get_next_pos().position
             case _:
                 return self.position
+
+
+class BlinkyAgent(GhostAgent):
+    def __init__(self, homes: list[tuple[int, int]]):
+        super().__init__("Blinky", "Shadow", MovementTypes.CHASE, homes, 21, 200)
+
+
+class PinkyAgent(GhostAgent):
+    def __init__(self, homes: list[tuple[int, int]]):
+        super().__init__("Pinky", "Speedy", MovementTypes.HOMEBOUND, homes, 22, 200)
+
+
+class InkyAgent(GhostAgent):
+    def __init__(self, homes: list[tuple[int, int]]):
+        super().__init__("Inky", "Bashful", MovementTypes.HOMEBOUND, homes, 23, 200)
+
+
+class ClydeAgent(GhostAgent):
+    def __init__(self, homes: list[tuple[int, int]]):
+        super().__init__("Clyde", "Pokey", MovementTypes.HOMEBOUND, homes, 24, 200)
