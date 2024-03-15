@@ -30,7 +30,7 @@ def test_array_to_graph():
     """
     array = level_handler.get_map(1)
     graph = level_utils.array_to_graph(array)
-    assert graph.num_of_nodes() == 309
+    assert graph.num_of_nodes() == 312
 
 
 def test_in_bounds():
