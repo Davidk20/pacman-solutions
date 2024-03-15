@@ -5,28 +5,28 @@ import "../../styles/components/game/wall.scss";
  * Props for the Wall.
  */
 type WallProps = {
-  height: number;
   /**
    * The height of the wall piece.
-   */
-  width: number;
+  */
+  height: number;
   /**
    * The width of the wall piece.
-   */
-  xPos: number;
-    /**
+  */
+  width: number;
+  /**
    * The left-positioning of the wall piece.
-   */
-  yPos: number;
-    /**
+  */
+  xPos: number;
+  /**
    * The top-positioning of the wall piece.
-   */
+  */
+  yPos: number;
 }
 
+/**
+ * Component to render a singular piece of the game wall.
+ */
 export class Wall extends React.Component<WallProps> {
-  /**
-   * Component to render a singular piece of the game wall.
-   */
   override render(): React.ReactNode {
     return (
       <div

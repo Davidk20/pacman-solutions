@@ -3,30 +3,30 @@ import "../../styles/components/game/dot.scss";
 
 /**
  * Props for the Dot.
- */
+*/
 type DotProps = {
-  height: number;
   /**
    * The height of the dot.
-   */
-  width: number;
-  /**
-   * The width of the dot.
-   */
-  xPos: number;
-    /**
-   * The left-positioning of the dot.
-   */
+  */
+ height: number;
+ /**
+  * The width of the dot.
+ */
+ width: number;
+ /**
+  * The left-positioning of the dot.
+ */
+ xPos: number;
+ /**
+  * The top-positioning of the dot.
+ */
   yPos: number;
-    /**
-   * The top-positioning of the dot.
-   */
 }
 
+/**
+ * Component to render a Pac-Dot on the game board.
+ */
 export class Dot extends React.Component<DotProps> {
-  /**
-   * Component to render a Pac-Dot on the game board.
-   */
   override render(): React.ReactNode {
     return (
       <div
