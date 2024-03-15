@@ -1,0 +1,33 @@
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.page {
+  height: 90vh;
+}
+
+.App-Link {
+  color: #61dafb;
+}
+
+.Page {
+  min-height: 100vh;
+  background-color: #282C34;
+}
+
+.Link {
+  text-decoration: none;
+}
+
+.Link:visited {
+  text-decoration: none;
+}
+
+.Wall {
+  display: inline-block;
+  position: absolute;
+  background-color: #2120D2;
+}
