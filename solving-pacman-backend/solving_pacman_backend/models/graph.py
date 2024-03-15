@@ -81,6 +81,16 @@ class Graph:
         else:
             raise exceptions.DuplicateNodeException(str(node))
 
+    def random_node(self) -> Node:
+        """
+        Returns a random `Node`.
+
+        Returns
+        -------
+        A random `Node`.
+        """
+        return random.choice(self.nodes())
+
     def move_agent(self, old_pos: tuple[int, int], new_pos: tuple[int, int]) -> None:
         """
         Move an agent to the new position.
