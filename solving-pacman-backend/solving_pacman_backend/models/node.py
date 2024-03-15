@@ -77,8 +77,6 @@ class Node:
         `entity` : `Entity`
             The entity to add to the `Node`.
         """
-        if len(self.entities) > 1:
-            raise exceptions.InvalidNodeException("Node is full.")
         if isinstance(entity, Pickup) and self.contains(Pickup):
             raise exceptions.InvalidNodeException("Cannot have two pickups in one node")
         self.entities.append(entity)
