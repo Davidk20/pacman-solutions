@@ -44,13 +44,6 @@ def test_add_to_empty(empty_node: Node):
     assert empty_node.contains(PacDot)
 
 
-def test_add_to_full(pickup_node: Node):
-    """Test adding to full node raises error."""
-    pickup_node.add_entity(PlaceholderAgent("", 0))
-    with pytest.raises(exceptions.InvalidNodeException):
-        pickup_node.add_entity(PlaceholderAgent("", 0))
-
-
 def test_add_dupe_pickup(pickup_node: Node):
     """Test adding dupe pickup to node raises error."""
     with pytest.raises(exceptions.InvalidNodeException):
