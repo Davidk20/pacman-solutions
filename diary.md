@@ -302,9 +302,41 @@
 
 - Once I had managed to implement this successfully and tidy the code, I realised that it was more logical to create a single `GhostAgent` class which all 4 ghosts could implement, rather than creating separate logic for each ghost. While they do have more advanced and differing behaviours which later, may, be implemented. Right now, all ghosts behave and act the same and so there would be a large amount of unnecessary code duplication which can otherwise be corrected.
 
-29/02/24
+## 29/02/24
 
 - Started implementing `TypedDict` to give safer access to dictionaries and JSON's
 - Moved mocks to make them more useful by all files and classes
   - This was reverted as there were too many circular imports caused by this action
   - It may be reimplemented in future once the code is restructured
+
+- Refactored move_agent to reduce dependency on Agent imports
+- There is now less conditional handling taking place within the move function. This logic should not have been there in the  first place and now, if a collision between two "in-play" entities, a CollisionException is raised so that the logic can be passed back into the GameManager to deal with.
+
+
+## 01/03/24
+
+- Created an `Entity` model to act as the parent class to all entities
+  - Started implementing `Entity` on applicable classes
+
+## 04/03/24 - 12/03/24
+
+- Worked on updating report ready for advisor meeting
+
+## 14/03/24
+
+- Finished implementing `Entity` across objects
+- Cleaned circular import error
+  - Removed all references of `Agent` from `Graph` and `Node`
+- This allowed the `Agent` class to perceive a `Graph` instead of an `array`
+  - This prevented the `PlaceholderAgent`'s from getting caught in the game algorithm
+- Refactored `node.entities` to contain a list of `entities` on the point and not just a single entity
+  - This is done because in the previous format, ghosts could not be in the same space as a pickup without a collision issue. This allows ghosts and pickup items to exist in the same space while handling all necessary collisions.
+  - Refactored all relevant code to use `entities`
+- Replaced ghost agent generators with standalone classes
+  - In the GameManager, the logic is far easier to implement if the agents have standalone types that can be referenced as type can be used as a good marker for agent identification.
+- Reduced Pac-Man lives to 1
+  - In the current simulation abstraction, multiple lives does not make sense. In future iterations, this will be re-increased to allow for more advanced strategies.
+- Created `Position` model
+- Implemented first iteration of very basic Pac-Man mind
+  - The agent's mind is intended to randomly choose a location on the graph and travel to that location. If, at any point, the path becomes unsafe, Pac-Man should pick a new location and travel to that location instead.
+  - This is designed to be the first iteration of Pac-Man's mind and is considered the most basic. It will be improved on with iterative design.
