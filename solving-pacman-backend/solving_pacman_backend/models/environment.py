@@ -1,18 +1,24 @@
 """Models representing the environment."""
+from solving_pacman_backend.models.entity import Entity
 
 
-class EnvironmentEntity:
+class EnvironmentEntity(Entity):
     """Parent class representing a generic environment entity."""
 
-    def __init__(self) -> None:
-        """Initialise the class."""
-        self.name = ""
-        """The name descriptor for the `EnvironmentEntity`."""
-        self.value = 999
-        """The value held by this item in the Array representation."""
+    def __init__(self, name: str, value: int) -> None:
+        """
+        Initialise an EnvironmentEntity.
 
-    def __repr__(self) -> str:
-        return f"""(Name: {self.name}, Value: {self.value})"""
+        Parameters
+        ----------
+        `name` : `str`
+            The name of the entity.
+        `score` : `int`
+            The score the entity has.
+        `value` : `int`
+            The agent's representation within the array.
+        """
+        super().__init__(name, 0, value)
 
 
 class Wall(EnvironmentEntity):
@@ -20,9 +26,7 @@ class Wall(EnvironmentEntity):
 
     def __init__(self) -> None:
         """Initialise the class."""
-        super().__init__()
-        self.name = "Wall"
-        self.value = 99
+        super().__init__("Wall", 99)
 
 
 class Gate(EnvironmentEntity):
@@ -30,9 +34,7 @@ class Gate(EnvironmentEntity):
 
     def __init__(self) -> None:
         """Initialise the class."""
-        super().__init__()
-        self.name = "Gate"
-        self.value = 20
+        super().__init__("Gate", 20)
 
 
 class Teleporter(EnvironmentEntity):
@@ -40,6 +42,4 @@ class Teleporter(EnvironmentEntity):
 
     def __init__(self) -> None:
         """Initialise the class."""
-        super().__init__()
-        self.name = "Teleporter"
-        self.value = 88
+        super().__init__("Teleporter", 88)

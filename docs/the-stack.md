@@ -1,23 +1,53 @@
 # The Stack
 
-The below sequence diagram shows how the frontend and backend stacks interact with each other on a high level to run the application. This diagram abstracts most of the inner workings of the application to show how the frontend uses the backend API to display to the user the relevant information.
+The sequence diagram below shows how the user interacts with the application on a high level. This diagram abstracts most of the inner workings of the application to show how the frontend uses the backend API to display to the user the relevant information.
 
 ```mermaid
 sequenceDiagram
+
+    actor User
+
     box Frontend
         participant GameWindow
-        participant Frontend
+        participant WebApp
     end
     box Backend
         participant Flask
-        participant SolutionService
+        participant GameManager
+        participant LevelHandler
     end
 
-    Frontend->>+Flask: Request for summary of all levels
-    Flask->>-Frontend: JSON containing level summaries
-    Frontend->>+Flask: Request(level_1)
-    Flask->>+SolutionService: Solve(level_1)
-    SolutionService->>-Flask: Solution(level_1)
-    Flask->>-Frontend: Solution(level_1)
-    Frontend->>GameWindow: Animate(level_1)
+
+    User->>+WebApp: User requests webpage
+    WebApp->>+Flask: Request for summary of all levels
+    Flask->>-WebApp: JSON containing level summaries
+    WebApp->>-User: User displayed levels
+
+    User->>+WebApp: User requests level
+    WebApp->>Flask: Request(level)
+    Flask->>GameManager: Solve(level)
+    GameManager->>LevelHandler: Load(level)
+    destroy LevelHandler
+    LevelHandler->>GameManager: Return Loaded(Level)
+
+    create actor Agent
+
+    GameManager->>Agent: Load into level
+
+    loop Every Game Tick until game complete
+        GameManager->>+Agent: Update State
+        Agent->>-GameManager: Communicate move
+    end
+
+    destroy Agent
+    Agent->>GameManager: Unload Agents
+
+    destroy GameManager
+    GameManager->>Flask: Return level + simulation
+
+    destroy Flask
+    Flask->>WebApp: Return level + simulation
+
+    WebApp->>-GameWindow: Render simulation
+    GameWindow->>User: View Simulation
 ```

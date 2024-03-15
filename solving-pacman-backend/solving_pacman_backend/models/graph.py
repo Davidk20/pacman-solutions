@@ -1,32 +1,13 @@
 """Model representing the level as a graph data structure."""
 import random
+from typing import Type
 
-from solving_pacman_backend.models.agent import Agent
-from solving_pacman_backend.models.environment import EnvironmentEntity
+from solving_pacman_backend import exceptions
+from solving_pacman_backend.models.entity import Entity
 from solving_pacman_backend.models.environment import Teleporter
 from solving_pacman_backend.models.node import Node
+from solving_pacman_backend.models.path import Path
 from solving_pacman_backend.models.pickups import Pickup
-
-
-class NodeNotFoundException(Exception):
-    """Raised when a queried Node cannot be found."""
-
-    def __init__(self, message: str) -> None:
-        super().__init__(message)
-
-
-class DuplicateNodeException(Exception):
-    """Raised when it is attempted to add a repeated node."""
-
-    def __init__(self, message: str) -> None:
-        super().__init__(message)
-
-
-class InvalidGraphConfigurationException(Exception):
-    """Raised when the graph does not fit the required configuration."""
-
-    def __init__(self, message: str) -> None:
-        super().__init__(message)
 
 
 class Graph:
@@ -75,6 +56,16 @@ class Graph:
             counter += len(connections)
         return counter
 
+    def nodes(self) -> list[Node]:
+        """
+        Returns all of the nodes in the graph.
+
+        Returns
+        -------
+        A list containing all of the nodes present in the graph.
+        """
+        return list(self.level.keys())
+
     def add_node(self, node: Node) -> None:
         """
         Adds a single, unconnected `Node` into the graph.
@@ -88,7 +79,54 @@ class Graph:
             self.level[node] = []
             self.node_count += 1
         else:
-            raise DuplicateNodeException("Node already in graph.")
+            raise exceptions.DuplicateNodeException(str(node))
+
+    def random_node(self) -> Node:
+        """
+        Returns a random `Node`.
+
+        Returns
+        -------
+        A random `Node`.
+        """
+        return random.choice(self.nodes())
+
+    def move_agent(self, old_pos: tuple[int, int], new_pos: tuple[int, int]) -> None:
+        """
+        Move an agent to the new position.
+
+        It is assumed that the move has already been validated before being passed
+        to the graph, as agents should only be able to move a distance of one node
+        per move.
+
+        If a collision occurs between an `Agent` and an `Agent` or a `Pickup`, an
+        exception will be raised. This is done so that the event can be passed
+        back to the `GameManager` so that the collision can be handled here with
+        the correct game logic.
+
+        Parameters
+        ----------
+        `old_pos` : `tuple[int, int]`
+            The current position of the agent.
+        `new_pos` : `tuple[int, int]`
+            The position the agent is moving to.
+
+        """
+        if new_pos == old_pos:
+            # If the agent is not moving, nothing should happen
+            return
+        new_node = self.find_node_by_pos(new_pos)
+        old_node = self.find_node_by_pos(old_pos)
+        # if passing the above, it is a valid move
+        # the move will occur and then it will check if a collision took place
+        # which is then raised to be handled by the GameManager
+        entity = old_node.get_higher_entity()
+        old_node.remove_entity(entity)
+        new_node.add_entity(entity)
+        if new_node.is_collision():
+            # If there is a collision between an agent and a non-empty space,
+            # raise exception so that game logic can handle the collision.
+            raise exceptions.CollisionException(new_node)
 
     def find_node_by_pos(self, pos: tuple[int, int]) -> Node:
         """
@@ -107,38 +145,31 @@ class Graph:
         for node in self.level.keys():
             if node.position == pos:
                 return node
-        raise NodeNotFoundException("Node not found.")
+        raise exceptions.NodeNotFoundException(pos)
 
-    def find_node_by_entity(
-        self, item: Agent | Pickup | EnvironmentEntity
-    ) -> list[Node]:
+    def find_node_by_entity(self, entity: Type[Entity]) -> list[Node]:
         """
-        Find and return all `Node` objects on the graph with the corresponding value.
+        Find all `Node` objects matching the type provided.
 
         Parameters
         ----------
-        `item` : `Agent | Pickup`
-            The item to search for. Can be an `Agent` or `Pickup` item.
+        `entity` : Type[Entity]
+            The type of entity to search for.
 
         Returns
         -------
         A `List` containing all matching `Node` Objects.
         - If `item == Agent`, the list should only contain one value.
         """
-        nodes = []
+        nodes: list[Node] = []
         for node in self.level.keys():
-            if node.entity.value == item.value:
+            if node.contains(entity):
                 nodes.append(node)
-        if isinstance(item, Agent) and len(nodes) > 1:
-            raise InvalidGraphConfigurationException(
-                f"Only one of type {item.value} should be present."
+        if len(nodes) == 0:
+            raise exceptions.InvalidGraphConfigurationException(
+                f"No instances of {entity} could be found."
             )
-        elif len(nodes) == 0:
-            raise InvalidGraphConfigurationException(
-                f"No instances of {item.value} could be found."
-            )
-        else:
-            return nodes
+        return nodes
 
     def map_edges(self, mapping: dict[tuple[int, int], list[tuple[int, int]]]) -> None:
         """
@@ -159,13 +190,13 @@ class Graph:
                 self.level[parent].append(self.find_node_by_pos(child))
         # Manual mapping of portal edges. Assumed that there are only two teleporters
         # and so it is a one-to-one mapping.
-        portals = self.find_node_by_entity(Teleporter())
+        portals = self.find_node_by_entity(Teleporter)
         self.level[portals[0]].append(portals[1])
         self.level[portals[1]].append(portals[0])
 
         # Check that the graph is connected before returning.
         if not self.is_connected():
-            raise InvalidGraphConfigurationException(
+            raise exceptions.InvalidGraphConfigurationException(
                 "Graph is not connected, check edges"
             )
 
@@ -213,3 +244,109 @@ class Graph:
         start: Node = random.choice(list(self.level.keys()))
         path = self.bfs(start)
         return len(path) == len(list(self.level.keys()))
+
+    def is_repeated_cycle(self, path: list[Node]) -> bool:
+        """
+        Checks whether there is a repeated cycle within the path.
+
+        This is done by checking for two consecutive Nodes being repeated at
+        any point within the path.
+
+        Parameters
+        ----------
+        `path` : `list[Node]`
+            The path to check for repetition.
+
+        Returns
+        -------
+        `True` if there is a repeated cycle.
+        """
+        for i in range(len(path) - 1):
+            pair = [path[i], path[i + 1]]
+            for j in range(i + 1, len(path) - 1):
+                if [path[j], path[j + 1]] == pair:
+                    return True
+        return False
+
+    def find_paths_between(
+        self, start_pos: tuple[int, int], end_pos: tuple[int, int]
+    ) -> list[Path]:
+        """
+        Find all valid paths between two points.
+
+        This function uses a Breadth-First Search algorithm to find all of
+        the valid paths between the start and goal nodes. The reason that
+        BFS is chosen is that it is the fastest algorithm for finding short
+        paths to the goal. Optimal paths are provided early allowing the
+        function to be terminated early if the quota for paths (5) has been
+        met. An iterative approach was taken over recursion because the graphs
+        used for the levels are very complex and therefore could risk a
+        RecursionError.
+
+        This function will find and return the five shortest paths. It is up
+        to the agents internal decision making to decide which paths are to be
+        kept and which are to be pruned. This is because all agents will have a
+        different set of criteria for what constitutes a valid path.
+
+        Parameters
+        ----------
+        `start_pos` : `tuple[int, int]`
+            The starting position.
+        `end_pos` : `tuple[int, int]`
+            The goal position.
+
+        Returns
+        -------
+        A `list` containing paths of `Node`'s.
+        """
+        # collect the nodes early so that error raised if they don't exist.
+        start_node = self.find_node_by_pos(start_pos)
+        end_node = self.find_node_by_pos(end_pos)
+        # if the goal node is already found, return
+        if start_node == end_node:
+            return [Path([start_node])]
+        queue = [(start_node, [start_node])]
+        paths: list[Path] = []
+
+        while len(queue) > 0:
+            current, path = queue.pop(0)
+            if current == end_node:
+                paths.append(Path(path))
+                if len(paths) == 5:
+                    # Add breakpoint here once enough paths have been collected
+                    break
+
+            for node in self.level[current]:
+                if node not in path:
+                    queue.append((node, path + [node]))
+
+        return paths
+
+    def shortest_path_to(self, current: tuple[int, int], goal: tuple[int, int]) -> Path:
+        """
+        Finds the shortest path between two nodes,
+        irrespective of reward or the presence of ghosts.
+
+        Parameters
+        ----------
+        `current` : `tuple[int, int]`
+            The starting position.
+        `goal` : `tuple[int, int]`
+            The goal position.
+
+        Returns
+        -------
+        The shortest `Path`.
+        """
+        all_paths = self.find_paths_between(current, goal)
+        return min(all_paths, key=lambda path: len(path))
+
+    def remaining_pickups(self) -> int:
+        """
+        Counts the number of pickups remaining on the level.
+
+        Returns
+        -------
+        The number of non-empty nodes on the graph.
+        """
+        return sum(node.contains(Pickup) for node in self.nodes())

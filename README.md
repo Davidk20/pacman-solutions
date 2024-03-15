@@ -6,11 +6,15 @@ A full-stack application designed to solve levels from the original 1980's game 
 
 ## Documentation
 
+### [The Code Base](docs/code-base.md)
+
 ### [Representing Levels](docs/level-representation.md)
 
 ### [The Stack](docs/the-stack.md)
 
 ### [The Game Cycle](docs/game-cycle.md)
+
+### [Agent Minds](docs/agent-minds.md)
 
 ## Requirements
 

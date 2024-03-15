@@ -5,10 +5,8 @@ from flask import Flask
 from flask import jsonify
 from flask import request
 from flask_cors import CORS
-from solving_pacman_backend.services.level_handler import LevelHandler
-from solving_pacman_backend.services.level_handler import (
-    LevelNotFoundException,
-)
+from solving_pacman_backend.exceptions import LevelNotFoundException
+from solving_pacman_backend.services import level_handler
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -26,23 +24,19 @@ def home():  # dead: disable
 @app.route("/get-levels", methods=["GET"])
 def get_levels():
     """Returns an overview of information about all levels."""
-    level_handler = LevelHandler()
     return jsonify(level_handler.get_overview()), 200
 
 
 @app.route("/get-board", methods=["GET"])
 def get_board():
     """Route to return a game board."""
-    level_num = int(request.args.get("level_num"))
-    level_handler = LevelHandler()
+    level_num = int(request.args.get("level_num"))  # type: ignore
     try:
         message = level_handler.get_map(level_num)
         status = 200
     except LevelNotFoundException as e:
         message = str(e)
         status = 400
-    finally:
-        level_handler.close()
     return jsonify(message), status
 
 

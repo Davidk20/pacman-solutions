@@ -1,81 +1,74 @@
-"""Collection of models representing the Ghost agents."""
+"""Collection of models representing the Ghosts."""
 from solving_pacman_backend.models.agent import Agent
+from solving_pacman_backend.models.graph import Graph
+from solving_pacman_backend.models.movement_types import MovementTypes
+from solving_pacman_backend.models.pacman_agent import PacmanAgent
+from solving_pacman_backend.models.path import Path
 
 
 class GhostAgent(Agent):
-    """Agent representing the parent type for all Ghosts."""
+    """
+    Generic agent representing the behaviour of all 4 ghosts.
 
-    def __init__(self):
-        """Initialise the class."""
-        super().__init__()
-        self.name = ""
-        """The name of the ghost."""
-        self.behaviour = ""
-        """The behaviour of the ghost."""
-        self.score = 200
-        """
-        The base score for Pac-man to consume a ghost. This value is multiplied
-        based on how many ghosts Pac-man can consume during a single Power
-        Pellet run. The handling for this will be controlled by PacmanAgent.
-        """
-        self.current_movement_type = None
-        """The current movement type of the Ghost."""
-        self.value = 999
-        """
-        The value held by this item in the Array representation
-        """
+    Initially, all four ghosts will have the same behaviour and
+    therefore can be represented by the same agent. In future
+    iterations, they may be evolved to include the subtle differences
+    that the ghosts exhibit and so they would be separated into the
+    four separate classes again.
+    """
 
-    def __repr__(self) -> str:
-        return (
-            f"(Name: {self.name}, Score: {self.score}, "
-            f"Behaviour: {self.behaviour}, "
-            f"Movement: {self.current_movement_type})"
-        )
+    def __init__(
+        self,
+        name: str,
+        behaviour: str,
+        movement_type: MovementTypes,
+        home_path: list[tuple[int, int]],
+        value: int,
+        score: int = 0,
+    ):
+        super().__init__(name, behaviour, movement_type, home_path, value, score)
 
-    def get_score(self) -> int:
-        """Return the score for this item."""
-        return self.score
+    def _perceive(self, time: int, level: Graph) -> None:
+        # When returning an agent it should return a single item
+        pacman_node = level.find_node_by_entity(PacmanAgent)[0]
+        self.path: Path = Path([])
+        match self.movement_type:
+            case MovementTypes.CHASE:
+                # If chasing Pac-Man, this should be the only target.
+                self.target = [pacman_node.position]
+                self.path = level.shortest_path_to(self.position, self.target[0])
+                # The path contains the current pos which must be popped from the list
+                self.path.get_next_pos()
+            case MovementTypes.SCATTER:
+                # When scattering to home, this should become their target.
+                self.target = self.home_path
+            case _:
+                # All other conditions should clear the target.
+                self.target = []
+
+    def _execute(self) -> tuple[int, int]:
+        match self.movement_type:
+            case MovementTypes.CHASE:
+                return self.path.get_next_pos().position
+            case _:
+                return self.position
 
 
 class BlinkyAgent(GhostAgent):
-    """Agent Representing Blinky the Ghost."""
-
-    def __init__(self):
-        """Initialise the class."""
-        super().__init__()
-        self.name = "Blinky"
-        self.behaviour = "Shadow"
-        self.value = 21
+    def __init__(self, homes: list[tuple[int, int]]):
+        super().__init__("Blinky", "Shadow", MovementTypes.CHASE, homes, 21, 200)
 
 
 class PinkyAgent(GhostAgent):
-    """Agent Representing Pinky the Ghost."""
-
-    def __init__(self):
-        """Initialise the class."""
-        super().__init__()
-        self.name = "Pinky"
-        self.behaviour = "Speedy"
-        self.value = 22
+    def __init__(self, homes: list[tuple[int, int]]):
+        super().__init__("Pinky", "Speedy", MovementTypes.HOMEBOUND, homes, 22, 200)
 
 
 class InkyAgent(GhostAgent):
-    """Agent Representing Inky the Ghost."""
-
-    def __init__(self):
-        """Initialise the class."""
-        super().__init__()
-        self.name = "Inky"
-        self.behaviour = "Bashful"
-        self.value = 23
+    def __init__(self, homes: list[tuple[int, int]]):
+        super().__init__("Inky", "Bashful", MovementTypes.HOMEBOUND, homes, 23, 200)
 
 
 class ClydeAgent(GhostAgent):
-    """Agent Representing Clyde the Ghost."""
-
-    def __init__(self):
-        """Initialise the class."""
-        super().__init__()
-        self.name = "Clyde"
-        self.behaviour = "Pokey"
-        self.value = 24
+    def __init__(self, homes: list[tuple[int, int]]):
+        super().__init__("Clyde", "Pokey", MovementTypes.HOMEBOUND, homes, 24, 200)

@@ -28,18 +28,18 @@ repos:
     rev: 1.4.0
     hooks:
     - id: interrogate
-      args: [-vv, -i, -I, --fail-under=80, --ignore-magic]
+      args: [-vv, -i, -I, --fail-under=80, --ignore-magic, --exclude=solving-pacman-frontend]
       pass_filenames: false
 -   repo: local
     hooks:
-    # Disabled as prevents the use of TDD as test files cannot be committed without matching and passing code
-    # -   id: pytest
-    #     name: Test with Pytest
-    #     description: Test the backend application with Pytest
-    #     files: \.py$
-    #     verbose: true
-    #     language: system
-    #     entry: bash -c 'cd solving-pacman-backend && poetry run pytest .'
+    -   id: pytest
+        stages: [push]
+        name: Test with Pytest
+        description: Test the backend application with Pytest
+        files: \.py$
+        verbose: true
+        language: system
+        entry: bash -c 'cd solving-pacman-backend && poetry run pytest .'
     -   id: requirements-generate
         name: Generate Requirements.txt
         description: Generate requirements.txt for
@@ -49,12 +49,12 @@ repos:
         entry: bash -c 'cd solving-pacman-backend && poetry export -o requirements.txt --without-hashes'
 
     # FRONTEND JOBS
--   repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.51.0
-    hooks:
-    -   id: eslint
-        files: \.[jt]sx?$
-        types: [file]
+# -   repo: https://github.com/pre-commit/mirrors-eslint
+#     rev: v8.56.0
+#     hooks:
+#     -   id: eslint
+#         files: \.[jt]sx?$
+#         types: [file]
 -   repo: https://gitlab.com/bmares/check-json5
     rev: v1.0.0
     hooks:

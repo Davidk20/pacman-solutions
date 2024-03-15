@@ -127,8 +127,8 @@
   - This was done as testing views / components using certain packages such as `Link` was causing tests to break and it was decided that this should not be a priority as components could be visually seen to be working and therefore could be manually tested
 - Created base `Node` structure
 - Implemented the initial draft of the Flood Fill algorithm
-  - Inspired by https://lvngd.com/blog/flood-fill-algorithm-python/
-- Tested networkx https://networkx.org/ package as potential solution to graph storage problem
+  - Inspired by [Flood Fill Inspiration](https://lvngd.com/blog/flood-fill-algorithm-python/)
+- Tested [networkx](https://networkx.org/) package as potential solution to graph storage problem
   - Needed a way to store the graphs accurately and efficiently
 
 ## 07/12/23
@@ -145,7 +145,6 @@
 - Added a function to test for connectedness of graphs
   - Important as all of the levels in Pac-Man should be connected graphs.
 
-
 ## 10/01/24
 
 - Tidied code and fixed small bugs
@@ -155,3 +154,189 @@
 - Created components to render the walls and all agents on the canvas
 - Rendered a static view of the initial state of the map onto the canvas
 - Completed task "Render Game Board"
+
+## 15/01/24
+
+- Added detailed documentation for the project
+- Updated `flood_fill` to dynamically find first non-wall node rather than a hardcoded position
+
+## 16/01/24
+
+- Implemented additional utility functions for graphs and arrays
+  - Graph -> Array conversion
+  - Iterator of all Nodes
+  - Remaining pickup counters
+- Created model to store game snapshots as well as a store for these snapshots
+- Begun work on Game Management
+
+## 18/01/24
+
+- Implemented base win / loss conditions
+
+## 20/01/24
+
+- Refactored code to move appropriate functions into utility classes
+
+## 23/01/24
+
+- Converted `Agent` into an abstract class.
+  - This creates an overarching wrapper which allows for all agents to function the same.
+- Refactored Pac-Man and Ghost agents to use this new wrapper.
+
+## 25/01/24
+
+- Added the ghost's home paths to the level configuration
+- Refactored `LevelHandler` to be a set of functions not a class
+  - Using a class meant that the app was cluttered with single-use instances of LevelHandler which meant that the file was also being opened and left open multiple times.
+  - By using a generator it is now able to open and use the file only when necessary and while this may result in more reads, this means that the file is safer and leaves less clutter in memory.
+
+## 29/01/24
+
+- Refined agent cycle functions to take in `GameState`.
+- Improved agent collision logic.
+
+## 30/01/24
+
+- Continued collision logic.
+- Developed death logic for when Pac-Man dies.
+
+## 31/01/24
+
+- Had first meeting of the term with supervisor.
+  - Discussed where the project is at and my performance last term.
+  - Discussed the issue I had related to state communication between API and client.
+    - Decided that it was best to send a list of the full arrays instead of trying to work out a way to reduce this and rebuild on the client.
+    - This was because the API will usually have more computing power than the client and also the increase in file size should be negligible as it is only a few arrays of single numbers and the data shouldn't be too large to cause a bottleneck in this format.
+  - I also had the idea during the meeting for how to calculate the Heuristic function for using with an A* implementation
+    - Idea is that each edge has a uniform cost of 1 which is then increased by the score of each pickup within that path.
+      - Ghosts would usually prune a path, however if Pac-Man is energised it would mean that ghosts increment the score the same as pickups
+      - This is designed to reward Pac-Man for venturing down higher scoring paths and prioritising collecting dots when traversing
+      - This also allows for expansion should I develop a reinforcement model, as this would act as the reward function
+        - This should mean that Pac-Man would learn a level of risk taking as with also having three lives, it may attempt to go down higher scoring paths even if the risk of being caught by a ghost is high.
+
+## 01/02/24
+
+- Implemented check to identify repeated cyclic paths
+  - While cyclic paths are valid, the path finding algorithm needs a way to prevent paths which endlessly repeat the same cycles. This function achieves this by checking for a two-node repeated sequence within the path which would indicate the algorithm attemping to go down the same path twice.
+
+## 07/02/24
+
+- Created `find_all_paths` function
+  - Given two points, the function will recursively attempt to find all valid paths between these points.
+  - Initially, can only find a single, simple path
+
+## 08/02/24
+
+- Developed `find_all_path` to be able to find multiple paths
+- Refactored `find_all_path` function from recursive function to iterative function
+  - While a recursive approach works on simple graphs, the graphs created from the levels were too complex and often caused a `RecursionError`
+- Was also decided that no filtering would be applied to the paths returned, and so this would be down to the agents own mind to decide
+  - This allows for decision making to be left to the agents, where they can decide whether it is worth taking a valid or 'safe' path.
+- Added home path attributes to all agents
+
+## 15/02/24
+
+- Refactored `GameManager` to take an `integer` as a starting argument rather than an already instantiated `Graph`
+  - There was no need to handle this externally as the graph is not used other than in the game and so prevents unnecessary coupling.
+- Implemented a `setup_game` function to inject the agents into the game state
+- Implemented a `start` game function
+- Implemented an external entry point to the class
+
+## 22/02/24
+
+- Simplified `setup_game`
+- Added call to agents movement within game's `tick` function
+
+## 26/02/24
+
+- Created a model to represent a `Path`
+  - Added magic methods for length, representation and equality
+  - Implemented a path cost function
+- Used `Path` to create a shortest path function in `Graph`
+- Begun implementing logic for `PacmanAgent`
+  - The first version of the agent will keep Pac-Man static and simply eliminate the `NotImplementedError` so that the game methods can be tested correctly.
+  - After this, I will be looking at basic and well-documented patterns from original strategies
+    - This will be discussed further in [Path Finding](docs/agent-minds.md)
+
+## 27/02/24
+
+- Decided instead of trying to implement Pac-Man logic that I should instead implement a Ghost as they are pre-defined and easier
+- I have temporarily removed the `NotImplementedError` uses in the agents methods so that I could test the game running
+- I implemented some basic logic for the ghost based on its current state and then using the `find_all_paths` method to target Pac-Man
+- I was attempting to run the game but it was hanging on the first iteration of the game
+  - After some debugging, I found this to be because there were so many valid paths that even within a few seconds it was reaching 500 possible paths.
+    - Most of my testing so far had taken place on mock graphs with far less nodes and so this wasn't spotted sooner
+- I have had an idea to limit the number of paths by using a length check idea
+  - Once the first valid path is found, its length is used as a comparison
+  - Any path being built which reaches a length 1.5 times bigger than the first valid list will be ignored and a new path will be explored
+  - The idea is that this gives enough of a buffer to allow a variety of paths to be generated while also pruning unnecessarily long paths
+  - *The margin can be adapted later depending on its performance*
+- After more testing, the length limiting idea didn't work, even when reducing this margin to any path that is even 1 node longer than the first found path.
+  - This is because, in the first path found, the path taken is going sideways towards the teleporter and then coming at Pac-Man from the right hand side, creating the unexpectedly long path.
+- To fix this, the length filter will have to be more intelligent, The first test I am attempting will use the average length of the lists as a marker instead of the length of the first.
+  - This should bring down the threshold for filtering as shorter paths are found as the average will lower over time, while never allowing longer lists.
+- This new threshold was successful and the simulation is now running in much more reasonable time.
+
+- A new bug was then discovered once I had the simulation actually running
+  - Once the Ghost started moving, for some reason, it begun to target the teleporter as the quickest path
+    - I am unsure why this is the case as this is definitely not the quickest path
+  - Once the ghost reaches the teleporter, it appears to get caught in an endless loop of moving between the two teleporters
+    - I have one idea to fix this which involves adding a `path_history` attribute to agents which will give me the ability to identify when these loops are occurring.
+
+## 28/02/24
+
+- I have begun to look at alternatives to using DFS in my path finding algorithm.
+  - My priority for this algorithm is to find a collection of paths that are reasonably short (within an acceptable range)
+  - Assuming the systems that will be running this application, memory is not an issue
+  - Because of the above, I am leaning towards BFS instead (there is already an existing bfs function within `Graph`)
+- I also looked into IDDFS however this is incompatible with my needs
+  - I do not just want the single-shortest path, but a collection so that they can be evaluated to ensure they are compatible with the needs of the agent.
+
+- I now plan to modify the `find_all_paths` function to use BFS
+  - As this will now provide the most optimal paths first, I will no longer look to iterate through all paths until exhausted, but instead I will set a hard cap to only provide the agent with a limited set of paths.
+  - I will start this cap at 5 but I will change if necessary
+    - This is not an expectation that all calls to the function will return 5 (as this may not always be possible) but rather that if this cap is hit, the function can return early and stop unnecessary computation.
+
+- I refactored `find_all_paths` using a combination of my `bfs` function and the exiting "multi-path" dfs solution I had been using previously.
+  - It was instantly more efficient than using dfs and so this will be adopted moving forward.
+
+- Once I had managed to implement this successfully and tidy the code, I realised that it was more logical to create a single `GhostAgent` class which all 4 ghosts could implement, rather than creating separate logic for each ghost. While they do have more advanced and differing behaviours which later, may, be implemented. Right now, all ghosts behave and act the same and so there would be a large amount of unnecessary code duplication which can otherwise be corrected.
+
+## 29/02/24
+
+- Started implementing `TypedDict` to give safer access to dictionaries and JSON's
+- Moved mocks to make them more useful by all files and classes
+  - This was reverted as there were too many circular imports caused by this action
+  - It may be reimplemented in future once the code is restructured
+
+- Refactored move_agent to reduce dependency on Agent imports
+- There is now less conditional handling taking place within the move function. This logic should not have been there in the  first place and now, if a collision between two "in-play" entities, a CollisionException is raised so that the logic can be passed back into the GameManager to deal with.
+
+
+## 01/03/24
+
+- Created an `Entity` model to act as the parent class to all entities
+  - Started implementing `Entity` on applicable classes
+
+## 04/03/24 - 12/03/24
+
+- Worked on updating report ready for advisor meeting
+
+## 14/03/24
+
+- Finished implementing `Entity` across objects
+- Cleaned circular import error
+  - Removed all references of `Agent` from `Graph` and `Node`
+- This allowed the `Agent` class to perceive a `Graph` instead of an `array`
+  - This prevented the `PlaceholderAgent`'s from getting caught in the game algorithm
+- Refactored `node.entities` to contain a list of `entities` on the point and not just a single entity
+  - This is done because in the previous format, ghosts could not be in the same space as a pickup without a collision issue. This allows ghosts and pickup items to exist in the same space while handling all necessary collisions.
+  - Refactored all relevant code to use `entities`
+- Replaced ghost agent generators with standalone classes
+  - In the GameManager, the logic is far easier to implement if the agents have standalone types that can be referenced as type can be used as a good marker for agent identification.
+- Reduced Pac-Man lives to 1
+  - In the current simulation abstraction, multiple lives does not make sense. In future iterations, this will be re-increased to allow for more advanced strategies.
+- Created `Position` model
+- Implemented first iteration of very basic Pac-Man mind
+  - The agent's mind is intended to randomly choose a location on the graph and travel to that location. If, at any point, the path becomes unsafe, Pac-Man should pick a new location and travel to that location instead.
+  - This is designed to be the first iteration of Pac-Man's mind and is considered the most basic. It will be improved on with iterative design.
