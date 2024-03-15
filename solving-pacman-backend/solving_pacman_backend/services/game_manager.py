@@ -5,7 +5,9 @@ from solving_pacman_backend.models import ghost_agent
 from solving_pacman_backend.models.game_state import GameState
 from solving_pacman_backend.models.game_state_store import GameStateStore
 from solving_pacman_backend.models.graph import Graph
+from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.models.pacman_agent import PacmanAgent
+from solving_pacman_backend.models.pickups import Pickup
 from solving_pacman_backend.models.placeholder_agent import PlaceholderAgent
 from solving_pacman_backend.services import level_handler
 from solving_pacman_backend.utils import level_utils
@@ -104,14 +106,9 @@ class GameManager:
                 ag.position = self.game.find_node_by_entity(type(ag))[0].position
                 self.game.move_agent(ag.position, ag.cycle(self.timer, self.game))
             except exceptions.CollisionException as collision:
-                if isinstance(
-                    collision.agent, ghost_agent.GhostAgent
-                ) and not isinstance(collision.colliding_entity, PacmanAgent):
-                    # If the ghost collides with anything other than Pac-Man then ignore
-                    return
-                print(collision)
-                if isinstance(collision.colliding_entity, PacmanAgent):
-                    print("GAME OVER")
+                try:
+                    self.handle_collision(collision.node)
+                except exceptions.PacManDiedException:
                     self.running = False
 
     def start(self) -> None:
@@ -129,6 +126,9 @@ class GameManager:
                 print(f"Error: {e}")
                 self.print_current_state()
                 break
+        print("##############################")
+        print("GAME OVER")
+        print("##############################")
         self.print_current_state()
 
     def print_current_state(self) -> None:
@@ -139,6 +139,23 @@ class GameManager:
         """
         print(f"Iteration {self.timer}")
         print(level_utils.print_level(level_utils.graph_to_array(self.game)))
+
+    def handle_collision(self, node: Node) -> None:
+        if node.contains(ghost_agent.GhostAgent) and node.contains(Pickup):
+            # if collision is between ghost and pickup, ignore
+            return
+        higher = node.get_higher_entity()
+        lower = node.get_lower_entity()
+        if isinstance(higher, ghost_agent.GhostAgent) and isinstance(
+            lower, PacmanAgent
+        ):
+            self.pacman.handle_consume(higher)
+        elif isinstance(higher, PacmanAgent) and isinstance(
+            lower, Pickup | ghost_agent.GhostAgent
+        ):
+            self.pacman.handle_consume(lower)
+        else:
+            raise ValueError(f"Invalid case higher - {higher}, lower - {lower}")
 
 
 if __name__ == "__main__":
