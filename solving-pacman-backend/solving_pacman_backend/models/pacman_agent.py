@@ -1,13 +1,22 @@
 """Model representing the agent for Pac-man."""
 from solving_pacman_backend.exceptions import PacManDiedException
 from solving_pacman_backend.models.agent import Agent
+from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.movement_types import MovementTypes
+from solving_pacman_backend.models.path import Path
 from solving_pacman_backend.models.pickups import Pickup
 from solving_pacman_backend.models.pickups import PowerPellet
 
 
 class PacmanAgent(Agent):
-    """Model representing the agent for Pac-man."""
+    """
+    Model representing the agent for Pac-man.
+
+    Inspirations for Pac-Man decision making comes from the below
+    sources:
+    https://github.com/Lamonkey/ai-pacman
+    https://www.classicgaming.cc/classics/pac-man/play-guide
+    """
 
     def __init__(self, home_path: list[tuple[int, int]]):
         """
@@ -76,8 +85,15 @@ class PacmanAgent(Agent):
         self.energized = False
         self.temp_ghost_counter = 0
 
-    def _perceive(self, time: int, level: list[list[int]]) -> None:
-        raise NotImplementedError
+    def _perceive(self, time: int, level: Graph) -> None:
+        self.path: Path = Path([])
+        self.target = [self.position]
+        if self.position == self.target[0]:
+            self.target.pop(0)
+        if len(self.target) == 0 or not self.path.is_safe():
+            self.target.append(level.random_node().position)
+        self.path = level.shortest_path_to(self.position, self.target[0])
 
-    def _execute(self):
-        raise NotImplementedError
+    def _execute(self) -> tuple[int, int]:
+        print(self.path.get_next_pos().position)
+        return self.path.get_next_pos().position
