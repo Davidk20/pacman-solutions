@@ -17,18 +17,27 @@ class GameManager:
     Service which manages the overall running of the game.
     """
 
-    def __init__(self, level_num: int) -> None:
+    def __init__(self, level_num: int, local: bool = False) -> None:
         """
         Initialises the `GameManager`.
 
         The game manager is responsible for building the game with all requirements
         and then running the game, managing its iteration and win / loss conditions.
 
+        There are two run configurations: `local` and `server`. If `GameManager`
+        is run locally, this refers to it being run using the
+        `if __name__ == "__main__"` call. In this case, the outputs of simulations
+        should be printed to the terminal. If `GameManager` is being run by the
+        server then all output should be returned so that it can be passed back
+        in server messages.
+
         Parameters
         ----------
         `level_num` : `int`
             The number of the level to be run.
         """
+        self.local: bool = local
+        """Indicates the parent call of `GameManager`."""
         self.timer = 0
         """
         The internal game counter.
@@ -110,8 +119,15 @@ class GameManager:
                 except exceptions.PacManDiedException:
                     self.running = False
 
-    def start(self) -> None:
-        """Start the game loop."""
+    def start(self) -> GameStateStore:
+        """
+        Start the game loop.
+
+        Returns
+        -------
+        `GameStateStore`
+            The history of moves
+        """
         self.running = True
         self.setup_game()
         while self.running:
@@ -121,10 +137,12 @@ class GameManager:
                 print("\nSimulation manually stopped")
                 self.print_current_state()
                 break
-        print("##############################")
-        print("GAME OVER")
-        print("##############################")
-        self.print_current_state()
+        if self.local:
+            print("##############################")
+            print("GAME OVER")
+            print("##############################")
+            self.print_current_state()
+        return self.state_store
 
     def print_current_state(self) -> None:
         """
