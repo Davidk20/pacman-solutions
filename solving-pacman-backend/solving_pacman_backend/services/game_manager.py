@@ -1,6 +1,5 @@
 """Service managing the running of the game."""
 from solving_pacman_backend import exceptions
-from solving_pacman_backend.exceptions import NonAgentException
 from solving_pacman_backend.models import ghost_agent
 from solving_pacman_backend.models.game_state import GameState
 from solving_pacman_backend.models.game_state_store import GameStateStore
@@ -120,10 +119,6 @@ class GameManager:
                 self.tick()
             except KeyboardInterrupt:
                 print("\nSimulation manually stopped")
-                self.print_current_state()
-                break
-            except NonAgentException as e:
-                print(f"Error: {e}")
                 self.print_current_state()
                 break
         print("##############################")
