@@ -7,6 +7,7 @@ import React from "react";
 import { Wall } from "./game/wall";
 import { Dot } from "./game/dot";
 import { Energiser } from "./game/energiser";
+import { Agent } from "./game/agents";
 
 /**
  * Props for the Game Window.
@@ -74,6 +75,66 @@ export default class GameWindow extends React.Component<GameWindowProps> {
         if (this.props.level[row][col] == 2) {
           componentRow.push(
             <Energiser
+              key={col*row*Math.random()}
+              width={this.entityWidth}
+              height={this.entityHeight}
+              yPos={this.entityHeight*row}
+              xPos={this.entityWidth*col}
+            />
+          );
+        }
+        if (this.props.level[row][col] == 44) {
+          componentRow.push(
+            <Agent
+              agent="pacman"
+              key={col*row*Math.random()}
+              width={this.entityWidth}
+              height={this.entityHeight}
+              yPos={this.entityHeight*row}
+              xPos={this.entityWidth*col}
+            />
+          );
+        }
+        if (this.props.level[row][col] == 21) {
+          componentRow.push(
+            <Agent
+              agent="blinky"
+              key={col*row*Math.random()}
+              width={this.entityWidth}
+              height={this.entityHeight}
+              yPos={this.entityHeight*row}
+              xPos={this.entityWidth*col}
+            />
+          );
+        }
+        if (this.props.level[row][col] == 22) {
+          componentRow.push(
+            <Agent
+              agent="pinky"
+              key={col*row*Math.random()}
+              width={this.entityWidth}
+              height={this.entityHeight}
+              yPos={this.entityHeight*row}
+              xPos={this.entityWidth*col}
+            />
+          );
+        }
+        if (this.props.level[row][col] == 23) {
+          componentRow.push(
+            <Agent
+              agent="inky"
+              key={col*row*Math.random()}
+              width={this.entityWidth}
+              height={this.entityHeight}
+              yPos={this.entityHeight*row}
+              xPos={this.entityWidth*col}
+            />
+          );
+        }
+        if (this.props.level[row][col] == 24) {
+          componentRow.push(
+            <Agent
+              agent="clyde"
               key={col*row*Math.random()}
               width={this.entityWidth}
               height={this.entityHeight}
