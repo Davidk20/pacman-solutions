@@ -49,99 +49,87 @@ export default class GameWindow extends React.Component<GameWindowProps> {
       for (let col = 0; col < initialState[row].length; col++) {
         // level[0] can only be read whilst accessing props.
         this.windowWidth = this.entityWidth * initialState[0].length;
-        if (initialState[row][col] == 99) {
-          componentRow.push(
-            <Wall
-              key={col*row*Math.random()}
-              width={this.entityWidth}
-              height={this.entityHeight}
-              yPos={this.entityHeight*row}
-              xPos={this.entityWidth*col}
-            />
-          );
+        let component;
+        switch (initialState[row][col]) {
+        case 1:
+          component = <Dot
+            key={col*row*Math.random()}
+            width={this.entityWidth}
+            height={this.entityHeight}
+            yPos={this.entityHeight*row}
+            xPos={this.entityWidth*col}
+          />;
+          break;
+        case 2:
+          component = <Energiser
+            key={col*row*Math.random()}
+            width={this.entityWidth}
+            height={this.entityHeight}
+            yPos={this.entityHeight*row}
+            xPos={this.entityWidth*col}
+          />;
+          break;
+        case 21:
+          component = <Agent
+            agent="blinky"
+            key={col*row*Math.random()}
+            width={this.entityWidth}
+            height={this.entityHeight}
+            yPos={this.entityHeight*row}
+            xPos={this.entityWidth*col}
+          />;
+          break;
+        case 22:
+          component = <Agent
+            agent="pinky"
+            key={col*row*Math.random()}
+            width={this.entityWidth}
+            height={this.entityHeight}
+            yPos={this.entityHeight*row}
+            xPos={this.entityWidth*col}
+          />;
+          break;
+        case 23:
+          component = <Agent
+            agent="inky"
+            key={col*row*Math.random()}
+            width={this.entityWidth}
+            height={this.entityHeight}
+            yPos={this.entityHeight*row}
+            xPos={this.entityWidth*col}
+          />;
+          break;
+        case 24:
+          component = <Agent
+            agent="clyde"
+            key={col*row*Math.random()}
+            width={this.entityWidth}
+            height={this.entityHeight}
+            yPos={this.entityHeight*row}
+            xPos={this.entityWidth*col}
+          />;
+          break;
+        case 44:
+          component = <Agent
+            agent="pacman"
+            key={col*row*Math.random()}
+            width={this.entityWidth}
+            height={this.entityHeight}
+            yPos={this.entityHeight*row}
+            xPos={this.entityWidth*col}
+          />;
+          break;
+        case 99:
+          component = <Wall
+            key={col*row*Math.random()}
+            width={this.entityWidth}
+            height={this.entityHeight}
+            yPos={this.entityHeight*row}
+            xPos={this.entityWidth*col}
+          />;
+          break;
         }
-        if (initialState[row][col] == 1) {
-          componentRow.push(
-            <Dot
-              key={col*row*Math.random()}
-              width={this.entityWidth}
-              height={this.entityHeight}
-              yPos={this.entityHeight*row}
-              xPos={this.entityWidth*col}
-            />
-          );
-        }
-        if (initialState[row][col] == 2) {
-          componentRow.push(
-            <Energiser
-              key={col*row*Math.random()}
-              width={this.entityWidth}
-              height={this.entityHeight}
-              yPos={this.entityHeight*row}
-              xPos={this.entityWidth*col}
-            />
-          );
-        }
-        if (initialState[row][col] == 44) {
-          componentRow.push(
-            <Agent
-              agent="pacman"
-              key={col*row*Math.random()}
-              width={this.entityWidth}
-              height={this.entityHeight}
-              yPos={this.entityHeight*row}
-              xPos={this.entityWidth*col}
-            />
-          );
-        }
-        if (initialState[row][col] == 21) {
-          componentRow.push(
-            <Agent
-              agent="blinky"
-              key={col*row*Math.random()}
-              width={this.entityWidth}
-              height={this.entityHeight}
-              yPos={this.entityHeight*row}
-              xPos={this.entityWidth*col}
-            />
-          );
-        }
-        if (initialState[row][col] == 22) {
-          componentRow.push(
-            <Agent
-              agent="pinky"
-              key={col*row*Math.random()}
-              width={this.entityWidth}
-              height={this.entityHeight}
-              yPos={this.entityHeight*row}
-              xPos={this.entityWidth*col}
-            />
-          );
-        }
-        if (initialState[row][col] == 23) {
-          componentRow.push(
-            <Agent
-              agent="inky"
-              key={col*row*Math.random()}
-              width={this.entityWidth}
-              height={this.entityHeight}
-              yPos={this.entityHeight*row}
-              xPos={this.entityWidth*col}
-            />
-          );
-        }
-        if (initialState[row][col] == 24) {
-          componentRow.push(
-            <Agent
-              agent="clyde"
-              key={col*row*Math.random()}
-              width={this.entityWidth}
-              height={this.entityHeight}
-              yPos={this.entityHeight*row}
-              xPos={this.entityWidth*col}
-            />
-          );
-        }
+        componentRow.push(component);
       }
       gameComponents.push(componentRow);
     }
