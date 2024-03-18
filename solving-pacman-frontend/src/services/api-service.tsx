@@ -1,3 +1,4 @@
+import { GameState } from "@models/game-state";
 import { config } from "../constants";
 
 /**
@@ -20,9 +21,9 @@ export async function fetchOverview(): Promise<string[]> {
  * Fetch a single level, provided the level number.
  * @param levelNum The level being requested.
  */
-export async function fetchLevel(levelNum: number): Promise<Array<Array<number>>> {
+export async function fetchGame(levelNum: number): Promise<GameState[]> {
   const api_url = config.url.API_URL;
-  const queryUrl = `${api_url}/get-board?level_num=${levelNum}`;
+  const queryUrl = `${api_url}/get-game?level_num=${levelNum}`;
   const response = await fetch(queryUrl);
   return response.json();
 }
