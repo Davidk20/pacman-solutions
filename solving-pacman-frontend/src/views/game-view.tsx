@@ -37,7 +37,7 @@ export function GameView() {
     <div className="Page">
       <Header subtitle={level_num}></Header>
       <div className="Game-Container">
-        {game ? <GameWindow level={game[0].state} ></GameWindow> : <l-tail-chase size="150" speed="2.5" color="#F4D147"></l-tail-chase>}
+        {game ? <GameWindow stateStore={game} ></GameWindow> : <l-tail-chase size="150" speed="2.5" color="#F4D147"></l-tail-chase>}
       </div>
     </div>
   );

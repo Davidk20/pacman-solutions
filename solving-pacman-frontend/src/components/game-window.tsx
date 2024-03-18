@@ -8,15 +8,13 @@ import { Wall } from "./game/wall";
 import { Dot } from "./game/dot";
 import { Energiser } from "./game/energiser";
 import { Agent } from "./game/agents";
+import { GameState } from "@models/game-state";
 
 /**
  * Props for the Game Window.
  */
 type GameWindowProps = {
-  /**
-   * The level.
-   */
-  level: number[][]
+  stateStore: GameState[];
 }
 
 /**
@@ -42,15 +40,16 @@ export default class GameWindow extends React.Component<GameWindowProps> {
 
 
   override render(): React.ReactNode {
-    this.windowHeight = this.entityHeight * this.props.level.length;
+    const initialState = this.props.stateStore[0].state;
+    this.windowHeight = this.entityHeight * initialState.length;
 
     const gameComponents = [];
-    for (let row = 0; row < this.props.level.length; row++) {
+    for (let row = 0; row < initialState.length; row++) {
       const componentRow = [];
-      for (let col = 0; col < this.props.level[row].length; col++) {
+      for (let col = 0; col < initialState[row].length; col++) {
         // level[0] can only be read whilst accessing props.
-        this.windowWidth = this.entityWidth * this.props.level[0].length;
-        if (this.props.level[row][col] == 99) {
+        this.windowWidth = this.entityWidth * initialState[0].length;
+        if (initialState[row][col] == 99) {
           componentRow.push(
             <Wall
               key={col*row*Math.random()}
@@ -61,7 +60,7 @@ export default class GameWindow extends React.Component<GameWindowProps> {
             />
           );
         }
-        if (this.props.level[row][col] == 1) {
+        if (initialState[row][col] == 1) {
           componentRow.push(
             <Dot
               key={col*row*Math.random()}
@@ -72,7 +71,7 @@ export default class GameWindow extends React.Component<GameWindowProps> {
             />
           );
         }
-        if (this.props.level[row][col] == 2) {
+        if (initialState[row][col] == 2) {
           componentRow.push(
             <Energiser
               key={col*row*Math.random()}
@@ -83,7 +82,7 @@ export default class GameWindow extends React.Component<GameWindowProps> {
             />
           );
         }
-        if (this.props.level[row][col] == 44) {
+        if (initialState[row][col] == 44) {
           componentRow.push(
             <Agent
               agent="pacman"
@@ -95,7 +94,7 @@ export default class GameWindow extends React.Component<GameWindowProps> {
             />
           );
         }
-        if (this.props.level[row][col] == 21) {
+        if (initialState[row][col] == 21) {
           componentRow.push(
             <Agent
               agent="blinky"
@@ -107,7 +106,7 @@ export default class GameWindow extends React.Component<GameWindowProps> {
             />
           );
         }
-        if (this.props.level[row][col] == 22) {
+        if (initialState[row][col] == 22) {
           componentRow.push(
             <Agent
               agent="pinky"
@@ -119,7 +118,7 @@ export default class GameWindow extends React.Component<GameWindowProps> {
             />
           );
         }
-        if (this.props.level[row][col] == 23) {
+        if (initialState[row][col] == 23) {
           componentRow.push(
             <Agent
               agent="inky"
@@ -131,7 +130,7 @@ export default class GameWindow extends React.Component<GameWindowProps> {
             />
           );
         }
-        if (this.props.level[row][col] == 24) {
+        if (initialState[row][col] == 24) {
           componentRow.push(
             <Agent
               agent="clyde"
