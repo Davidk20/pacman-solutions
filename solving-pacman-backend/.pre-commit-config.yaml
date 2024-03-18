@@ -63,7 +63,7 @@ repos:
 -   repo: local
     hooks:
     -   id: jest-test
-        stage: [push]
+        stages: [push]
         name: Test with Jest
         description: Test the frontend application with Jest
         files: \.[jt]sx?$
