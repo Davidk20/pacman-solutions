@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Header } from "../components/header";
 import { useLocation } from "react-router-dom";
 import { GameWindow } from "../components/game-window";
-import "../styles/views/game-view.scss";
 import { fetchGame } from "../services/api-service";
 import { GameState } from "@models/game-state";
 import { tailChase } from "ldrs";
@@ -36,7 +35,16 @@ export function GameView() {
   return (
     <div className="Page">
       <Header subtitle={level_num}></Header>
-      <div className="Game-Container">
+      <div
+        className="Game-Container"
+        style={{
+          width: "100%",
+          height: "90vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         {game ? <GameWindow {...game} ></GameWindow> : <l-tail-chase size="150" speed="2.5" color="#F4D147"></l-tail-chase>}
       </div>
     </div>
