@@ -119,7 +119,7 @@ class GameManager:
                 except exceptions.PacManDiedException:
                     self.running = False
 
-    def start(self) -> GameStateStore:
+    def start(self) -> list[dict]:
         """
         Start the game loop.
 
@@ -142,7 +142,7 @@ class GameManager:
             print("GAME OVER")
             print("##############################")
             self.print_current_state()
-        return self.state_store
+        return self.state_store.to_json()
 
     def print_current_state(self) -> None:
         """
@@ -173,5 +173,5 @@ class GameManager:
 
 if __name__ == "__main__":
     # entry point to run a single game.
-    game = GameManager(1)
+    game = GameManager(1, local=True)
     game.start()
