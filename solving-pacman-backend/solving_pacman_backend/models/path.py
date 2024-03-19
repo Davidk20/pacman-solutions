@@ -70,3 +70,22 @@ class Path:
         The `Node` corresponding to the next target position.
         """
         return self.route.pop(0)
+
+    def backwards(self, history: list[tuple[int, int]]) -> bool:
+        """
+        Check whether the agent would be moving backward's by traversing
+        this path.
+
+        Parameters
+        ----------
+        `history` : `list[tuple[int, int]]`
+            The path history of the agent.
+
+        Returns
+        -------
+        `true` if the agent would be moving backwards down this path.
+        """
+        if len(history) > 1:
+            return self.route[1].position in history[-2:]
+        else:
+            return False
