@@ -26,6 +26,8 @@ class Graph:
         """
         self.node_count = 1
         """The counter used to identify nodes."""
+        self.total_pickups: int
+        """The total number of pickups contained in this level."""
 
     def __repr__(self) -> str:
         string = ""
@@ -199,6 +201,7 @@ class Graph:
             raise exceptions.InvalidGraphConfigurationException(
                 "Graph is not connected, check edges"
             )
+        self.total_pickups = self.remaining_pickups()
 
     def bfs(self, start_pos: tuple[int, int] | Node) -> list[Node]:
         """
