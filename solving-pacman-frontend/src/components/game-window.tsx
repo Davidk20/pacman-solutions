@@ -22,7 +22,14 @@ export function GameWindow(stateStore: GameState[]) {
    * The tick history of the simulation.
    */
   const [tick, setTick] = useState(0);
+  /**
+   * `true` if the game is currently running.
+   */
   const [running, setRunning] = useState<boolean>(false);
+  /**
+   * `true` if the game is completed.
+   */
+  const [gameOver, setGameOver] = useState<boolean>(false);
 
   /**
    * Starts the game simulation.
@@ -31,10 +38,23 @@ export function GameWindow(stateStore: GameState[]) {
     setRunning(!running);
   }
 
+  /**
+   * Restart the game once the simulation has finished.
+   */
+  function startGame(): void {
+    setTick(0);
+    setGameOver(false);
+    setRunning(true);
+  }
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (running && store[tick + 1]) {
         setTick(tick + 1);
+      } else if (!store[tick + 1]) {
+        // Stops the game when the simulation is finished.
+        setGameOver(true);
+        setRunning(false);
       }
     }, 250);
 
@@ -162,7 +182,16 @@ export function GameWindow(stateStore: GameState[]) {
           {gameComponents}
         </div>
       </div>
-      <GameStats time={store[tick].time} score={0} energised={false} running={running} toggleGame={toggleGame}></GameStats>
+      <GameStats
+        time={store[tick].time}
+        score={0}
+        energised={false}
+        running={running}
+        toggleGame={toggleGame}
+        gameOver={gameOver}
+        toggleRestart={startGame}
+      >
+      </GameStats>
     </div>
   );
 }

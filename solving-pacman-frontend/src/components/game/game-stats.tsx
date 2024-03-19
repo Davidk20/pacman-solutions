@@ -23,8 +23,16 @@ export interface GameStatsProps {
   running: boolean,
   /**
    * Callback function to parent component allowing the game to be paused.
-   */
-  toggleGame: () => void
+  */
+ toggleGame: () => void,
+ /**
+  * `true` if the game simulation has finished.
+  */
+ gameOver: boolean,
+ /**
+  * Function to restart the game simulation.
+  */
+ toggleRestart: () => void
 }
 
 /**
@@ -36,23 +44,30 @@ export class GameStats extends React.Component<GameStatsProps>{
       <div
         className="Game-Stats-Container"
         style={{
-          border: "3px solid white",
-          borderRadius:"5px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           padding: "20px",
           textAlign: "center",
-          width: "20%"
+          width: "20%",
+          border: "3px solid white",
+          borderRadius:"5px",
+          boxShadow: "5px 5px 15px 5px #000000"
         }}
       >
-        <div
-          className="Button"
-          onClick={this.props.toggleGame}
-        >
-          <span>{!this.props.running ? "START" : "PAUSE"}</span>
-        </div>
+        {!this.props.gameOver ?
+          <div className="Button" onClick={this.props.toggleGame}>
+            <span>{!this.props.running ? "START" : "PAUSE"}</span>
+          </div>
+          :
+          <div>
+            <span className="Stat-Text">GAME OVER</span>
+            <div className="Button" onClick={this.props.toggleRestart}>
+              <span>RESTART</span>
+            </div>
+          </div>
+        }
         <span className="Stat-Text">TIME: {this.props.time}</span>
         <span className="Stat-Text">SCORE: {this.props.score}</span>
         <span className="Stat-Text">ENERGISED: {this.props.energised.toString().toUpperCase()}</span>
