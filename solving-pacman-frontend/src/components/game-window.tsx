@@ -162,7 +162,7 @@ export function GameWindow(stateStore: GameState[]) {
           {gameComponents}
         </div>
       </div>
-      <GameStats time={store[state].time} score={0} energised={false}></GameStats>
+      <GameStats time={store[state].time} score={0} energised={false} running={running} toggleGame={toggleGame}></GameStats>
     </div>
   );
 }

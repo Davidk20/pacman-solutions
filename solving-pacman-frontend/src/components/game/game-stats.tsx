@@ -16,7 +16,15 @@ export interface GameStatsProps {
   /**
    * `true` if Pac-Man is energised in the current state
    */
-  energised: boolean
+  energised: boolean,
+  /**
+   * `true` if the game is currently running
+   */
+  running: boolean,
+  /**
+   * Callback function to parent component allowing the game to be paused.
+   */
+  toggleGame: () => void
 }
 
 /**
@@ -39,6 +47,12 @@ export class GameStats extends React.Component<GameStatsProps>{
           width: "20%"
         }}
       >
+        <div
+          className="Button"
+          onClick={this.props.toggleGame}
+        >
+          <span>{!this.props.running ? "START" : "PAUSE"}</span>
+        </div>
         <span className="Stat-Text">TIME: {this.props.time}</span>
         <span className="Stat-Text">SCORE: {this.props.score}</span>
         <span className="Stat-Text">ENERGISED: {this.props.energised.toString().toUpperCase()}</span>
