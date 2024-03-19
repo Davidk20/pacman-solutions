@@ -28,7 +28,7 @@ export function GameWindow(stateStore: GameState[]) {
       if (store[state + 1]) {
         setState(state + 1);
       }
-    }, 1000);
+    }, 250);
 
     return () => clearInterval(interval);
   });
