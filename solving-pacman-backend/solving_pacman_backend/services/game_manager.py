@@ -169,9 +169,6 @@ class GameManager:
         print(level_utils.print_level(level_utils.graph_to_array(self.game)))
 
     def handle_collision(self, node: Node) -> None:
-        if node.contains(ghost_agent.GhostAgent) and node.contains(Pickup):
-            # if collision is between ghost and pickup, ignore
-            return
         higher = node.get_higher_entity()
         lower = node.get_lower_entity()
 
