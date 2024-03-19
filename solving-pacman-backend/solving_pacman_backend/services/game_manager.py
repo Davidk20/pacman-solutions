@@ -144,8 +144,16 @@ class GameManager:
                 self.tick()
             except KeyboardInterrupt:
                 print("\nSimulation manually stopped")
-                self.print_current_state()
                 break
+        # append final state after game ended
+        self.state_store.add(
+            GameState(
+                self.timer,
+                level_utils.graph_to_array(self.game),
+                self.pacman.energized,
+                self.pacman.score(),
+            )
+        )
         if self.local:
             print("##############################")
             print("GAME OVER")
