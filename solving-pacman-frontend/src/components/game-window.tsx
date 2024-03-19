@@ -185,7 +185,7 @@ export function GameWindow(stateStore: GameState[]) {
       <GameStats
         time={store[tick].time}
         score={0}
-        energised={false}
+        energised={store[tick].energised}
         running={running}
         toggleGame={toggleGame}
         gameOver={gameOver}

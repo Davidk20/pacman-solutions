@@ -62,5 +62,11 @@ class GameStateStore:
         """
         json = []
         for state in self.store:
-            json.append({"time": state.time, "state": state.board_state})
+            json.append(
+                {
+                    "time": state.time,
+                    "state": state.board_state,
+                    "energised": state.energised,
+                }
+            )
         return json

@@ -104,7 +104,7 @@ class GameManager:
     def tick(self) -> None:
         """Increments the game time and processes all time based events."""
         level_array = level_utils.graph_to_array(self.game)
-        self.state_store.add(GameState(self.timer, level_array))
+        self.state_store.add(GameState(self.timer, level_array, self.pacman.energized))
         if self.win() or self.lost():
             self.running = False
         else:

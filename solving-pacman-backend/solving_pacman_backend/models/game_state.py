@@ -4,7 +4,7 @@
 class GameState:
     """Model storing the state of the game at an instance in time."""
 
-    def __init__(self, time: int, level: list[list[int]]):
+    def __init__(self, time: int, level: list[list[int]], energised: bool):
         """
         Initialise a new game state snapshot.
 
@@ -19,3 +19,5 @@ class GameState:
         """Stores the time corresponding to the snapshot."""
         self.board_state: list[list[int]] = level
         """Store the reference to the current board state."""
+        self.energised: bool = energised
+        """Stores whether Pac-Man is energised at this state."""
