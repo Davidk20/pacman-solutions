@@ -32,6 +32,8 @@ export class GameStats extends React.Component<GameStatsProps>{
           borderRadius:"5px",
           display: "flex",
           flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
           padding: "20px",
           textAlign: "center",
           width: "20%"
