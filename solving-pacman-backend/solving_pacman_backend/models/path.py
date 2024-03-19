@@ -36,7 +36,8 @@ class Path:
         -------
         `True` if there are no Ghosts on a path.
         """
-        for node in self.route:
+        for node in self.route[1:]:
+            # Starts from second index to ignore agent in first position.
             if node.empty():
                 continue
             if not node.contains(pickups.Pickup) and not node.contains(
