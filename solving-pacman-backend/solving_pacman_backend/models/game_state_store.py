@@ -67,6 +67,7 @@ class GameStateStore:
                     "time": state.time,
                     "state": state.board_state,
                     "energised": state.energised,
+                    "score": state.score,
                 }
             )
         return json

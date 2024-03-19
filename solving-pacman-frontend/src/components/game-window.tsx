@@ -189,7 +189,7 @@ export function GameWindow(stateStore: GameState[]) {
       </div>
       <GameStats
         time={store[tick].time}
-        score={0}
+        score={store[tick].score}
         energised={store[tick].energised}
         running={running}
         toggleGame={toggleGame}
