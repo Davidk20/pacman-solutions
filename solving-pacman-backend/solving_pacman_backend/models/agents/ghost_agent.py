@@ -1,4 +1,5 @@
 """Collection of models representing the Ghosts."""
+from solving_pacman_backend.models import environment
 from solving_pacman_backend.models.agents.agent import Agent
 from solving_pacman_backend.models.agents.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.graph import Graph
@@ -58,17 +59,38 @@ class BlinkyAgent(GhostAgent):
     def __init__(self, homes: list[tuple[int, int]]):
         super().__init__("Blinky", "Shadow", MovementTypes.CHASE, homes, 21, 200)
 
+    def _perceive(self, time: int, level: Graph) -> None:
+        super()._perceive(time, level)
+
 
 class PinkyAgent(GhostAgent):
     def __init__(self, homes: list[tuple[int, int]]):
         super().__init__("Pinky", "Speedy", MovementTypes.HOMEBOUND, homes, 22, 200)
+
+    def _perceive(self, time: int, level: Graph) -> None:
+        super()._perceive(time, level)
+        if level.total_pickups - level.remaining_pickups() == 1:
+            self.movement_type = MovementTypes.CHASE
+            self.path = Path([level.find_node_by_entity(environment.Gate)[0]])
 
 
 class InkyAgent(GhostAgent):
     def __init__(self, homes: list[tuple[int, int]]):
         super().__init__("Inky", "Bashful", MovementTypes.HOMEBOUND, homes, 23, 200)
 
+    def _perceive(self, time: int, level: Graph) -> None:
+        super()._perceive(time, level)
+        if level.total_pickups - level.remaining_pickups() == 30:
+            self.movement_type = MovementTypes.CHASE
+            self.path = Path([level.find_node_by_entity(environment.Gate)[0]])
+
 
 class ClydeAgent(GhostAgent):
     def __init__(self, homes: list[tuple[int, int]]):
         super().__init__("Clyde", "Pokey", MovementTypes.HOMEBOUND, homes, 24, 200)
+
+    def _perceive(self, time: int, level: Graph) -> None:
+        super()._perceive(time, level)
+        if level.total_pickups - level.remaining_pickups() == 60:
+            self.movement_type = MovementTypes.CHASE
+            self.path = Path([level.find_node_by_entity(environment.Gate)[0]])
