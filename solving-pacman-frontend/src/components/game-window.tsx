@@ -22,10 +22,18 @@ export function GameWindow(stateStore: GameState[]) {
    * The state history of the simulation.
    */
   const [state, setState] = useState(0);
+  const [running, setRunning] = useState<boolean>(false);
+
+  /**
+   * Starts the game simulation.
+   */
+  function toggleGame(): void {
+    setRunning(!running);
+  }
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (store[state + 1]) {
+      if (running && store[state + 1]) {
         setState(state + 1);
       }
     }, 250);
