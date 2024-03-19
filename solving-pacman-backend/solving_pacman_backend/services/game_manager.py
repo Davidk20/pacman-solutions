@@ -1,9 +1,13 @@
 """Service managing the running of the game."""
 from solving_pacman_backend import exceptions
 from solving_pacman_backend.models.agents import ghost_agent
-from solving_pacman_backend.models.agents.custom_agents.random import RandomPacMan
+from solving_pacman_backend.models.agents.agent import Agent
+from solving_pacman_backend.models.agents.custom_agents.random_informed import (
+    RandomInformedPacMan,
+)
 from solving_pacman_backend.models.agents.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.agents.placeholder_agent import PlaceholderAgent
+from solving_pacman_backend.models.environment import Teleporter
 from solving_pacman_backend.models.game_state import GameState
 from solving_pacman_backend.models.game_state_store import GameStateStore
 from solving_pacman_backend.models.graph import Graph
@@ -58,7 +62,7 @@ class GameManager:
         """Indicates whether the game is currently running."""
         self.agent_home = level_handler.get_homes(level_num)
         """Dictionary containing the homes of the agents."""
-        self.pacman = RandomPacMan(self.agent_home["pacman"])
+        self.pacman = RandomInformedPacMan(self.agent_home["pacman"])
         """Representation of the Pac-Man agent."""
         self.agents: list[PacmanAgent | ghost_agent.GhostAgent] = [
             self.pacman,
@@ -164,6 +168,9 @@ class GameManager:
             return
         higher = node.get_higher_entity()
         lower = node.get_lower_entity()
+        if isinstance(higher, Agent) and isinstance(lower, Teleporter):
+            # If passing through teleporter, ignore
+            return
         if isinstance(higher, ghost_agent.GhostAgent) and isinstance(
             lower, PacmanAgent
         ):
