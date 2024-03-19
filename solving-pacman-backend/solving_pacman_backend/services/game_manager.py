@@ -1,6 +1,7 @@
 """Service managing the running of the game."""
 from solving_pacman_backend import exceptions
 from solving_pacman_backend.models.agents import ghost_agent
+from solving_pacman_backend.models.agents.custom_agents.random import RandomPacMan
 from solving_pacman_backend.models.agents.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.agents.placeholder_agent import PlaceholderAgent
 from solving_pacman_backend.models.game_state import GameState
@@ -57,7 +58,7 @@ class GameManager:
         """Indicates whether the game is currently running."""
         self.agent_home = level_handler.get_homes(level_num)
         """Dictionary containing the homes of the agents."""
-        self.pacman = PacmanAgent(self.agent_home["pacman"])
+        self.pacman = RandomPacMan(self.agent_home["pacman"])
         """Representation of the Pac-Man agent."""
         self.agents: list[PacmanAgent | ghost_agent.GhostAgent] = [
             self.pacman,
