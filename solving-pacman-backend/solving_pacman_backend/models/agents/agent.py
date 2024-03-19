@@ -62,6 +62,8 @@ class Agent(ABC, Entity):
         """The position of the agent."""
         self.target: list[tuple[int, int]] = []
         """The target path for the agent to follow."""
+        self.move_history: list[tuple[int, int]] = []
+        """Stores the agents move history."""
 
     def __repr__(self) -> str:
         return (
