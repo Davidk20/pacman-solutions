@@ -172,6 +172,7 @@ class GameManager:
             lower, Pickup | ghost_agent.GhostAgent
         ):
             self.pacman.handle_consume(lower)
+            node.entities.remove(node.get_lower_entity())
         else:
             raise ValueError(f"Invalid case higher - {higher}, lower - {lower}")
 
