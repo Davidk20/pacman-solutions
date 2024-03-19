@@ -19,9 +19,9 @@ export function GameWindow(stateStore: GameState[]) {
 
   const store = stateStore;
   /**
-   * The state history of the simulation.
+   * The tick history of the simulation.
    */
-  const [state, setState] = useState(0);
+  const [tick, setTick] = useState(0);
   const [running, setRunning] = useState<boolean>(false);
 
   /**
@@ -33,8 +33,8 @@ export function GameWindow(stateStore: GameState[]) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (running && store[state + 1]) {
-        setState(state + 1);
+      if (running && store[tick + 1]) {
+        setTick(tick + 1);
       }
     }, 250);
 
@@ -42,12 +42,12 @@ export function GameWindow(stateStore: GameState[]) {
   });
 
   const gameComponents = [];
-  for (let row = 0; row < store[state].state.length; row++) {
+  for (let row = 0; row < store[tick].state.length; row++) {
     const componentRow = [];
-    for (let col = 0; col < store[state].state[row].length; col++) {
+    for (let col = 0; col < store[tick].state[row].length; col++) {
       // level[0] can only be read whilst accessing props.
       let component;
-      switch (store[state].state[row][col]) {
+      switch (store[tick].state[row][col]) {
       case 1:
         component = <Dot
           key={col*row*Math.random()}
@@ -153,8 +153,8 @@ export function GameWindow(stateStore: GameState[]) {
       >
         <div
           style={{
-            height: entityHeight * store[state].state.length,
-            width: entityWidth * store[state].state[0].length,
+            height: entityHeight * store[tick].state.length,
+            width: entityWidth * store[tick].state[0].length,
             position: "absolute",
             backgroundColor: "black"
           }}
@@ -162,7 +162,7 @@ export function GameWindow(stateStore: GameState[]) {
           {gameComponents}
         </div>
       </div>
-      <GameStats time={store[state].time} score={0} energised={false} running={running} toggleGame={toggleGame}></GameStats>
+      <GameStats time={store[tick].time} score={0} energised={false} running={running} toggleGame={toggleGame}></GameStats>
     </div>
   );
 }
