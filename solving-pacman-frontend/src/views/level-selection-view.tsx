@@ -18,7 +18,7 @@ export class LevelSelectionView extends React.Component{
     const levels = await fetchOverview();
     const levelElements: Array<ReactElement> = [];
     for (const level of levels){
-      levelElements.push(<LevelCard levelName={level.toUpperCase()}></LevelCard>);
+      levelElements.push(<LevelCard levelName={level.toUpperCase()} key={level}></LevelCard>);
     }
     this.setState({formattedLevels: levelElements});
   }

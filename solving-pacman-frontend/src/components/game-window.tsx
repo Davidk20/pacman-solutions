@@ -1,84 +1,197 @@
-/**
- * Base code for this taken with inspiration from
- * https://codesandbox.io/p/sandbox/canvas-react-typescript-lqq9k?file=%2Fsrc%2FApp.tsx
- */
+import React, { useEffect, useState } from "react";
+import { Wall } from "./game/wall";
+import { Dot } from "./game/dot";
+import { Energiser } from "./game/energiser";
+import { Agent } from "./game/agents";
+import { GameState } from "@models/game-state";
+import { GameStats } from "./game/game-stats";
 
-import React, { useEffect, useRef } from "react";
-import Wall from "./canvas/wall";
-import Dot from "./canvas/dot";
-import PowerPellet from "./canvas/power-pellet";
-import Agent from "./canvas/agent";
 
-/**
- * Function to return a game window.
- *
- * @param level The level as a 2-D array.
- */
-export default function GameWindow( {level}: Readonly<{level: number[][]}> ) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const frameRef = useRef<number>(0);
-  const height = 800;
-  const width = 800;
-  let xPos = 0;
-  let yPos = 0;
+export function GameWindow(stateStore: GameState[]) {
+  const entityHeight = 22;
+  /**
+   * The height of a single entity within the game.
+   */
+  const entityWidth = 22;
+  /**
+   * The width of a single entity within the game.
+   */
 
-  function draw(context: CanvasRenderingContext2D) {
-    if (context) {
-      // Draw base game window
-      context.fillStyle = "black";
-      context.fillRect(0, 0, height, width);
-      // Draw game
-      for (const row of level) {
-        for (const pos of row) {
-          switch (pos) {
-          case 1:
-            Dot(context, height, xPos, yPos);
-            break;
-          case 2:
-            PowerPellet(context, height, xPos, yPos);
-            break;
-          case 21:
-            Agent(context, "blinky", height, xPos, yPos);
-            break;
-          case 22:
-            Agent(context, "clyde", height, xPos, yPos);
-            break;
-          case 23:
-            Agent(context, "inky", height, xPos, yPos);
-            break;
-          case 24:
-            Agent(context, "pinky", height, xPos, yPos);
-            break;
-          case 44:
-            Agent(context, "pacman", height, xPos, yPos);
-            break;
-          case 99:
-            Wall(context, height, xPos, yPos);
-            break;
-          default:
-            break;
-          }
-          xPos = xPos + (width / 28);
-        }
-        xPos = 0;
-        yPos = yPos + (height / 31);
-      }
-    }
+  const store = stateStore;
+  /**
+   * The tick history of the simulation.
+   */
+  const [tick, setTick] = useState(0);
+  /**
+   * `true` if the game is currently running.
+   */
+  const [running, setRunning] = useState<boolean>(false);
+  /**
+   * `true` if the game is completed.
+   */
+  const [gameOver, setGameOver] = useState<boolean>(false);
+
+  /**
+   * Starts the game simulation.
+   */
+  function toggleGame(): void {
+    setRunning(!running);
+  }
+
+  /**
+   * Restart the game once the simulation has finished.
+   */
+  function startGame(): void {
+    setTick(0);
+    setGameOver(false);
+    setRunning(true);
   }
 
   useEffect(() => {
-    if (canvasRef.current) {
-      const context = canvasRef.current.getContext("2d");
-
-      if (context) {
-        context.canvas.height = height;
-        context.canvas.width = width;
-
-        frameRef.current = requestAnimationFrame(() => draw(context));
+    const interval = setInterval(() => {
+      if (running && store[tick + 1]) {
+        setTick(tick + 1);
+      } else if (!store[tick + 1]) {
+        // Stops the game when the simulation is finished.
+        setGameOver(true);
+        setRunning(false);
       }
-    }
-    return () => cancelAnimationFrame(frameRef.current);
-  }, [height, width]);
+    }, 250);
 
-  return <canvas ref={canvasRef} />;
+    return () => clearInterval(interval);
+  });
+
+  const gameComponents = [];
+  for (let row = 0; row < store[tick].state.length; row++) {
+    const componentRow = [];
+    for (let col = 0; col < store[tick].state[row].length; col++) {
+      // level[0] can only be read whilst accessing props.
+      let component;
+      switch (store[tick].state[row][col]) {
+      case 1:
+        component = <Dot
+          key={col*row*Math.random()}
+          width={entityWidth}
+          height={entityHeight}
+          yPos={entityHeight*row}
+          xPos={entityWidth*col}
+        />;
+        break;
+      case 2:
+        component = <Energiser
+          key={col*row*Math.random()}
+          width={entityWidth}
+          height={entityHeight}
+          yPos={entityHeight*row}
+          xPos={entityWidth*col}
+        />;
+        break;
+      case 21:
+        component = <Agent
+          agent="blinky"
+          key={col*row*Math.random()}
+          width={entityWidth}
+          height={entityHeight}
+          yPos={entityHeight*row}
+          xPos={entityWidth*col}
+        />;
+        break;
+      case 22:
+        component = <Agent
+          agent="pinky"
+          key={col*row*Math.random()}
+          width={entityWidth}
+          height={entityHeight}
+          yPos={entityHeight*row}
+          xPos={entityWidth*col}
+        />;
+        break;
+      case 23:
+        component = <Agent
+          agent="inky"
+          key={col*row*Math.random()}
+          width={entityWidth}
+          height={entityHeight}
+          yPos={entityHeight*row}
+          xPos={entityWidth*col}
+        />;
+        break;
+      case 24:
+        component = <Agent
+          agent="clyde"
+          key={col*row*Math.random()}
+          width={entityWidth}
+          height={entityHeight}
+          yPos={entityHeight*row}
+          xPos={entityWidth*col}
+        />;
+        break;
+      case 44:
+        component = <Agent
+          agent="pacman"
+          key={col*row*Math.random()}
+          width={entityWidth}
+          height={entityHeight}
+          yPos={entityHeight*row}
+          xPos={entityWidth*col}
+        />;
+        break;
+      case 99:
+        component = <Wall
+          key={col*row*Math.random()}
+          width={entityWidth}
+          height={entityHeight}
+          yPos={entityHeight*row}
+          xPos={entityWidth*col}
+        />;
+        break;
+      }
+      componentRow.push(component);
+    }
+    gameComponents.push(componentRow);
+  }
+
+  return (
+    <div
+      style={{
+        position: "relative",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width:"100vw",
+        height:"90vh"
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "40%",
+          height: "100%"
+        }}
+      >
+        <div
+          style={{
+            height: entityHeight * store[tick].state.length,
+            width: entityWidth * store[tick].state[0].length,
+            position: "absolute",
+            backgroundColor: "black"
+          }}
+        >
+          {gameComponents}
+        </div>
+      </div>
+      <GameStats
+        time={store[tick].time}
+        score={0}
+        energised={false}
+        running={running}
+        toggleGame={toggleGame}
+        gameOver={gameOver}
+        toggleRestart={startGame}
+      >
+      </GameStats>
+    </div>
+  );
 }

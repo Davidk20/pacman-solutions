@@ -46,6 +46,21 @@ class GameStateStore:
 
         Returns
         -------
-        A list of `GameState` snaphots.
+        A list of `GameState` snapshots.
         """
         return self.store
+
+    def to_json(self) -> list[dict]:
+        """
+        Format the `GameStateStore` into a JSON object for communication
+        with the front-end.
+
+        Returns
+        -------
+        `list[dict]`
+            A list containing a dictionary for each `GameState`.
+        """
+        json = []
+        for state in self.store:
+            json.append({"time": state.time, "state": state.board_state})
+        return json

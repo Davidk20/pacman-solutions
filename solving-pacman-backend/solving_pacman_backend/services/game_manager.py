@@ -1,6 +1,5 @@
 """Service managing the running of the game."""
 from solving_pacman_backend import exceptions
-from solving_pacman_backend.exceptions import NonAgentException
 from solving_pacman_backend.models import ghost_agent
 from solving_pacman_backend.models.game_state import GameState
 from solving_pacman_backend.models.game_state_store import GameStateStore
@@ -18,18 +17,27 @@ class GameManager:
     Service which manages the overall running of the game.
     """
 
-    def __init__(self, level_num: int) -> None:
+    def __init__(self, level_num: int, local: bool = False) -> None:
         """
         Initialises the `GameManager`.
 
         The game manager is responsible for building the game with all requirements
         and then running the game, managing its iteration and win / loss conditions.
 
+        There are two run configurations: `local` and `server`. If `GameManager`
+        is run locally, this refers to it being run using the
+        `if __name__ == "__main__"` call. In this case, the outputs of simulations
+        should be printed to the terminal. If `GameManager` is being run by the
+        server then all output should be returned so that it can be passed back
+        in server messages.
+
         Parameters
         ----------
         `level_num` : `int`
             The number of the level to be run.
         """
+        self.local: bool = local
+        """Indicates the parent call of `GameManager`."""
         self.timer = 0
         """
         The internal game counter.
@@ -111,8 +119,15 @@ class GameManager:
                 except exceptions.PacManDiedException:
                     self.running = False
 
-    def start(self) -> None:
-        """Start the game loop."""
+    def start(self) -> list[dict]:
+        """
+        Start the game loop.
+
+        Returns
+        -------
+        `GameStateStore`
+            The history of moves
+        """
         self.running = True
         self.setup_game()
         while self.running:
@@ -122,14 +137,12 @@ class GameManager:
                 print("\nSimulation manually stopped")
                 self.print_current_state()
                 break
-            except NonAgentException as e:
-                print(f"Error: {e}")
-                self.print_current_state()
-                break
-        print("##############################")
-        print("GAME OVER")
-        print("##############################")
-        self.print_current_state()
+        if self.local:
+            print("##############################")
+            print("GAME OVER")
+            print("##############################")
+            self.print_current_state()
+        return self.state_store.to_json()
 
     def print_current_state(self) -> None:
         """
@@ -160,5 +173,5 @@ class GameManager:
 
 if __name__ == "__main__":
     # entry point to run a single game.
-    game = GameManager(1)
+    game = GameManager(1, local=True)
     game.start()
