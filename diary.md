@@ -312,7 +312,6 @@
 - Refactored move_agent to reduce dependency on Agent imports
 - There is now less conditional handling taking place within the move function. This logic should not have been there in the  first place and now, if a collision between two "in-play" entities, a CollisionException is raised so that the logic can be passed back into the GameManager to deal with.
 
-
 ## 01/03/24
 
 - Created an `Entity` model to act as the parent class to all entities
@@ -340,3 +339,26 @@
 - Implemented first iteration of very basic Pac-Man mind
   - The agent's mind is intended to randomly choose a location on the graph and travel to that location. If, at any point, the path becomes unsafe, Pac-Man should pick a new location and travel to that location instead.
   - This is designed to be the first iteration of Pac-Man's mind and is considered the most basic. It will be improved on with iterative design.
+
+## 15/03/24
+
+- Switched renderer from canvas-based to div-based
+  - Much easier to implement and no need for canvas features
+
+## 17/03/24
+
+- Refactored `GameManager` to return and print based on run conditions
+  - Will only print when run locally in terminal
+
+## 18/03/24
+
+- Refactored API endpoint to return full game
+- Added loading animation while waiting for game to be sent to front-end
+- Implemented full rendering of static state
+- Implemented animation of game
+  - Made use of `useeffect`
+- Created component to show game stats
+
+## 19/03/24
+
+- Implemented play/pause/reset button

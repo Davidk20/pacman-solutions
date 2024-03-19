@@ -1,0 +1,39 @@
+@import "../../../App.scss";
+
+.Stat-Text {
+    @extend .Pixel-Font;
+    font-size: calc(10px + 1.2vmin);
+    line-height: 4vmin;
+    color: $pacman-yellow;
+}
+
+.Button{
+    @extend .Pixel-Font;
+    min-width: 60%;
+    min-height: 10px;
+    border: 3px solid;
+    border-color: $pacman-wall-colour;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 1700px) {
+    .Stat-Text {
+        font-size: calc(10px + 1vmin);
+    }
+}
+
+@media only screen and (max-width: 1400px){
+    .Game-Stats-Container {
+        padding: 5px;
+        width: 40%;
+        margin-left: 5vw;
+    }
+    .Stat-Text {
+        font-size: calc(10px + 0.5vmin);
+    }
+}

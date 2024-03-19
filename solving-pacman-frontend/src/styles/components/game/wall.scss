@@ -1,0 +1,7 @@
+@import "../../../App.scss";
+
+.Wall {
+    display: inline-block;
+    position: absolute;
+    background-color: $pacman-wall-colour;
+}

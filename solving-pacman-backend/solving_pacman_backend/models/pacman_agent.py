@@ -95,5 +95,4 @@ class PacmanAgent(Agent):
         self.path = level.shortest_path_to(self.position, self.target[0])
 
     def _execute(self) -> tuple[int, int]:
-        print(self.path.get_next_pos().position)
         return self.path.get_next_pos().position

@@ -64,13 +64,6 @@ class InvalidGraphConfigurationException(Exception):
         super().__init__(message)
 
 
-class NonAgentException(Exception):
-    """Raised when there is an attempt to move a non-agent."""
-
-    def __init__(self, entity: str) -> None:
-        super().__init__(f"Type {entity} is not moveable.")
-
-
 class CollisionException(Exception):
     """Raised when there is a collision between agents."""
 
