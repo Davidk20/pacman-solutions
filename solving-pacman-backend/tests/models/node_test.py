@@ -1,10 +1,10 @@
 """Tests for the Node model."""
 import pytest
 from solving_pacman_backend import exceptions
+from solving_pacman_backend.models.agents.placeholder_agent import PlaceholderAgent
 from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.models.pickups import Empty
 from solving_pacman_backend.models.pickups import PacDot
-from solving_pacman_backend.models.placeholder_agent import PlaceholderAgent
 
 
 @pytest.fixture(scope="function", autouse=True)

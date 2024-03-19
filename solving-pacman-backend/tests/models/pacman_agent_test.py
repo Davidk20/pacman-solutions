@@ -1,8 +1,8 @@
 """Tests for the Pac-man Agent."""
 import pytest
-from solving_pacman_backend.models.agent import Agent
-from solving_pacman_backend.models.pacman_agent import PacmanAgent
-from solving_pacman_backend.models.pacman_agent import PacManDiedException
+from solving_pacman_backend.models.agents.agent import Agent
+from solving_pacman_backend.models.agents.pacman_agent import PacmanAgent
+from solving_pacman_backend.models.agents.pacman_agent import PacManDiedException
 from solving_pacman_backend.models.pickups import Orange
 from solving_pacman_backend.models.pickups import PowerPellet
 from tests.mocks.mock_agent_test import mock_ghost

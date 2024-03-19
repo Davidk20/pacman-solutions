@@ -2,9 +2,9 @@ import pytest
 from solving_pacman_backend import exceptions
 from solving_pacman_backend.models import environment
 from solving_pacman_backend.models import pickups
+from solving_pacman_backend.models.agents.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.node import Node
-from solving_pacman_backend.models.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.path import Path
 from tests.mocks.mock_agent_test import mock_ghost
 

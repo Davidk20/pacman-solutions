@@ -1,13 +1,13 @@
 """Service managing the running of the game."""
 from solving_pacman_backend import exceptions
-from solving_pacman_backend.models import ghost_agent
+from solving_pacman_backend.models.agents import ghost_agent
+from solving_pacman_backend.models.agents.pacman_agent import PacmanAgent
+from solving_pacman_backend.models.agents.placeholder_agent import PlaceholderAgent
 from solving_pacman_backend.models.game_state import GameState
 from solving_pacman_backend.models.game_state_store import GameStateStore
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.node import Node
-from solving_pacman_backend.models.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.pickups import Pickup
-from solving_pacman_backend.models.placeholder_agent import PlaceholderAgent
 from solving_pacman_backend.services import level_handler
 from solving_pacman_backend.utils import level_utils
 

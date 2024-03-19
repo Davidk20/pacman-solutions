@@ -1,5 +1,5 @@
 """Mock values for agents."""
-from solving_pacman_backend.models.ghost_agent import GhostAgent
+from solving_pacman_backend.models.agents.ghost_agent import GhostAgent
 from solving_pacman_backend.models.movement_types import MovementTypes
 
 

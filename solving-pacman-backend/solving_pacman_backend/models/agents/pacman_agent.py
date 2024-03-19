@@ -1,6 +1,6 @@
 """Model representing the agent for Pac-man."""
 from solving_pacman_backend.exceptions import PacManDiedException
-from solving_pacman_backend.models.agent import Agent
+from solving_pacman_backend.models.agents.agent import Agent
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.movement_types import MovementTypes
 from solving_pacman_backend.models.path import Path

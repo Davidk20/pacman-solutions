@@ -1,8 +1,8 @@
 """Collection of models representing the Ghosts."""
-from solving_pacman_backend.models.agent import Agent
+from solving_pacman_backend.models.agents.agent import Agent
+from solving_pacman_backend.models.agents.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.movement_types import MovementTypes
-from solving_pacman_backend.models.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.path import Path
 
 
