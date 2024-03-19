@@ -4,6 +4,7 @@ import { Dot } from "./game/dot";
 import { Energiser } from "./game/energiser";
 import { Agent } from "./game/agents";
 import { GameState } from "@models/game-state";
+import { GameStats } from "./game/game-stats";
 
 
 export function GameWindow(stateStore: GameState[]) {
@@ -125,13 +126,35 @@ export function GameWindow(stateStore: GameState[]) {
   return (
     <div
       style={{
-        height: entityHeight * store[state].state.length,
-        width: entityWidth * store[state].state[0].length,
-        position: "absolute",
-        backgroundColor: "black"
+        position: "relative",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width:"100vw",
+        height:"90vh"
       }}
     >
-      {gameComponents}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "40%",
+          height: "100%"
+        }}
+      >
+        <div
+          style={{
+            height: entityHeight * store[state].state.length,
+            width: entityWidth * store[state].state[0].length,
+            position: "absolute",
+            backgroundColor: "black"
+          }}
+        >
+          {gameComponents}
+        </div>
+      </div>
+      <GameStats time={store[state].time} score={0} energised={false}></GameStats>
     </div>
   );
 }
