@@ -7,10 +7,7 @@ from solving_pacman_backend.models.node import Node
 
 
 def handle_collision(node: Node) -> None:
-    higher = node.get_higher_entity()
-    lower = node.get_lower_entity()
-
-    if isinstance(lower, environment.Teleporter):
+    if node.contains(environment.Teleporter):
         # If passing through teleporter, ignore
         return
 
@@ -18,12 +15,14 @@ def handle_collision(node: Node) -> None:
     if node.contains(ghost_agent.GhostAgent) and not node.contains(PacmanAgent):
         return
 
-    if isinstance(higher, PacmanAgent):
-        pacman = higher
-        if isinstance(lower, (pickups.Pickup, ghost_agent.GhostAgent)):
-            pacman.handle_consume(lower)
-        if isinstance(lower, pickups.Pickup):
-            node.entities.remove(node.get_lower_entity())
-    elif isinstance(higher, ghost_agent.GhostAgent) and isinstance(lower, PacmanAgent):
-        pacman = lower
-        pacman.handle_consume(higher)
+    # if Pac-Man collides with Ghost
+    if node.contains(PacmanAgent) and node.contains(ghost_agent.GhostAgent):
+        pacman = node.get_entity(PacmanAgent)
+        pacman.handle_consume(node.get_entity(ghost_agent.GhostAgent))
+
+    # if Pac-Man collides with pickup
+    if node.contains(PacmanAgent) and node.contains(pickups.Pickup):
+        pacman = node.get_entity(PacmanAgent)
+        pickup = node.get_entity(pickups.Pickup)
+        pacman.handle_consume(pickup)
+        node.entities.remove(pickup)
