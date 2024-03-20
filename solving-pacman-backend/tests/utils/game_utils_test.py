@@ -1,0 +1,87 @@
+"""Tests for the game utils."""
+import pytest
+from solving_pacman_backend import exceptions
+from solving_pacman_backend.models import environment
+from solving_pacman_backend.models import pickups
+from solving_pacman_backend.models.agents import ghost_agent
+from solving_pacman_backend.models.agents.pacman_agent import PacmanAgent
+from solving_pacman_backend.models.node import Node
+from solving_pacman_backend.utils import game_utils
+
+
+@pytest.fixture(scope="function")
+def agent_teleporter_node():
+    """Returns a node containing an agent and a teleporter."""
+    e1 = environment.Teleporter()
+    e2 = PacmanAgent([])
+    node: Node = Node((0, 0), e1)
+    node.add_entity(e2)
+    yield node
+
+
+@pytest.fixture(scope="function")
+def ghost_pickup_node():
+    """Returns a node containing a ghost and a pickup."""
+    e1 = pickups.PacDot()
+    e2 = ghost_agent.BlinkyAgent([])
+    node: Node = Node((0, 0), e1)
+    node.add_entity(e2)
+    yield node
+
+
+@pytest.fixture(scope="function")
+def higher_pacman_ghost_node():
+    """Returns a node with a ghost and Pac-Man in the higher position."""
+    e1 = ghost_agent.BlinkyAgent([])
+    e2 = PacmanAgent([])
+    node: Node = Node((0, 0), e1)
+    node.add_entity(e2)
+    yield node
+
+
+@pytest.fixture(scope="function")
+def lower_pacman_ghost_node():
+    """Returns a node with a ghost and Pac-Man in the lower position."""
+    e1 = PacmanAgent([])
+    e2 = ghost_agent.BlinkyAgent([])
+    node: Node = Node((0, 0), e1)
+    node.add_entity(e2)
+    yield node
+
+
+def test_agent_teleporter_collision(agent_teleporter_node: Node):
+    """When an agent collides with a teleporter, nothing happens."""
+    game_utils.handle_collision(agent_teleporter_node)
+    assert agent_teleporter_node.contains(
+        environment.Teleporter
+    ) and agent_teleporter_node.contains(PacmanAgent)
+
+
+def test_ghost_pickup_collision(ghost_pickup_node: Node):
+    """When a ghost collides with a pickup, nothing happens."""
+    game_utils.handle_collision(ghost_pickup_node)
+    assert ghost_pickup_node.contains(pickups.PacDot) and ghost_pickup_node.contains(
+        ghost_agent.BlinkyAgent
+    )
+
+
+def test_higher_pacman_ghost_collision(higher_pacman_ghost_node: Node):
+    """
+    Tests a collision between Pac-Man and a ghost when Pac-Man is in the higher role.
+
+    For this test, it is assumed that Pac-Man is not energised and it is then expected
+    that Pac-Man will die.
+    """
+    with pytest.raises(exceptions.PacManDiedException):
+        game_utils.handle_collision(higher_pacman_ghost_node)
+
+
+def test_lower_pacman_ghost_collision(lower_pacman_ghost_node: Node):
+    """
+    Tests a collision between Pac-Man and a ghost when Pac-Man is in the lower role.
+
+    For this test, it is assumed that Pac-Man is not energised and it is then expected
+    that Pac-Man will die.
+    """
+    with pytest.raises(exceptions.PacManDiedException):
+        game_utils.handle_collision(lower_pacman_ghost_node)
