@@ -95,6 +95,7 @@ class PinkyAgent(GhostAgent):
 
     def _perceive(self, time: int, level: Graph) -> None:
         super()._perceive(time, level)
+        return
         if level.total_pickups - level.remaining_pickups() == 1:
             self.movement_type = MovementTypes.CHASE
             self.path = Path([level.find_node_by_entity(environment.Gate)[0]])
@@ -106,6 +107,7 @@ class InkyAgent(GhostAgent):
 
     def _perceive(self, time: int, level: Graph) -> None:
         super()._perceive(time, level)
+        return
         if level.total_pickups - level.remaining_pickups() == 30:
             self.movement_type = MovementTypes.CHASE
             self.path = Path([level.find_node_by_entity(environment.Gate)[0]])
@@ -117,6 +119,7 @@ class ClydeAgent(GhostAgent):
 
     def _perceive(self, time: int, level: Graph) -> None:
         super()._perceive(time, level)
+        return
         if level.total_pickups - level.remaining_pickups() == 60:
             self.movement_type = MovementTypes.CHASE
             self.path = Path([level.find_node_by_entity(environment.Gate)[0]])
