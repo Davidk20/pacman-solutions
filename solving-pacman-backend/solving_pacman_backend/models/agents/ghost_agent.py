@@ -39,12 +39,19 @@ class GhostAgent(Agent):
         """
         self.path: Path = Path([])
         """The path the agent is taking."""
+        self._frightened_countdown: int = 6
 
     def _perceive(self, time: int, level: Graph) -> None:
         # Update behaviours
+        if self.movement_type == MovementTypes.FRIGHTENED:
+            self._frightened_countdown -= 1
+            if self._frightened_countdown == 0:
+                self._frightened_countdown = 6
+                self.movement_type = MovementTypes.CHASE
+
         if (
-            self.movement_type != MovementTypes.FRIGHTENED
-            and self.movement_type != MovementTypes.HOMEBOUND
+            self.movement_type == MovementTypes.CHASE
+            or self.movement_type == MovementTypes.SCATTER
         ):
             # Only update time when not frightened
             self._internal_time += 1
