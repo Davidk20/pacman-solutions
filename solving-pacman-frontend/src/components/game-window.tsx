@@ -56,7 +56,7 @@ export function GameWindow(stateStore: GameState[]) {
         setGameOver(true);
         setRunning(false);
       }
-    }, 250);
+    }, 100);
 
     return () => clearInterval(interval);
   });
