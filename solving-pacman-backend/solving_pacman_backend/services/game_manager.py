@@ -1,17 +1,14 @@
 """Service managing the running of the game."""
 from solving_pacman_backend import exceptions
-from solving_pacman_backend.models import environment
 from solving_pacman_backend.models.agents import ghost_agent
-from solving_pacman_backend.models.agents.agent import Agent
 from solving_pacman_backend.models.agents.custom_agents.random import RandomPacMan
 from solving_pacman_backend.models.agents.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.agents.placeholder_agent import PlaceholderAgent
 from solving_pacman_backend.models.game_state import GameState
 from solving_pacman_backend.models.game_state_store import GameStateStore
 from solving_pacman_backend.models.graph import Graph
-from solving_pacman_backend.models.node import Node
-from solving_pacman_backend.models.pickups import Pickup
 from solving_pacman_backend.services import level_handler
+from solving_pacman_backend.utils import game_utils
 from solving_pacman_backend.utils import level_utils
 
 
@@ -122,9 +119,11 @@ class GameManager:
                 self.game.move_agent(ag.position, ag.cycle(self.timer, self.game))
             except exceptions.CollisionException as collision:
                 try:
-                    self.handle_collision(collision.node)
+                    game_utils.handle_collision(collision.node)
                 except exceptions.PacManDiedException:
                     self.running = False
+            except IndexError:
+                self.running = False
 
     def start(self) -> list[dict]:
         """
@@ -167,31 +166,6 @@ class GameManager:
         """
         print(f"Iteration {self.timer}")
         print(level_utils.print_level(level_utils.graph_to_array(self.game)))
-
-    def handle_collision(self, node: Node) -> None:
-        higher = node.get_higher_entity()
-        lower = node.get_lower_entity()
-
-        if isinstance(higher, Agent) and isinstance(lower, environment.Teleporter):
-            # If passing through teleporter, ignore
-            return
-
-        if node.contains(ghost_agent.GhostAgent) and (
-            node.contains(Pickup) or node.contains(environment.Gate)
-        ):
-            # if collision is between ghost and pickup, ignore
-            return
-        if isinstance(higher, ghost_agent.GhostAgent) and isinstance(
-            lower, PacmanAgent
-        ):
-            self.pacman.handle_consume(higher)
-        elif isinstance(higher, PacmanAgent) and isinstance(
-            lower, Pickup | ghost_agent.GhostAgent
-        ):
-            self.pacman.handle_consume(lower)
-            node.entities.remove(node.get_lower_entity())
-        else:
-            raise ValueError(f"Invalid case higher - {higher}, lower - {lower}")
 
 
 if __name__ == "__main__":
