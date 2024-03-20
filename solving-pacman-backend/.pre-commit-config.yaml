@@ -29,7 +29,7 @@ repos:
     hooks:
       - id: interrogate
         stages: [push]
-        args: [-vv, -i, -I, -m, -P, -S, --fail-under=80, --exclude=solving-pacman-frontend]
+        args: [--quiet, -vv, -i, -I, -m, -P, -S, --fail-under=80, --exclude=solving-pacman-frontend]
         pass_filenames: false
 -   repo: local
     hooks:
@@ -38,7 +38,6 @@ repos:
         name: Test with Pytest
         description: Test the backend application with Pytest
         files: \.py$
-        verbose: true
         language: system
         entry: bash -c 'cd solving-pacman-backend && poetry run pytest .'
     -   id: requirements-generate
@@ -68,6 +67,5 @@ repos:
         name: Test with Jest
         description: Test the frontend application with Jest
         files: \.[jt]sx?$
-        verbose: true
         language: system
         entry: bash -c 'cd solving-pacman-frontend && npm run test:once'
