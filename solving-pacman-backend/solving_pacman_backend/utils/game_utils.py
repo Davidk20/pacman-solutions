@@ -27,5 +27,3 @@ def handle_collision(node: Node) -> None:
     elif isinstance(higher, ghost_agent.GhostAgent) and isinstance(lower, PacmanAgent):
         pacman = lower
         pacman.handle_consume(higher)
-    else:
-        raise ValueError(f"Invalid case higher - {higher}, lower - {lower}")
