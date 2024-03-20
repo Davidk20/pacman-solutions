@@ -28,6 +28,17 @@ class GhostAgent(Agent):
         score: int = 0,
     ):
         super().__init__(name, behaviour, movement_type, home_path, value, score)
+        self._internal_time: int = 0
+        """
+        The ghost's internal clock, not linked to game time.
+
+        The ghost uses an internal timer to time its behaviour changes. This
+        is required as, when frightened, the ghosts behaviours stop fluctuating
+        between chase and scatter and should return to their pre-frightened
+        state after the frightened timer expires
+        """
+        self.path: Path = Path([])
+        """The path the agent is taking."""
 
     def _perceive(self, time: int, level: Graph) -> None:
         # When returning an agent it should return a single item
