@@ -42,7 +42,10 @@ class GhostAgent(Agent):
 
     def _perceive(self, time: int, level: Graph) -> None:
         # Update behaviours
-        if self.movement_type != MovementTypes.FRIGHTENED:
+        if (
+            self.movement_type != MovementTypes.FRIGHTENED
+            and self.movement_type != MovementTypes.HOMEBOUND
+        ):
             # Only update time when not frightened
             self._internal_time += 1
 
