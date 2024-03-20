@@ -30,6 +30,7 @@ repos:
       - id: interrogate
         stages: [push]
         args: [-vv, -i, -I, -m, -P, -S, --fail-under=80, --exclude=solving-pacman-frontend]
+        pass_filenames: false
 -   repo: local
     hooks:
     -   id: pytest
