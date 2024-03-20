@@ -98,7 +98,7 @@ class BlinkyAgent(GhostAgent):
             pacman_node = level.find_node_by_entity(PacmanAgent)[0]
             self.target = [pacman_node.position]
             self.path = level.shortest_path_to(self.position, self.target[0])
-        if self.path.route[0] == self.position:
+        if self.path.route[0].position == self.position:
             # The path contains the current pos which must be popped from the list
             self.path.get_next_pos()
 
