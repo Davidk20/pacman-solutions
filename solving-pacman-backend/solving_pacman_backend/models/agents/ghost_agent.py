@@ -41,9 +41,21 @@ class GhostAgent(Agent):
         """The path the agent is taking."""
 
     def _perceive(self, time: int, level: Graph) -> None:
-        # When returning an agent it should return a single item
+        # Update behaviours
+        if self.movement_type != MovementTypes.FRIGHTENED:
+            # Only update time when not frightened
+            self._internal_time += 1
+
+            if self._internal_time >= 20 and self._internal_time < 27:
+                self.movement_type = MovementTypes.SCATTER
+                # When scattering to home, this should become their target.
+                self.target = self.home_path
+            else:
+                self.movement_type = MovementTypes.CHASE
+                # Reset timer
+                self._internal_time = 0
+
         pacman_node = level.find_node_by_entity(PacmanAgent)[0]
-        self.path: Path = Path([])
         match self.movement_type:
             case MovementTypes.CHASE:
                 # If chasing Pac-Man, this should be the only target.
