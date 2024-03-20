@@ -8,6 +8,7 @@ class LevelData(TypedDict):
     name: str
     map: list[list[int]]
     homes: dict[str, list[list[int]]]
+    respawn: dict[str, list[list[int]]]
 
 
 class AgentHomes(TypedDict):
@@ -18,3 +19,13 @@ class AgentHomes(TypedDict):
     pinky: list[tuple[int, int]]
     inky: list[tuple[int, int]]
     clyde: list[tuple[int, int]]
+
+
+class AgentRespawn(TypedDict):
+    """Typed representation of the agents respawn points."""
+
+    pacman: tuple[int, int]
+    blinky: tuple[int, int]
+    pinky: tuple[int, int]
+    inky: tuple[int, int]
+    clyde: tuple[int, int]
