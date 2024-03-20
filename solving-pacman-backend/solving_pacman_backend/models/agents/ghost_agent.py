@@ -5,6 +5,7 @@ from solving_pacman_backend.models.agents.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.movement_types import MovementTypes
 from solving_pacman_backend.models.path import Path
+from solving_pacman_backend.utils.agent_utils import gen_random_path
 
 
 class GhostAgent(Agent):
@@ -42,38 +43,39 @@ class GhostAgent(Agent):
         self._frightened_countdown: int = 6
 
     def _perceive(self, time: int, level: Graph) -> None:
-        # Update behaviours
-        if self.movement_type == MovementTypes.FRIGHTENED:
-            self._frightened_countdown -= 1
-            if self._frightened_countdown == 0:
-                self._frightened_countdown = 6
-                self.movement_type = MovementTypes.CHASE
+        match self.movement_type:
+            case MovementTypes.FRIGHTENED:
+                self._frightened_countdown -= 1
+                if self._frightened_countdown == 0:
+                    # Reset frightened counter
+                    self._frightened_countdown = 6
+                    self.movement_type = MovementTypes.CHASE
+                self.target, self.path = gen_random_path(
+                    level, self.position, self.move_history
+                )
 
-        if (
-            self.movement_type == MovementTypes.CHASE
-            or self.movement_type == MovementTypes.SCATTER
-        ):
-            # Only update time when not frightened
-            self._internal_time += 1
+            case MovementTypes.SCATTER:
+                if len(self.target) > 0 and self.position == self.target[0]:
+                    self.target.pop(0)
+                self.path = level.shortest_path_to(self.position, self.target[0])
 
-            if self._internal_time >= 20 and self._internal_time < 27:
-                self.movement_type = MovementTypes.SCATTER
-                # When scattering to home, this should become their target.
-                self.target = self.home_path
-            else:
-                self.movement_type = MovementTypes.CHASE
-                # Reset timer
-                self._internal_time = 0
+            case MovementTypes.CHASE:
+                pacman_node = level.find_node_by_entity(PacmanAgent)[0]
+                self.target = [pacman_node.position]
+                self.path = level.shortest_path_to(self.position, self.target[0])
 
-        if self.movement_type == MovementTypes.SCATTER:
-            if len(self.target) > 0 and self.position == self.target[0]:
-                self.target.pop(0)
-            self.path = level.shortest_path_to(self.position, self.target[0])
+            case MovementTypes.CHASE | MovementTypes.SCATTER:
+                # Only update time when not frightened
+                self._internal_time += 1
 
-        if self.movement_type == MovementTypes.CHASE:
-            pacman_node = level.find_node_by_entity(PacmanAgent)[0]
-            self.target = [pacman_node.position]
-            self.path = level.shortest_path_to(self.position, self.target[0])
+                if self._internal_time >= 20 and self._internal_time < 27:
+                    self.movement_type = MovementTypes.SCATTER
+                    # When scattering to home, this should become their target.
+                    self.target = self.home_path
+                else:
+                    self.movement_type = MovementTypes.CHASE
+                    # Reset timer
+                    self._internal_time = 0
 
         if self.movement_type != MovementTypes.HOMEBOUND:
             if self.path.route[0].position == self.position:
@@ -82,9 +84,7 @@ class GhostAgent(Agent):
 
     def _execute(self) -> tuple[int, int]:
         match self.movement_type:
-            case MovementTypes.CHASE:
-                return self.path.get_next_pos().position
-            case MovementTypes.SCATTER:
+            case MovementTypes.CHASE | MovementTypes.SCATTER | MovementTypes.FRIGHTENED:
                 return self.path.get_next_pos().position
             case _:
                 return self.position
