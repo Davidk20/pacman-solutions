@@ -1,5 +1,6 @@
 """Model representing a node within a graph."""
 from typing import Type
+from typing import TypeVar
 
 from solving_pacman_backend import exceptions
 from solving_pacman_backend.models.entity import Entity
@@ -15,6 +16,8 @@ class Node:
     encode positional data about the position of the node relative to the level
     as well as what items or agents are currently in that position.
     """
+
+    T = TypeVar("T")
 
     def __init__(self, position: tuple[int, int], starting_entity: Entity) -> None:
         """
@@ -33,10 +36,9 @@ class Node:
         """`true` if the node has been visited by the Pac-Man agent."""
         self.position = position
         """The position of the node in relation to the array-based level."""
-        if not isinstance(starting_entity, Empty):
-            self.entities = [starting_entity]
-        else:
-            self.entities = []
+        self.entities: list[Entity] = (
+            [starting_entity] if not isinstance(starting_entity, Empty) else []
+        )
         """
         Stores the entities currently within this space.
 
@@ -140,3 +142,14 @@ class Node:
         ):
             return self.entities[0]
         return self.entities[0]
+
+    def get_entity(self, entity_type: Type[T]) -> T:
+        """
+        Returns an entity
+        """
+        for entity in self.entities:
+            if isinstance(entity, entity_type):
+                return entity
+        raise exceptions.InvalidNodeException(
+            f"Entity of type {entity_type} not found."
+        )

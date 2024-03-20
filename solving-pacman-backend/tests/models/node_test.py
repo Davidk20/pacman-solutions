@@ -92,3 +92,19 @@ def test_get_empty_entity(empty_node: Node):
     """Test that empty entity is returned from empty node."""
     assert isinstance(empty_node.get_higher_entity(), Empty)
     assert isinstance(empty_node.get_lower_entity(), Empty)
+
+
+def test_get_specific_pickup(empty_node: Node):
+    empty_node.add_entity(PacDot())
+    assert isinstance(empty_node.get_entity(PacDot), PacDot)
+
+
+def test_get_specific_agent(empty_node: Node):
+    empty_node.add_entity(PacDot())
+    empty_node.add_entity(PlaceholderAgent("", 0))
+    assert isinstance(empty_node.get_entity(PlaceholderAgent), PlaceholderAgent)
+
+
+def test_get_specific_not_found(empty_node: Node):
+    with pytest.raises(exceptions.InvalidNodeException):
+        empty_node.get_entity(PacDot)
