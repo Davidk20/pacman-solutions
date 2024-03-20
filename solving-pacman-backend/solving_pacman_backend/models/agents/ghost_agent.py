@@ -70,6 +70,16 @@ class GhostAgent(Agent):
                 self.target.pop(0)
             self.path = level.shortest_path_to(self.position, self.target[0])
 
+        if self.movement_type == MovementTypes.CHASE:
+            pacman_node = level.find_node_by_entity(PacmanAgent)[0]
+            self.target = [pacman_node.position]
+            self.path = level.shortest_path_to(self.position, self.target[0])
+
+        if self.movement_type != MovementTypes.HOMEBOUND:
+            if self.path.route[0].position == self.position:
+                # The path contains the current pos which must be popped from the list
+                self.path.get_next_pos()
+
     def _execute(self) -> tuple[int, int]:
         match self.movement_type:
             case MovementTypes.CHASE:
@@ -94,13 +104,6 @@ class BlinkyAgent(GhostAgent):
 
     def _perceive(self, time: int, level: Graph) -> None:
         super()._perceive(time, level)
-        if self.movement_type == MovementTypes.CHASE:
-            pacman_node = level.find_node_by_entity(PacmanAgent)[0]
-            self.target = [pacman_node.position]
-            self.path = level.shortest_path_to(self.position, self.target[0])
-        if self.path.route[0].position == self.position:
-            # The path contains the current pos which must be popped from the list
-            self.path.get_next_pos()
 
 
 class PinkyAgent(GhostAgent):
@@ -109,7 +112,7 @@ class PinkyAgent(GhostAgent):
 
     def _perceive(self, time: int, level: Graph) -> None:
         super()._perceive(time, level)
-        return
+        # Activate Ghost
         if level.total_pickups - level.remaining_pickups() == 1:
             self.movement_type = MovementTypes.CHASE
             self.path = Path([level.find_node_by_entity(environment.Gate)[0]])
