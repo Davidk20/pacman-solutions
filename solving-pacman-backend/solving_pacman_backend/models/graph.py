@@ -93,7 +93,9 @@ class Graph:
         """
         return random.choice(self.nodes())
 
-    def move_agent(self, old_pos: tuple[int, int], new_pos: tuple[int, int]) -> None:
+    def move_agent(
+        self, old_pos: tuple[int, int], new_pos: tuple[int, int], agent: type
+    ) -> None:
         """
         Move an agent to the new position.
 
@@ -112,7 +114,8 @@ class Graph:
             The current position of the agent.
         `new_pos` : `tuple[int, int]`
             The position the agent is moving to.
-
+        `agent` : `type`
+            The type of the agent being moved.
         """
         if new_pos == old_pos:
             # If the agent is not moving, nothing should happen
@@ -122,7 +125,7 @@ class Graph:
         # if passing the above, it is a valid move
         # the move will occur and then it will check if a collision took place
         # which is then raised to be handled by the GameManager
-        entity = old_node.get_higher_entity()
+        entity = old_node.get_entity(agent)
         old_node.remove_entity(entity)
         new_node.add_entity(entity)
         if new_node.is_collision():
