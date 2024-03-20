@@ -29,7 +29,7 @@ repos:
     hooks:
       - id: interrogate
         stages: [push]
-        args: [-vv, -i, -I, --fail-under=80, --ignore-magic, --exclude=solving-pacman-frontend]
+        args: [--quiet, -vv, -i, -I, --fail-under=80, --ignore-magic, --exclude=solving-pacman-frontend]
 -   repo: local
     hooks:
     -   id: pytest
