@@ -1,5 +1,9 @@
 """Utility functions for the Agents."""
+from random import choice
+
+from solving_pacman_backend import exceptions
 from solving_pacman_backend.models.graph import Graph
+from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.models.path import Path
 
 
@@ -34,3 +38,25 @@ def gen_random_path(
             target.append(state.random_node().position)
             path = state.shortest_path_to(current_pos, target[0])
     return (target, path)
+
+
+def choose_random_turn(state: Graph, node: Node) -> Node:
+    """
+    Chooses a random direction to turn at a junction.
+
+    Parameters
+    ----------
+    `state` : `Graph`
+        The state at the current time.
+    `node` : `Node`
+        The current position to be used.
+
+    Returns
+    -------
+    `Node`
+        A random node which is adjacent to the current position.
+    """
+    if not state.is_junction(node):
+        raise exceptions.InvalidNodeException("Node is not junction")
+    adjacent = state.get_adjacent(node)
+    return choice(adjacent)
