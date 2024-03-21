@@ -89,6 +89,10 @@ class GhostAgent(Agent):
             case _:
                 return self.position
 
+    def handle_capture(self) -> None:
+        """Handles the event of the ghost being consumed by Pac-Man"""
+        self.movement_type = MovementTypes.CHASE
+
 
 class BlinkyAgent(GhostAgent):
     """
