@@ -274,3 +274,10 @@ def test_not_junction(compiled_graph: Graph):
     assert not compiled_graph.is_junction(n1)
     assert not compiled_graph.is_junction(n2)
     assert not compiled_graph.is_junction(n3)
+
+
+def test_adjacency(compiled_graph: Graph):
+    """Checks that a nodes adjacent nodes are returned."""
+    n1 = compiled_graph.find_node_by_pos((0, 7))
+    n2 = compiled_graph.find_node_by_pos((0, 8))
+    assert compiled_graph.get_adjacent(n1) == [n2]

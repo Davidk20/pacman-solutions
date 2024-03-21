@@ -112,6 +112,22 @@ class Graph:
         """
         return len(self.level[node]) > 1
 
+    def get_adjacent(self, node: Node) -> list[Node]:
+        """
+        Returns all nodes adjacent to a given node.
+
+        Parameters
+        ----------
+        `node` : `Node`
+            The node to check
+
+        Returns
+        -------
+        `list[Node]`
+            All adjacent nodes.
+        """
+        return self.level[node]
+
     def move_agent(
         self, old_pos: tuple[int, int], new_pos: tuple[int, int], agent: type
     ) -> None:
