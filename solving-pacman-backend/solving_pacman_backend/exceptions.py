@@ -68,6 +68,13 @@ class NodeNotFoundException(Exception):
         super().__init__(f"Node not found at {pos}.")
 
 
+class PathNotFoundException(Exception):
+    """Raised when a path cannot be found."""
+
+    def __init__(self, pos: tuple[int, int]) -> None:
+        super().__init__(f"Path not found from {pos}")
+
+
 class DuplicateNodeException(Exception):
     """Raised when it is attempted to add a repeated node."""
 
