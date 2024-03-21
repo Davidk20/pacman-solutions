@@ -4,6 +4,7 @@ from typing import Type
 
 from solving_pacman_backend import exceptions
 from solving_pacman_backend.models.entity import Entity
+from solving_pacman_backend.models.environment import Gate
 from solving_pacman_backend.models.environment import Teleporter
 from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.models.path import Path
@@ -323,7 +324,7 @@ class Graph:
                     break
 
             for node in self.level[current]:
-                if node not in path:
+                if node not in path and not node.contains(Gate):
                     queue.append((node, path + [node]))
 
         return paths
