@@ -254,3 +254,23 @@ def test_remaining_pickups(compiled_graph: Graph):
     Test that the number of pickups remaining is correctly counted.
     """
     assert compiled_graph.remaining_pickups() == 5
+
+
+def test_is_junction(compiled_graph: Graph):
+    "Test that the node is a junction."
+    n1 = compiled_graph.find_node_by_pos((0, 0))
+    n2 = compiled_graph.find_node_by_pos((0, 3))
+    n3 = compiled_graph.find_node_by_pos((0, 6))
+    assert compiled_graph.is_junction(n1)
+    assert compiled_graph.is_junction(n2)
+    assert compiled_graph.is_junction(n3)
+
+
+def test_not_junction(compiled_graph: Graph):
+    """Test that nodes are not a junction."""
+    n1 = compiled_graph.find_node_by_pos((0, 7))
+    n2 = compiled_graph.find_node_by_pos((0, 8))
+    n3 = compiled_graph.find_node_by_pos((0, 9))
+    assert not compiled_graph.is_junction(n1)
+    assert not compiled_graph.is_junction(n2)
+    assert not compiled_graph.is_junction(n3)

@@ -94,6 +94,24 @@ class Graph:
         """
         return random.choice(self.nodes())
 
+    def is_junction(self, node: Node) -> bool:
+        """
+        Checks whether the node is a junction.
+
+        A junction is defined as a node with >1 potential paths.
+
+        Parameters
+        ----------
+        `node` : `Node`
+            The node to check
+
+        Returns
+        -------
+        `bool`
+            `True` if the `Node` is a junction
+        """
+        return len(self.level[node]) > 1
+
     def move_agent(
         self, old_pos: tuple[int, int], new_pos: tuple[int, int], agent: type
     ) -> None:
