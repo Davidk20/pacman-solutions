@@ -1,7 +1,9 @@
 """Service managing the running of the game."""
 from solving_pacman_backend import exceptions
 from solving_pacman_backend.models.agents import ghost_agent
-from solving_pacman_backend.models.agents.custom_agents.random import RandomPacMan
+from solving_pacman_backend.models.agents.custom_agents.random_informed import (
+    RandomInformedPacMan,
+)
 from solving_pacman_backend.models.agents.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.agents.placeholder_agent import PlaceholderAgent
 from solving_pacman_backend.models.game_state import GameState
@@ -57,7 +59,9 @@ class GameManager:
         """Indicates whether the game is currently running."""
         self.agent_home = level_handler.get_homes(level_num)
         """Dictionary containing the homes of the agents."""
-        self.pacman = RandomPacMan(self.agent_home["pacman"])
+        self.respawn = level_handler.get_respawn_points(level_num)
+        """Dictionary containing the agents respawn points."""
+        self.pacman = RandomInformedPacMan(self.agent_home["pacman"])
         """Representation of the Pac-Man agent."""
         self.agents: list[PacmanAgent | ghost_agent.GhostAgent] = [
             self.pacman,
@@ -116,14 +120,26 @@ class GameManager:
         for ag in self.agents:
             try:
                 ag.position = self.game.find_node_by_entity(type(ag))[0].position
-                self.game.move_agent(ag.position, ag.cycle(self.timer, self.game))
+                self.game.move_agent(
+                    ag.position, ag.cycle(self.timer, self.game), type(ag)
+                )
             except exceptions.CollisionException as collision:
                 try:
                     game_utils.handle_collision(collision.node)
                 except exceptions.PacManDiedException:
                     self.running = False
-            except IndexError:
+                except exceptions.GhostDiedException as ghost:
+                    if isinstance(ghost.ghost, ghost_agent.GhostAgent):
+                        ghost.ghost.handle_capture()
+                        self.game.move_agent(
+                            collision.node.position,
+                            self.respawn[ghost.ghost.name().lower()],
+                            type(ghost.ghost),
+                        )
+            except IndexError as e:
+                print(f"{ag} - {e}")
                 self.running = False
+                raise
 
     def start(self) -> list[dict]:
         """
