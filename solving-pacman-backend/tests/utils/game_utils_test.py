@@ -7,13 +7,14 @@ from solving_pacman_backend.models.agents import ghost_agent
 from solving_pacman_backend.models.agents.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.utils import game_utils
+from tests.mocks import mock_agent_test
 
 
 @pytest.fixture(scope="function")
 def agent_teleporter_node():
     """Returns a node containing an agent and a teleporter."""
     e1 = environment.Teleporter()
-    e2 = PacmanAgent([])
+    e2 = PacmanAgent([], (0, 0))
     node: Node = Node((0, 0), e1)
     node.add_entity(e2)
     yield node
@@ -23,7 +24,7 @@ def agent_teleporter_node():
 def ghost_pickup_node():
     """Returns a node containing a ghost and a pickup."""
     e1 = pickups.PacDot()
-    e2 = ghost_agent.BlinkyAgent([])
+    e2 = mock_agent_test.mock_ghost()
     node: Node = Node((0, 0), e1)
     node.add_entity(e2)
     yield node
@@ -32,8 +33,8 @@ def ghost_pickup_node():
 @pytest.fixture(scope="function")
 def higher_pacman_ghost_node():
     """Returns a node with a ghost and Pac-Man in the higher position."""
-    e1 = ghost_agent.BlinkyAgent([])
-    e2 = PacmanAgent([])
+    e1 = mock_agent_test.mock_ghost()
+    e2 = PacmanAgent([], (0, 0))
     node: Node = Node((0, 0), e1)
     node.add_entity(e2)
     yield node
@@ -42,8 +43,8 @@ def higher_pacman_ghost_node():
 @pytest.fixture(scope="function")
 def lower_pacman_ghost_node():
     """Returns a node with a ghost and Pac-Man in the lower position."""
-    e1 = PacmanAgent([])
-    e2 = ghost_agent.BlinkyAgent([])
+    e1 = PacmanAgent([], (0, 0))
+    e2 = mock_agent_test.mock_ghost()
     node: Node = Node((0, 0), e1)
     node.add_entity(e2)
     yield node
@@ -61,7 +62,7 @@ def test_ghost_pickup_collision(ghost_pickup_node: Node):
     """When a ghost collides with a pickup, nothing happens."""
     game_utils.handle_collision(ghost_pickup_node)
     assert ghost_pickup_node.contains(pickups.PacDot) and ghost_pickup_node.contains(
-        ghost_agent.BlinkyAgent
+        ghost_agent.GhostAgent
     )
 
 

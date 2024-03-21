@@ -61,14 +61,16 @@ class GameManager:
         """Dictionary containing the homes of the agents."""
         self.respawn = level_handler.get_respawn_points(level_num)
         """Dictionary containing the agents respawn points."""
-        self.pacman = RandomInformedPacMan(self.agent_home["pacman"])
+        self.pacman = RandomInformedPacMan(
+            self.agent_home["pacman"], self.respawn["pacman"]
+        )
         """Representation of the Pac-Man agent."""
         self.agents: list[PacmanAgent | ghost_agent.GhostAgent] = [
             self.pacman,
-            ghost_agent.BlinkyAgent(self.agent_home["blinky"]),
-            ghost_agent.PinkyAgent(self.agent_home["pinky"]),
-            ghost_agent.InkyAgent(self.agent_home["inky"]),
-            ghost_agent.ClydeAgent(self.agent_home["clyde"]),
+            ghost_agent.BlinkyAgent(self.agent_home["blinky"], self.respawn["blinky"]),
+            ghost_agent.PinkyAgent(self.agent_home["pinky"], self.respawn["pinky"]),
+            ghost_agent.InkyAgent(self.agent_home["inky"], self.respawn["inky"]),
+            ghost_agent.ClydeAgent(self.agent_home["clyde"], self.respawn["clyde"]),
         ]
         """Array containing all of the agents."""
 

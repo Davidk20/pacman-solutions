@@ -11,7 +11,7 @@ from tests.mocks.mock_agent_test import mock_ghost
 @pytest.fixture(autouse=True)
 def pacman():
     """Generate an agent of Pac-man which can be used for testing."""
-    pacman_agent = PacmanAgent([(0, 0)])
+    pacman_agent = PacmanAgent([(0, 0)], (0, 0))
     return pacman_agent
 
 

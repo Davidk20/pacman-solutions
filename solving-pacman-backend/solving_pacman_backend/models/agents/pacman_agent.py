@@ -22,7 +22,9 @@ class PacmanAgent(Agent):
     https://www.classicgaming.cc/classics/pac-man/play-guide
     """
 
-    def __init__(self, home_path: list[tuple[int, int]]):
+    def __init__(
+        self, home_path: list[tuple[int, int]], respawn_point: tuple[int, int]
+    ):
         """
         Initialise the class.
 
@@ -31,7 +33,9 @@ class PacmanAgent(Agent):
         `home_path` : `list[tuple[int, int]]`
             The agents's home path.
         """
-        super().__init__("Pac-Man", "Player", MovementTypes.CUSTOM, home_path, 44)
+        super().__init__(
+            "Pac-Man", "Player", MovementTypes.CUSTOM, home_path, 44, respawn_point
+        )
         self.current_lives = 1
         """Store the number of lives the user agent has remaining."""
         self.energized = False

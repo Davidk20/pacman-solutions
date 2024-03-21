@@ -26,9 +26,12 @@ class GhostAgent(Agent):
         movement_type: MovementTypes,
         home_path: list[tuple[int, int]],
         value: int,
+        respawn_point: tuple[int, int],
         score: int = 0,
     ):
-        super().__init__(name, behaviour, movement_type, home_path, value, score)
+        super().__init__(
+            name, behaviour, movement_type, home_path, value, respawn_point, score
+        )
         self._internal_time: int = 0
         """
         The ghost's internal clock, not linked to game time.
@@ -103,16 +106,20 @@ class BlinkyAgent(GhostAgent):
     position.
     """
 
-    def __init__(self, homes: list[tuple[int, int]]):
-        super().__init__("Blinky", "Shadow", MovementTypes.CHASE, homes, 21, 200)
+    def __init__(self, homes: list[tuple[int, int]], respawn_point: tuple[int, int]):
+        super().__init__(
+            "Blinky", "Shadow", MovementTypes.CHASE, homes, 21, respawn_point, 200
+        )
 
     def _perceive(self, time: int, level: Graph) -> None:
         super()._perceive(time, level)
 
 
 class PinkyAgent(GhostAgent):
-    def __init__(self, homes: list[tuple[int, int]]):
-        super().__init__("Pinky", "Speedy", MovementTypes.HOMEBOUND, homes, 22, 200)
+    def __init__(self, homes: list[tuple[int, int]], respawn_point: tuple[int, int]):
+        super().__init__(
+            "Pinky", "Speedy", MovementTypes.HOMEBOUND, homes, 22, respawn_point, 200
+        )
 
     def _perceive(self, time: int, level: Graph) -> None:
         super()._perceive(time, level)
@@ -123,8 +130,10 @@ class PinkyAgent(GhostAgent):
 
 
 class InkyAgent(GhostAgent):
-    def __init__(self, homes: list[tuple[int, int]]):
-        super().__init__("Inky", "Bashful", MovementTypes.HOMEBOUND, homes, 23, 200)
+    def __init__(self, homes: list[tuple[int, int]], respawn_point: tuple[int, int]):
+        super().__init__(
+            "Inky", "Bashful", MovementTypes.HOMEBOUND, homes, 23, respawn_point, 200
+        )
 
     def _perceive(self, time: int, level: Graph) -> None:
         super()._perceive(time, level)
@@ -135,8 +144,10 @@ class InkyAgent(GhostAgent):
 
 
 class ClydeAgent(GhostAgent):
-    def __init__(self, homes: list[tuple[int, int]]):
-        super().__init__("Clyde", "Pokey", MovementTypes.HOMEBOUND, homes, 24, 200)
+    def __init__(self, homes: list[tuple[int, int]], respawn_point: tuple[int, int]):
+        super().__init__(
+            "Clyde", "Pokey", MovementTypes.HOMEBOUND, homes, 24, respawn_point, 200
+        )
 
     def _perceive(self, time: int, level: Graph) -> None:
         super()._perceive(time, level)

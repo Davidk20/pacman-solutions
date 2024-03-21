@@ -27,7 +27,7 @@ def node():
 def nodes():
     """Generate an list of a Node for testing"""
     nodes = [
-        Node((0, 0), PacmanAgent([(0, 0)])),
+        Node((0, 0), PacmanAgent([(0, 0)], (0, 0))),
         Node((0, 1), pickups.PacDot()),
         Node((0, 2), pickups.PowerPellet()),
         Node((0, 3), pickups.Empty()),
@@ -68,7 +68,7 @@ def compiled_graph():
     """
     graph = Graph()
     nodes = [
-        Node((0, 0), PacmanAgent([(0, 0)])),
+        Node((0, 0), PacmanAgent([(0, 0)], (0, 0))),
         Node((0, 1), pickups.PacDot()),
         Node((0, 2), pickups.PowerPellet()),
         Node((0, 3), pickups.Empty()),

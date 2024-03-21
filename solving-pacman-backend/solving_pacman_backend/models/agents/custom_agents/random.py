@@ -11,8 +11,10 @@ class RandomPacMan(PacmanAgent):
     In this model, Pac-Man will randomly choose a path.
     """
 
-    def __init__(self, home_path: list[tuple[int, int]]):
-        super().__init__(home_path)
+    def __init__(
+        self, home_path: list[tuple[int, int]], respawn_point: tuple[int, int]
+    ):
+        super().__init__(home_path, respawn_point)
 
     def _perceive(self, time: int, level: Graph) -> None:
         # Remove target if agent has reached position

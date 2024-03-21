@@ -30,6 +30,7 @@ class Agent(ABC, Entity):
         movement_type: MovementTypes,
         home_path: list[tuple[int, int]],
         value: int,
+        respawn_point: tuple[int, int],
         score: int = 0,
     ):
         """
@@ -64,6 +65,8 @@ class Agent(ABC, Entity):
         """The target path for the agent to follow."""
         self.move_history: list[tuple[int, int]] = []
         """Stores the agents move history."""
+        self.respawn_point: tuple[int, int] = respawn_point
+        """The point the agent should respawn to."""
 
     def __repr__(self) -> str:
         return (
