@@ -1,5 +1,5 @@
 """Model representing the agent for Pac-man."""
-from solving_pacman_backend.exceptions import PacManDiedException
+from solving_pacman_backend import exceptions
 from solving_pacman_backend.models.agents.agent import Agent
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.movement_types import MovementTypes
@@ -77,10 +77,11 @@ class PacmanAgent(Agent):
                 self.temp_ghost_counter += 1
                 score = int(((pickup.score() / 100) ** self.temp_ghost_counter) * 100)
                 self.increase_score(score)
+                raise exceptions.GhostDiedException(pickup)
             else:
                 # If Pac-man has consumed a ghost without energizer
                 self.current_lives -= 1
-                raise PacManDiedException()
+                raise exceptions.PacManDiedException()
         if not isinstance(pickup, Agent):
             self.increase_score(pickup.score())
 
