@@ -167,23 +167,23 @@ def test_is_connected(compiled_graph: Graph):
 def test_agent_collision_with_pickup(compiled_graph: Graph):
     """Tests that an agent correctly handles collision with an item."""
     with pytest.raises(exceptions.CollisionException):
-        compiled_graph.move_agent((0, 0), (0, 1))
+        compiled_graph.move_agent((0, 0), (0, 1), PacmanAgent)
 
 
 def test_agent_collision_with_ghost(compiled_graph: Graph):
     """Tests that an agent correctly handles collision with a ghost."""
     with pytest.raises(exceptions.CollisionException):
-        compiled_graph.move_agent((0, 0), (0, 6))
+        compiled_graph.move_agent((0, 0), (0, 6), PacmanAgent)
 
 
 def test_agent_move_no_collision(compiled_graph: Graph):
     """Tests that an agent can move into an empty space."""
-    compiled_graph.move_agent((0, 0), (0, 3))
+    compiled_graph.move_agent((0, 0), (0, 3), PacmanAgent)
 
 
 def test_move_nowhere(compiled_graph: Graph):
     """Test that Pac-Man is able to "move" to the same spot."""
-    compiled_graph.move_agent((0, 0), (0, 0))
+    compiled_graph.move_agent((0, 0), (0, 0), PacmanAgent)
     assert compiled_graph.find_node_by_entity(PacmanAgent)[0].position == (0, 0)
 
 
