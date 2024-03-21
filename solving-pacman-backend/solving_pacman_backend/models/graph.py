@@ -391,3 +391,40 @@ class Graph:
         The number of non-empty nodes on the graph.
         """
         return sum(node.contains(Pickup) for node in self.nodes())
+
+    def find_path_to_next_jct(self, start_node: Node) -> list[Path]:
+        """
+        Generate a path from the current position to the next closest junction.
+
+        This function implements a similar BFS algorithm to `find_paths_between`,
+        however the goal state in this instance is for the target node to be a
+        junction.
+
+        Parameters
+        ----------
+        `node` : `Node`
+            The current position of the agent.
+
+        Returns
+        -------
+        `Path`
+            A path from the current position to the next junction.
+        """
+        queue = [(start_node, [start_node])]
+        paths: list[Path] = []
+        while len(queue) > 0:
+            current, path = queue.pop(0)
+            if self.is_junction(current):
+                paths.append(Path(path))
+                if len(paths) == 5:
+                    # break when enough paths found
+                    break
+                if len(path) > 12:
+                    # raise error if path is too long
+                    raise exceptions.PathNotFoundException(start_node.position)
+
+            for node in self.level[current]:
+                if node not in path and not node.contains(Gate):
+                    queue.append((node, path + [node]))
+
+        return paths

@@ -281,3 +281,17 @@ def test_adjacency(compiled_graph: Graph):
     n1 = compiled_graph.find_node_by_pos((0, 7))
     n2 = compiled_graph.find_node_by_pos((0, 8))
     assert compiled_graph.get_adjacent(n1) == [n2]
+
+
+def test_path_to_jct(compiled_graph: Graph):
+    """
+    Check that the path can be found to the next junction.
+
+    As this function uses BFS, the shortest path will
+    always be returned first, this will test that the
+    shortest path ends at the closest junction.
+    """
+    start = compiled_graph.find_node_by_pos((0, 7))
+    expected_end = compiled_graph.find_node_by_pos((0, 6))
+    paths = compiled_graph.find_path_to_next_jct(start)
+    assert paths[0].route[-1] == expected_end
