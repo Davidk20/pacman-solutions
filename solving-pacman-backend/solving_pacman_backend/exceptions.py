@@ -11,6 +11,24 @@ class PacManDiedException(Exception):
         super().__init__()
 
 
+class GhostDiedException(Exception):
+    """Raised when a ghost is consumed."""
+
+    def __init__(self, ghost) -> None:
+        """
+        Exception raised when a ghost is consumed.
+
+        Parameters
+        ----------
+        `ghost` : `GhostAgent`
+            The ghost which has been consumed.
+        `pos` : `Position`
+            The position they must return to.
+        """
+        super().__init__()
+        self.ghost = ghost
+
+
 ##########################################
 #            Level Exceptions
 ##########################################
