@@ -31,7 +31,7 @@ class Path:
                 return False
         return True
 
-    def is_safe(self) -> bool:
+    def is_safe(self, forward: int = 0) -> bool:
         """
         Checks whether a path is safe.
 
@@ -39,7 +39,8 @@ class Path:
         -------
         `True` if there are no Ghosts on a path.
         """
-        for node in self.route[1:]:
+        iterator = self.route[1:forward] if forward != 0 else self.route[1:]
+        for node in iterator:
             # Starts from second index to ignore agent in first position.
             if node.empty():
                 continue
