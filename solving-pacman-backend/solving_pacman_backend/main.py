@@ -76,7 +76,7 @@ def main():
 
     match args.run_config:
         case "local":
-            game = GameManager(args.level_num, local=True)
+            game = GameManager(args.level, local=True)
             game.start()
         case "server":
             server.app.run(host="0.0.0.0", debug=True, port=4000)
