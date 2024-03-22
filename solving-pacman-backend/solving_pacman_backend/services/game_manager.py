@@ -233,4 +233,4 @@ class GameManager:
                 return self.state_store.to_json()
 
             case RunConfiguration.ANALYTIC:
-                return {"duration": self.timer, "score": self.pacman.score()}
+                return {"time_game": self.timer, "score": self.pacman.score()}
