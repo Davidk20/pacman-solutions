@@ -1,11 +1,11 @@
 """Collection of models representing the Ghosts."""
-from solving_pacman_backend.models import environment
+from random import choice
+
 from solving_pacman_backend.models.agents.agent import Agent
 from solving_pacman_backend.models.agents.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.movement_types import MovementTypes
 from solving_pacman_backend.models.path import Path
-from solving_pacman_backend.utils.agent_utils import gen_random_path
 
 
 class GhostAgent(Agent):
@@ -53,9 +53,8 @@ class GhostAgent(Agent):
                     # Reset frightened counter
                     self._frightened_countdown = 6
                     self.movement_type = MovementTypes.CHASE
-                self.target, self.path = gen_random_path(
-                    level, self.position, self.move_history
-                )
+
+                self.path = choice(level.find_path_to_next_jct(self.position))
 
             case MovementTypes.SCATTER:
                 if len(self.target) > 0 and self.position == self.target[0]:
@@ -126,7 +125,7 @@ class PinkyAgent(GhostAgent):
         # Activate Ghost
         if level.total_pickups - level.remaining_pickups() == 1:
             self.movement_type = MovementTypes.CHASE
-            self.path = Path([level.find_node_by_entity(environment.Gate)[0]])
+            self.path = Path([level.find_node_by_pos(self.respawn_point)])
 
 
 class InkyAgent(GhostAgent):
@@ -140,7 +139,7 @@ class InkyAgent(GhostAgent):
         return
         if level.total_pickups - level.remaining_pickups() == 30:
             self.movement_type = MovementTypes.CHASE
-            self.path = Path([level.find_node_by_entity(environment.Gate)[0]])
+            self.path = Path([level.find_node_by_pos(self.respawn_point)])
 
 
 class ClydeAgent(GhostAgent):
@@ -154,4 +153,4 @@ class ClydeAgent(GhostAgent):
         return
         if level.total_pickups - level.remaining_pickups() == 60:
             self.movement_type = MovementTypes.CHASE
-            self.path = Path([level.find_node_by_entity(environment.Gate)[0]])
+            self.path = Path([level.find_node_by_pos(self.respawn_point)])
