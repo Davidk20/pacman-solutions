@@ -50,6 +50,16 @@ class Path:
                 return False
         return True
 
+    def is_loop(self) -> bool:
+        """
+        Checks if the path loops on itself.
+
+        Returns
+        -------
+        `True` if the `Path` starts at the same point that it ends.
+        """
+        return self.route[0] == self.route[-1]
+
     def cost(self) -> int:
         """
         Calculates the reward cost of the path.
