@@ -94,11 +94,12 @@ class Graph:
         """
         return random.choice(self.nodes())
 
-    def is_junction(self, node: Node) -> bool:
+    def is_junction(self, node: Node, prev_pos: tuple[int, int]) -> bool:
         """
         Checks whether the node is a junction.
 
-        A junction is defined as a node with >1 potential paths.
+        A junction is defined as a node with >1 potential paths where those
+        paths are not the path just taken.
 
         Parameters
         ----------
@@ -110,7 +111,8 @@ class Graph:
         `bool`
             `True` if the `Node` is a junction
         """
-        return len(self.level[node]) > 1
+        prev_node = self.find_node_by_pos(prev_pos)
+        return len([node for node in self.level[node] if node != prev_node]) > 1
 
     def get_adjacent(self, node: Node) -> list[Node]:
         """

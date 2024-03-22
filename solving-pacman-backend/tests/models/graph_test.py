@@ -261,9 +261,9 @@ def test_is_junction(compiled_graph: Graph):
     n1 = compiled_graph.find_node_by_pos((0, 0))
     n2 = compiled_graph.find_node_by_pos((0, 3))
     n3 = compiled_graph.find_node_by_pos((0, 6))
-    assert compiled_graph.is_junction(n1)
-    assert compiled_graph.is_junction(n2)
-    assert compiled_graph.is_junction(n3)
+    assert compiled_graph.is_junction(n1, (0, 0))
+    assert compiled_graph.is_junction(n2, (0, 9))
+    assert compiled_graph.is_junction(n3, (0, 0))
 
 
 def test_not_junction(compiled_graph: Graph):
@@ -271,9 +271,9 @@ def test_not_junction(compiled_graph: Graph):
     n1 = compiled_graph.find_node_by_pos((0, 7))
     n2 = compiled_graph.find_node_by_pos((0, 8))
     n3 = compiled_graph.find_node_by_pos((0, 9))
-    assert not compiled_graph.is_junction(n1)
-    assert not compiled_graph.is_junction(n2)
-    assert not compiled_graph.is_junction(n3)
+    assert not compiled_graph.is_junction(n1, (0, 0))
+    assert not compiled_graph.is_junction(n2, (0, 0))
+    assert not compiled_graph.is_junction(n3, (0, 0))
 
 
 def test_adjacency(compiled_graph: Graph):
