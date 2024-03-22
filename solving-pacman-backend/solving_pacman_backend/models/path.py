@@ -15,7 +15,10 @@ class Path:
         self.route = path
 
     def __repr__(self) -> str:
-        return f"Path from {self.route[0].position} to {self.route[-1].position}"
+        if len(self.route) > 0:
+            return f"Path from {self.route[0].position} to {self.route[-1].position}"
+        else:
+            return "Empty Path"
 
     def __len__(self) -> int:
         return len(self.route)
