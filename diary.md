@@ -362,3 +362,4 @@
 ## 19/03/24
 
 - Implemented play/pause/reset button
+- Created v1.0.0 tag
