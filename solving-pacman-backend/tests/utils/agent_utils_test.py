@@ -51,5 +51,5 @@ def graph():
 def test_random_turn(graph: Graph):
     """Test that a random choice of turn can be obtained."""
     n1 = graph.find_node_by_pos((0, 2))
-    actual = agent_utils.choose_random_turn(graph, n1)
+    actual = agent_utils.choose_random_turn(graph, n1, (0, 0))
     assert isinstance(actual, Node) and actual in graph.get_adjacent(n1)

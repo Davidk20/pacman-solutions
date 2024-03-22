@@ -40,7 +40,7 @@ def gen_random_path(
     return (target, path)
 
 
-def choose_random_turn(state: Graph, node: Node) -> Node:
+def choose_random_turn(state: Graph, node: Node, prev_pos: tuple[int, int]) -> Node:
     """
     Chooses a random direction to turn at a junction.
 
@@ -56,7 +56,7 @@ def choose_random_turn(state: Graph, node: Node) -> Node:
     `Node`
         A random node which is adjacent to the current position.
     """
-    if not state.is_junction(node):
+    if not state.is_junction(node, prev_pos):
         raise exceptions.InvalidNodeException("Node is not junction")
     adjacent = state.get_adjacent(node)
     return choice(adjacent)
