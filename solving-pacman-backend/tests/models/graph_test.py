@@ -291,7 +291,6 @@ def test_path_to_jct(compiled_graph: Graph):
     always be returned first, this will test that the
     shortest path ends at the closest junction.
     """
-    start = compiled_graph.find_node_by_pos((0, 7))
     expected_end = compiled_graph.find_node_by_pos((0, 6))
-    paths = compiled_graph.find_path_to_next_jct(start)
+    paths = compiled_graph.find_path_to_next_jct((0, 7))
     assert paths[0].route[-1] == expected_end

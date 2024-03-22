@@ -394,7 +394,7 @@ class Graph:
         """
         return sum(node.contains(Pickup) for node in self.nodes())
 
-    def find_path_to_next_jct(self, start_node: Node) -> list[Path]:
+    def find_path_to_next_jct(self, start_pos: tuple[int, int]) -> list[Path]:
         """
         Generate a path from the current position to the next closest junction.
 
@@ -412,18 +412,22 @@ class Graph:
         `Path`
             A path from the current position to the next junction.
         """
+        start_node = self.find_node_by_pos(start_pos)
         queue = [(start_node, [start_node])]
         paths: list[Path] = []
         while len(queue) > 0:
             current, path = queue.pop(0)
-            if self.is_junction(current):
+            if self.is_junction(current, path[-1].position):
                 paths.append(Path(path))
                 if len(paths) == 5:
                     # break when enough paths found
                     break
                 if len(path) > 12:
-                    # raise error if path is too long
-                    raise exceptions.PathNotFoundException(start_node.position)
+                    if len(paths) == 0:
+                        # raise error if path is too long
+                        raise exceptions.PathNotFoundException(start_node.position)
+                    else:
+                        break
 
             for node in self.level[current]:
                 if node not in path and not node.contains(Gate):
