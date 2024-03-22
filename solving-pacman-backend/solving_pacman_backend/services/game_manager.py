@@ -1,4 +1,6 @@
 """Service managing the running of the game."""
+from enum import Enum
+
 from solving_pacman_backend import exceptions
 from solving_pacman_backend.models.agents import ghost_agent
 from solving_pacman_backend.models.agents.custom_agents.random_informed import (
@@ -12,6 +14,14 @@ from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.services import level_handler
 from solving_pacman_backend.utils import game_utils
 from solving_pacman_backend.utils import level_utils
+
+
+class RunConfiguration(Enum):
+    """Representation of the run type for `GameManager`."""
+
+    LOCAL = "local"
+    SERVER = "server"
+    ANALYTIC = "analytic"
 
 
 class GameManager:
