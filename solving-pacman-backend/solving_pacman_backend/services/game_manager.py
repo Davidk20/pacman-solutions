@@ -29,7 +29,13 @@ class GameManager:
     Service which manages the overall running of the game.
     """
 
-    def __init__(self, level_num: int, local: bool = False, verbose=False) -> None:
+    def __init__(
+        self,
+        level_num: int,
+        configuration: RunConfiguration,
+        custom_pacman: type[PacmanAgent] = RandomInformedPacMan,
+        verbose: bool = False,
+    ) -> None:
         """
         Initialises the `GameManager`.
 
@@ -47,14 +53,19 @@ class GameManager:
         ----------
         `level_num` : `int`
             The number of the level to be run.
+        `configuration` : `RunConfiguration`
+            The configuration used for the run.
+        `custom_pacman` : `type[PacmanAgent]`
+            The custom agent to be injected into the game.
+            The default is `RandomInformedPacMan`.
         `local` : `bool` DEFAULT = `False`
             Whether the game is being run locally or as a server call. Used to
             indicate whether output should be printed or not.
         `verbose` : `bool` DEFAULT = `False`
             If `True`, the verbose output will be displayed
         """
-        self.local: bool = local
-        """Indicates the parent call of `GameManager`."""
+        self.configuration: RunConfiguration = configuration
+        """The configuration used for the model run."""
         self.verbose: bool = verbose
         """Indicates whether to display the verbose output."""
         self.timer = 0
@@ -78,9 +89,7 @@ class GameManager:
         """Dictionary containing the homes of the agents."""
         self.respawn = level_handler.get_respawn_points(level_num)
         """Dictionary containing the agents respawn points."""
-        self.pacman = RandomInformedPacMan(
-            self.agent_home["pacman"], self.respawn["pacman"]
-        )
+        self.pacman = custom_pacman(self.agent_home["pacman"], self.respawn["pacman"])
         """Representation of the Pac-Man agent."""
         self.agents: list[PacmanAgent | ghost_agent.GhostAgent] = [
             self.pacman,
@@ -160,7 +169,7 @@ class GameManager:
                 self.running = False
                 raise
 
-    def start(self) -> list[dict]:
+    def game_loop(self) -> dict:
         """
         Start the game loop.
 
@@ -169,8 +178,8 @@ class GameManager:
         `GameStateStore`
             The history of moves
         """
-        self.running = True
         self.setup_game()
+        self.running = True
         while self.running:
             try:
                 self.tick()
@@ -186,13 +195,7 @@ class GameManager:
                 self.pacman.score(),
             )
         )
-        if self.local:
-            print("##############################")
-            print("GAME OVER")
-            print("##############################")
-            if self.verbose:
-                self.print_current_state()
-        return self.state_store.to_json()
+        return self.handle_end()
 
     def print_current_state(self) -> None:
         """
@@ -203,8 +206,31 @@ class GameManager:
         print(f"Iteration {self.timer}")
         print(level_utils.print_level(level_utils.graph_to_array(self.game)))
 
+    def handle_end(self, ghost: ghost_agent.GhostAgent = None) -> dict:  # type: ignore
+        """
+        Handles the end of the game.
 
-if __name__ == "__main__":
-    # entry point to run a single game.
-    game = GameManager(1, local=True)
-    game.start()
+        Parameters
+        ----------
+        `ghost` : `GhostAgent`
+            The ghost which defeated Pac-Man - if applicable.
+        """
+
+        match self.configuration:
+            case RunConfiguration.LOCAL:
+                print("##############################")
+                print("GAME OVER")
+                print("##############################")
+                print(f"Time: {self.timer}")
+                print(f"Pac-Man score: {self.pacman.score()}")
+                if ghost:
+                    print(f"{ghost.name()} caught Pac-Man at {self.pacman.position}")
+                if self.verbose:
+                    self.print_current_state()
+                return self.state_store.to_json()
+
+            case RunConfiguration.SERVER:
+                return self.state_store.to_json()
+
+            case RunConfiguration.ANALYTIC:
+                return {"duration": self.timer, "score": self.pacman.score()}

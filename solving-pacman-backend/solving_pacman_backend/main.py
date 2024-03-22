@@ -10,6 +10,7 @@ import sys
 
 from solving_pacman_backend.server import server
 from solving_pacman_backend.services.game_manager import GameManager
+from solving_pacman_backend.services.game_manager import RunConfiguration
 
 usage = """
 Pac-Man Solutions - Back-End
@@ -76,8 +77,10 @@ def main():
 
     match args.run_config:
         case "local":
-            game = GameManager(args.level, local=True)
-            game.start()
+            game = GameManager(
+                args.level, configuration=RunConfiguration.LOCAL, verbose=args.verbose
+            )
+            game.game_loop()
         case "server":
             server.app.run(host="0.0.0.0", debug=True, port=4000)
 
