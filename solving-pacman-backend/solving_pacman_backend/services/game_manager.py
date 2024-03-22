@@ -19,7 +19,7 @@ class GameManager:
     Service which manages the overall running of the game.
     """
 
-    def __init__(self, level_num: int, local: bool = False) -> None:
+    def __init__(self, level_num: int, local: bool = False, verbose=False) -> None:
         """
         Initialises the `GameManager`.
 
@@ -37,9 +37,16 @@ class GameManager:
         ----------
         `level_num` : `int`
             The number of the level to be run.
+        `local` : `bool` DEFAULT = `False`
+            Whether the game is being run locally or as a server call. Used to
+            indicate whether output should be printed or not.
+        `verbose` : `bool` DEFAULT = `False`
+            If `True`, the verbose output will be displayed
         """
         self.local: bool = local
         """Indicates the parent call of `GameManager`."""
+        self.verbose: bool = verbose
+        """Indicates whether to display the verbose output."""
         self.timer = 0
         """
         The internal game counter.
@@ -173,7 +180,8 @@ class GameManager:
             print("##############################")
             print("GAME OVER")
             print("##############################")
-            self.print_current_state()
+            if self.verbose:
+                self.print_current_state()
         return self.state_store.to_json()
 
     def print_current_state(self) -> None:
