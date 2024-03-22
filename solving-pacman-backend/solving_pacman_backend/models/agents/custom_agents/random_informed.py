@@ -23,7 +23,10 @@ class RandomInformedPacMan(PacmanAgent):
     def _perceive(self, time: int, level: Graph) -> None:
         current_node = level.find_node_by_pos(self.position)
         if (
-            not level.is_junction(current_node, self.move_history[-1])
+            (
+                len(self.move_history) > 0
+                and not level.is_junction(current_node, self.move_history[-1])
+            )
             and self.path.is_safe()
             and len(self.path) > 0
         ):
