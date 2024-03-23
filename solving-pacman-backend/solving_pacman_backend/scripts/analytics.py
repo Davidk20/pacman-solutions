@@ -3,9 +3,10 @@ import time
 from typing import Type
 
 from solving_pacman_backend.models.agents.custom_agents.inactive import InactivePacMan
-from solving_pacman_backend.models.agents.custom_agents.random_informed import (
-    RandomInformedPacMan,
+from solving_pacman_backend.models.agents.custom_agents.informed import (
+    InformedPacMan,
 )
+from solving_pacman_backend.models.agents.custom_agents.random import RandomPacMan
 from solving_pacman_backend.models.agents.pacman_agent import PacmanAgent
 from solving_pacman_backend.services import game_manager
 
@@ -30,7 +31,8 @@ class PacmanAnalytics:
         self.runs = runs
         self.agents: list[Type[PacmanAgent]] = [
             InactivePacMan,
-            RandomInformedPacMan,
+            RandomPacMan,
+            InformedPacMan,
         ] + custom_agents
         self.results = {}
         self.run_models()
@@ -66,3 +68,4 @@ class PacmanAnalytics:
             print(f"avg time (in seconds) = {avg_time_real}")
             print(f"avg time (in game) = {avg_time_game}")
             print(f"avg score = {avg_score}")
+            print("\n")

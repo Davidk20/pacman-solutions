@@ -6,7 +6,7 @@ from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.path import Path
 
 
-class RandomInformedPacMan(PacmanAgent):
+class InformedPacMan(PacmanAgent):
     """
     Model representing the informed random Pac-Man behaviour.
 

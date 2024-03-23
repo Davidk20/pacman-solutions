@@ -3,8 +3,8 @@ from enum import Enum
 
 from solving_pacman_backend import exceptions
 from solving_pacman_backend.models.agents import ghost_agent
-from solving_pacman_backend.models.agents.custom_agents.random_informed import (
-    RandomInformedPacMan,
+from solving_pacman_backend.models.agents.custom_agents.informed import (
+    InformedPacMan,
 )
 from solving_pacman_backend.models.agents.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.agents.placeholder_agent import PlaceholderAgent
@@ -33,7 +33,7 @@ class GameManager:
         self,
         level_num: int,
         configuration: RunConfiguration,
-        custom_pacman: type[PacmanAgent] = RandomInformedPacMan,
+        custom_pacman: type[PacmanAgent] = InformedPacMan,
         verbose: bool = False,
     ) -> None:
         """
@@ -57,7 +57,7 @@ class GameManager:
             The configuration used for the run.
         `custom_pacman` : `type[PacmanAgent]`
             The custom agent to be injected into the game.
-            The default is `RandomInformedPacMan`.
+            The default is `InformedPacMan`.
         `local` : `bool` DEFAULT = `False`
             Whether the game is being run locally or as a server call. Used to
             indicate whether output should be printed or not.
