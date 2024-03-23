@@ -8,26 +8,10 @@ https://realpython.com/command-line-interfaces-python-argparse/
 import argparse
 import sys
 
+from solving_pacman_backend.scripts.analytics import PacmanAnalytics
 from solving_pacman_backend.server import server
 from solving_pacman_backend.services.game_manager import GameManager
 from solving_pacman_backend.services.game_manager import RunConfiguration
-
-usage = """
-Pac-Man Solutions - Back-End
-
-Usage:
-    python3 main.py command [options] [arguments]
-
-Commands:
-
-    server           Run the server application
-    local            Run the CLI application
-
-Options:
-  -h --help          Show this screen.
-  -v                 Verbose output.
-  -n --level_num     Level number (Integer).
-"""
 
 
 class ArgParser(argparse.ArgumentParser):
@@ -47,8 +31,15 @@ def main():
 
     parser.add_argument(
         "run_config",
-        choices=["server", "local"],
-        help="server = Run Flask server, local = Run single game",
+        choices=["server", "local", "analytics"],
+        help="""
+        server = Run Flask server,
+        local = Run single game,
+        analytics = Run analytics tool""",
+    )
+
+    parser.add_argument(
+        "-l", "--level", type=int, help="specify level number as an integer"
     )
 
     local_options = parser.add_argument_group("Local Script Options")
@@ -69,8 +60,22 @@ def main():
         help="enable debug output - full final state printing + all noteworthy events",
     )
 
-    parser.add_argument(
-        "-l", "--level", type=int, help="specify level number as an integer"
+    analytics_options = parser.add_argument_group("Analytics Options")
+
+    analytics_options.add_argument(
+        "-o",
+        "--output_file",
+        action="store_true",
+        default=0,
+        help="write the output data to a file",
+    )
+
+    analytics_options.add_argument(
+        "-r",
+        "--runs",
+        default=10,
+        type=int,
+        help="the number of runs completed to assess performance",
     )
 
     args = parser.parse_args()
@@ -83,6 +88,8 @@ def main():
             game.game_loop()
         case "server":
             server.app.run(host="0.0.0.0", debug=True, port=4000)
+        case "analytics":
+            PacmanAnalytics(runs=args.runs)
 
 
 if __name__ == "__main__":
