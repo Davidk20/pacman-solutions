@@ -65,8 +65,8 @@ def main():
     analytics_options.add_argument(
         "-o",
         "--output_file",
-        action="store_true",
-        default=0,
+        action="store",
+        type=str,
         help="write the output data to a file",
     )
 
