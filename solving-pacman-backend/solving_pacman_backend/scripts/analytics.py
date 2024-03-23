@@ -55,6 +55,7 @@ class PacmanAnalytics:
         print("############################")
         print("RUN COMPLETE")
         print("############################")
+        print(f"\nAfter {self.runs} runs:\n")
         for agent, data in self.results.items():
             print(agent)
             avg_time_real = round(
