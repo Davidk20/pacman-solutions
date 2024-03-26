@@ -50,7 +50,10 @@ class InformedPacMan(PacmanAgent):
 
         # choose a safe path to follow
         if len(valid_paths) > 0:
-            self.path = choice(valid_paths)
+            sorted_paths = sorted(
+                valid_paths, key=lambda path: path.cost(), reverse=True
+            )
+            self.path: Path = sorted_paths[0]
         # If no safe paths exist, allow backwards paths.
         elif len(backwards_paths) > 0:
             print("using this")
