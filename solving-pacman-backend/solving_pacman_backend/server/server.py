@@ -33,8 +33,10 @@ def get_board():
     """Route to return a game simulation."""
     level_num = int(request.args.get("level_num"))  # type: ignore
     try:
-        game = game_manager.GameManager(level_num)
-        message = game.start()
+        game = game_manager.GameManager(
+            level_num, configuration=game_manager.RunConfiguration.SERVER
+        )
+        message = game.game_loop()
         status = 200
     except LevelNotFoundException as e:
         message = str(e)
@@ -43,4 +45,4 @@ def get_board():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True, port=1000)
+    app.run(host="0.0.0.0", debug=True, port=4000)

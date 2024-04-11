@@ -1,7 +1,7 @@
-from solving_pacman_backend.models import agent
 from solving_pacman_backend.models import environment
 from solving_pacman_backend.models import pickups
-from solving_pacman_backend.models.placeholder_agent import PlaceholderAgent
+from solving_pacman_backend.models.agents import agent
+from solving_pacman_backend.models.agents.placeholder_agent import PlaceholderAgent
 
 
 class EntityNotFoundException(Exception):

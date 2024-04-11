@@ -28,6 +28,11 @@ A full-stack application designed to solve levels from the original 1980's game 
 
 In order to run both the front end and back end at the same time, both servers will need to be run in separate terminal instances.
 
+### Pre-Commit
+```bash
+pre-commit install --hook-type pre-commit --hook-type pre-push
+```
+
 ### Flask Server
 
 ```bash
@@ -57,7 +62,7 @@ Two tags are specified for each build so that any new version can be tagged as `
 ```bash
 cd solving-pacman-backend
 docker build . --tag davidkidd/solving-pacman-backend:latest --tag davidkidd/solving-pacman-backend:{new-version-number}
-docker run -p 1000:1000 -d davidkidd/solving-pacman-backend:latest
+docker run -p 4000:4000 -d davidkidd/solving-pacman-backend:latest
 ```
 
 ### React

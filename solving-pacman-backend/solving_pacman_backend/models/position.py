@@ -5,12 +5,98 @@ class Position:
     """Model representing a position in two-dimensional space."""
 
     def __init__(self, x: int, y: int) -> None:
-        self.x = x
+        self._x = x
         """The x-coordinate."""
-        self.y = y
+        self._y = y
         """The y-coordinate."""
 
-    def distance(self, other) -> float:
+    def __repr__(self) -> str:
+        return f"x: {self.x} y: {self.y}"
+
+    def __eq__(self, __value: object) -> bool:
+        if isinstance(__value, Position):
+            return self.x == __value.x and self.y == __value.y
+        else:
+            return False
+
+    @property
+    def x(self):
+        """The x-coordinate."""
+        return self._x
+
+    @x.setter
+    def x(self, value):
+        self._x = value
+
+    @property
+    def y(self):
+        """The x-coordinate."""
+        return self._y
+
+    @y.setter
+    def y(self, value):
+        self._y = value
+
+    def add(self, adder: "Position") -> "Position":
+        """
+        Adds two positions together.
+
+        Parameters
+        ----------
+        `adder` : `Position`
+            The position to add.
+
+        Returns
+        -------
+        `Position`
+            The result of the calculation.
+        """
+        self.x += adder.x
+        self.y += adder.y
+        return self
+
+    def subtract(self, sub: "Position") -> "Position":
+        """
+        Subtracts one position from another.
+
+        Parameters
+        ----------
+        `sub` : `Position`
+            The position to subtract.
+
+        Returns
+        -------
+        `Position`
+            The result of the calculation.
+        """
+        self.x -= sub.x
+        self.y -= sub.y
+        return self
+
+    def multiply(self, coefficient: int) -> "Position":
+        """
+        Multiplies the `Position` by a given coefficient.
+
+        Parameters
+        ----------
+        `coefficient` : `int`
+            The multiplier
+        Returns
+        -------
+        `Position`
+            The result of the calculation.
+        """
+        self.x = self.x * coefficient
+        self.y = self.y * coefficient
+        return self
+
+    def direct_distance(self, other: "Position") -> "Position":
+        """
+        Returns the positional difference between the two
+        """
+        return self.subtract(other)
+
+    def euclidean_distance(self, other: "Position") -> float:
         """
         Calculates the distance between this position and the `other` position
         using the Euclidean Distance.

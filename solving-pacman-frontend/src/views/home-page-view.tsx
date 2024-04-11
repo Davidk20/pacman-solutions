@@ -1,5 +1,6 @@
 import React from "react";
-import "../styles/components/home-menu-button.css";
+import "../styles/components/home-menu-button.scss";
+import "../styles/views/home-page-view.scss";
 import logo from "../assets/images/pacman_logo.png";
 import { HomeMenuButton } from "../components/home-menu-button";
 import { Header } from "../components/header";
@@ -23,6 +24,9 @@ export class HomePageView extends React.Component{
           <Link to="/configuration" style={{textDecoration: "none"}}>
             <HomeMenuButton buttonText="CONFIGURATION"></HomeMenuButton>
           </Link>
+          <a href="https://david-kidd.gitbook.io/ai-solutions-to-pac-man/" style={{textDecoration: "none"}}>
+            <HomeMenuButton buttonText="DOCUMENTATION"></HomeMenuButton>
+          </a>
         </div>
       </div>
     );

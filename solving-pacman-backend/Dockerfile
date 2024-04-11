@@ -4,6 +4,6 @@ COPY pyproject.toml poetry.lock ./
 RUN pip install poetry && poetry install --no-root --no-directory
 COPY solving_pacman_backend/ ./src
 RUN poetry install --no-dev
-EXPOSE 1000
+EXPOSE 4000
 WORKDIR /backend/src
-CMD ["poetry", "run", "gunicorn", "-w", "4", "--bind", "0.0.0.0:1000", "wsgi:app" ]
+CMD ["poetry", "run", "gunicorn", "-w", "4", "--bind", "0.0.0.0:4000", "wsgi:app" ]

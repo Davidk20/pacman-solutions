@@ -56,7 +56,7 @@ export function GameWindow(stateStore: GameState[]) {
         setGameOver(true);
         setRunning(false);
       }
-    }, 250);
+    }, 100);
 
     return () => clearInterval(interval);
   });
@@ -94,6 +94,7 @@ export function GameWindow(stateStore: GameState[]) {
           height={entityHeight}
           yPos={entityHeight*row}
           xPos={entityWidth*col}
+          energised={store[tick].energised}
         />;
         break;
       case 22:
@@ -104,6 +105,7 @@ export function GameWindow(stateStore: GameState[]) {
           height={entityHeight}
           yPos={entityHeight*row}
           xPos={entityWidth*col}
+          energised={store[tick].energised}
         />;
         break;
       case 23:
@@ -114,6 +116,7 @@ export function GameWindow(stateStore: GameState[]) {
           height={entityHeight}
           yPos={entityHeight*row}
           xPos={entityWidth*col}
+          energised={store[tick].energised}
         />;
         break;
       case 24:
@@ -124,6 +127,7 @@ export function GameWindow(stateStore: GameState[]) {
           height={entityHeight}
           yPos={entityHeight*row}
           xPos={entityWidth*col}
+          energised={store[tick].energised}
         />;
         break;
       case 44:
@@ -134,6 +138,7 @@ export function GameWindow(stateStore: GameState[]) {
           height={entityHeight}
           yPos={entityHeight*row}
           xPos={entityWidth*col}
+          energised={store[tick].energised}
         />;
         break;
       case 99:
@@ -184,8 +189,8 @@ export function GameWindow(stateStore: GameState[]) {
       </div>
       <GameStats
         time={store[tick].time}
-        score={0}
-        energised={false}
+        score={store[tick].score}
+        energised={store[tick].energised}
         running={running}
         toggleGame={toggleGame}
         gameOver={gameOver}

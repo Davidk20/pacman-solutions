@@ -18,6 +18,7 @@ from abc import abstractmethod
 from solving_pacman_backend.models.entity import Entity
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.movement_types import MovementTypes
+from solving_pacman_backend.models.path import Path
 
 
 class Agent(ABC, Entity):
@@ -30,6 +31,7 @@ class Agent(ABC, Entity):
         movement_type: MovementTypes,
         home_path: list[tuple[int, int]],
         value: int,
+        respawn_point: tuple[int, int],
         score: int = 0,
     ):
         """
@@ -62,6 +64,12 @@ class Agent(ABC, Entity):
         """The position of the agent."""
         self.target: list[tuple[int, int]] = []
         """The target path for the agent to follow."""
+        self.move_history: list[tuple[int, int]] = []
+        """Stores the agents move history."""
+        self.respawn_point: tuple[int, int] = respawn_point
+        """The point the agent should respawn to."""
+        self.path: Path = Path([])
+        """The path the agent is following."""
 
     def __repr__(self) -> str:
         return (

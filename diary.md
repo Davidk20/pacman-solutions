@@ -362,3 +362,62 @@
 ## 19/03/24
 
 - Implemented play/pause/reset button
+- Created v1.0.0 tag
+- Added frightened ghosts to render
+- Split implementations of Pac-Man into the three evolutions
+  - Inactive: Pac-Man doesn't perceive or interact with the world
+  - Random: Pac-Man randomly moves irrespective of the world
+  - Informed Random: Pac-Man chooses random targets but will readjust if the path becomes unsafe
+- Added move history to agents
+- Used move state to check for backwards movement
+- Ghosts are now freed once their threshold is reached
+
+## 20/03/24
+
+- Increased animation speed.
+- Ghosts now have an internal timer, allowing them to track their frightened state.
+- Ghosts can now oscillate between chasing and scattering
+- Ghost frightened logic now implemented
+- Decided all ghosts would implement same chase behaviour (for now)
+  - Rather than using their behaviours, for the speed of deployment, it has been decided to allow all ghosts to inherit the same behaviour
+- Created `get_entity` method to simplify collision check
+- Extracted random path generation to a stand-alone function
+  - Allows it to be implemented by any agent
+- Implemented random path method for the random Pac-Man agent
+- Added respawn points
+- Refactored `move_agent` to use `get_entity` instead of the higher / lower methods
+  - Using the higher / lower entity methods was causing an edge case where if the agents moved in a specific order, it would incorrectly remove an agent as their priority would not be the expected order, meaning the wrong agent could be moved. Now, the type of the agent is specified instead so that the correct agent can be moved.
+
+## 21/03/24
+
+- Added logic to ghost to handle their capture
+- Once captured, ghosts now reset to their starting position
+- Created function to get all adjacent nodes
+- Created function to check if a node is a junction
+- Used two above functions to create a third function which chooses a random direction to turn
+- Compiled all above functions into `find_path_to_next_jct`
+
+## 22/03/24
+
+- Made optimisations to `find_path_to_next_jct`
+- Optimised ghost patterns
+  - Replaced gen_random_path with path_to_next_jct for frightened ghosts
+    - this means frightened ghosts act more game-like, by randomly choosing path at each junction
+  - Ghosts now enter game at their respawn point
+- Created function to check for looping paths
+- Optimised `InformedPacMan`
+- Created a main driver `.py` file to handle running the different run configurations
+  - Can now run server, single run or analytics from one file with help guide
+
+## 23/03/24
+
+- Created an analytics script to assess Pac-Man performance
+- Refactored `RandomPacMan` to use a similar movement pattern to the frightened ghosts
+
+## 26/03/24
+
+- Refactored `InformedPacMan` to choose best scoring valid path rather than a random valid path
+
+## 10/04/24
+
+- Re-enabled final two ghosts.

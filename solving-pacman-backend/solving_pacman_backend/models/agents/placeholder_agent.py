@@ -1,4 +1,4 @@
-from solving_pacman_backend.models.agent import Agent
+from solving_pacman_backend.models.agents.agent import Agent
 from solving_pacman_backend.models.movement_types import MovementTypes
 
 
