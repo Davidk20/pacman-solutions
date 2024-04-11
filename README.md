@@ -37,6 +37,8 @@ An artificial intelligence environment enabling users to watch simulated solutio
 
 Below are the instructions required to get the application running locally. Only the back-end is required for a minimum application which will run on the command line, while the front-end is optional to aesthetically render solutions.
 
+It should be noted that the applications can also be quickly run using Docker. Currently, the images are not hosted on a repository and so they must first be built, this can be done using the [Docker Deployment](#deployment) steps.
+
 ### Back-End (Solutions)
 
 There are two options for installation once the repository has been cloned, both options require an installation of Python >= 3.10 and the `venv` package to be installed.
