@@ -418,6 +418,16 @@
 
 - Refactored `InformedPacMan` to choose best scoring valid path rather than a random valid path
 
+## 26/03/24 - 12/04/24
+
+- Worked on final submission and report
+
 ## 10/04/24
 
 - Re-enabled final two ghosts.
+
+## 11/04/24
+
+- Added graceful exit if virtual environment is not activated
+- Updated documentation
+- fixed API path
