@@ -3,9 +3,9 @@ import blinky from "../../assets/images/sprites/blinky.png";
 import clyde from "../../assets/images/sprites/clyde.png";
 import inky from "../../assets/images/sprites/inky.png";
 import pinky from "../../assets/images/sprites/pinky.png";
+import frightened from "../../assets/images/sprites/frightened.png";
 import "../../styles/components/game/agent.scss";
-import { ReactNode } from "react";
-import React from "react";
+import React, { ReactNode } from "react";
 
 
 type AgentProps = {
@@ -29,114 +29,57 @@ type AgentProps = {
    * The y coordinate to place the agent at.
    */
   yPos: number;
+  /**
+   * `true` if Pac-Man is energised.
+   */
+  energised: boolean;
 }
 
 export class Agent extends React.Component<AgentProps> {
-  override render(): ReactNode {
-    switch (this.props.agent) {
-    case "pacman":
-      return <div
-        className="Agent-Container"
-        style={{
-          height: this.props.height,
-          width: this.props.width,
-          top: this.props.yPos,
-          left: this.props.xPos
-        }}
-      >
-        <img
-          className="Agent"
-          src={pacman}
-          alt={"Pac-Man"}
-          style={{
-            height: this.props.height,
-            width: this.props.width,
-          }}
-        />
-      </div>;
-    case "blinky":
-      return <div
-        className="Agent-Container"
-        style={{
-          height: this.props.height,
-          width: this.props.width,
-          top: this.props.yPos,
-          left: this.props.xPos
-        }}
-      >
-        <img
-          className="Agent"
-          src={blinky}
-          alt={"Blinky"}
-          style={{
-            height: this.props.height,
-            width: this.props.width,
-          }}
-        />
-      </div>;
-    case "clyde":
-      return <div
-        className="Agent-Container"
-        style={{
-          height: this.props.height,
-          width: this.props.width,
-          top: this.props.yPos,
-          left: this.props.xPos
-        }}
-      >
-        <img
-          className="Agent"
-          src={pinky}
-          alt={"Pinky"}
-          style={{
-            height: this.props.height,
-            width: this.props.width,
-          }}
-        />
-      </div>;
-    case "inky":
-      return <div
-        className="Agent-Container"
-        style={{
-          height: this.props.height,
-          width: this.props.width,
-          top: this.props.yPos,
-          left: this.props.xPos
-        }}
-      >
-        <img
-          className="Agent"
-          src={inky}
-          alt={"Pac-Man"}
-          style={{
-            height: this.props.height,
-            width: this.props.width,
+  agentPath: string = "";
 
-          }}
-        />
-      </div>;
-    case "pinky":
-      return <div
-        className="Agent-Container"
+  override render(): ReactNode {
+    if (this.props.energised && this.props.agent != "pacman") {
+      this.agentPath = frightened;
+    } else {
+      switch (this.props.agent) {
+      case "pacman":
+        this.agentPath = pacman;
+        break;
+      case "blinky":
+        this.agentPath = blinky;
+        break;
+      case "clyde":
+        this.agentPath = clyde;
+        break;
+      case "inky":
+        this.agentPath = inky;
+        break;
+      case "pinky":
+        this.agentPath = pinky;
+        break;
+      default:
+        throw new Error("Agent not found");
+      }
+    }
+    return <div
+      className="Agent-Container"
+      style={{
+        height: this.props.height,
+        width: this.props.width,
+        top: this.props.yPos,
+        left: this.props.xPos
+      }}
+    >
+      <img
+        className="Agent"
+        src={this.agentPath}
+        alt={this.props.agent}
         style={{
           height: this.props.height,
           width: this.props.width,
-          top: this.props.yPos,
-          left: this.props.xPos
         }}
-      >
-        <img
-          className="Agent"
-          src={clyde}
-          alt={"Pac-Man"}
-          style={{
-            height: this.props.height,
-            width: this.props.width,
-          }}
-        />
-      </div>;
-    default:
-      throw new Error("Agent not found");
-    }
+      />
+    </div>;
   }
 }

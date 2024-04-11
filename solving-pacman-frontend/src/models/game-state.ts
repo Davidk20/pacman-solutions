@@ -10,4 +10,12 @@ export interface GameState {
    * The state of the board at this time.
    */
   state: Array<Array<number>>
+  /**
+   * `true` if Pac-Man is energised in this current state.
+   */
+  energised: boolean
+  /**
+   * Pac-Man's score at the current state.
+   */
+  score: number
 }

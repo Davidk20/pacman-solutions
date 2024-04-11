@@ -2,9 +2,9 @@ import pytest
 from solving_pacman_backend import exceptions
 from solving_pacman_backend.models import environment
 from solving_pacman_backend.models import pickups
+from solving_pacman_backend.models.agents.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.node import Node
-from solving_pacman_backend.models.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.path import Path
 from tests.mocks.mock_agent_test import mock_ghost
 
@@ -27,7 +27,7 @@ def node():
 def nodes():
     """Generate an list of a Node for testing"""
     nodes = [
-        Node((0, 0), PacmanAgent([(0, 0)])),
+        Node((0, 0), PacmanAgent([(0, 0)], (0, 0))),
         Node((0, 1), pickups.PacDot()),
         Node((0, 2), pickups.PowerPellet()),
         Node((0, 3), pickups.Empty()),
@@ -68,7 +68,7 @@ def compiled_graph():
     """
     graph = Graph()
     nodes = [
-        Node((0, 0), PacmanAgent([(0, 0)])),
+        Node((0, 0), PacmanAgent([(0, 0)], (0, 0))),
         Node((0, 1), pickups.PacDot()),
         Node((0, 2), pickups.PowerPellet()),
         Node((0, 3), pickups.Empty()),
@@ -167,23 +167,23 @@ def test_is_connected(compiled_graph: Graph):
 def test_agent_collision_with_pickup(compiled_graph: Graph):
     """Tests that an agent correctly handles collision with an item."""
     with pytest.raises(exceptions.CollisionException):
-        compiled_graph.move_agent((0, 0), (0, 1))
+        compiled_graph.move_agent((0, 0), (0, 1), PacmanAgent)
 
 
 def test_agent_collision_with_ghost(compiled_graph: Graph):
     """Tests that an agent correctly handles collision with a ghost."""
     with pytest.raises(exceptions.CollisionException):
-        compiled_graph.move_agent((0, 0), (0, 6))
+        compiled_graph.move_agent((0, 0), (0, 6), PacmanAgent)
 
 
 def test_agent_move_no_collision(compiled_graph: Graph):
     """Tests that an agent can move into an empty space."""
-    compiled_graph.move_agent((0, 0), (0, 3))
+    compiled_graph.move_agent((0, 0), (0, 3), PacmanAgent)
 
 
 def test_move_nowhere(compiled_graph: Graph):
     """Test that Pac-Man is able to "move" to the same spot."""
-    compiled_graph.move_agent((0, 0), (0, 0))
+    compiled_graph.move_agent((0, 0), (0, 0), PacmanAgent)
     assert compiled_graph.find_node_by_entity(PacmanAgent)[0].position == (0, 0)
 
 
@@ -254,3 +254,43 @@ def test_remaining_pickups(compiled_graph: Graph):
     Test that the number of pickups remaining is correctly counted.
     """
     assert compiled_graph.remaining_pickups() == 5
+
+
+def test_is_junction(compiled_graph: Graph):
+    "Test that the node is a junction."
+    n1 = compiled_graph.find_node_by_pos((0, 0))
+    n2 = compiled_graph.find_node_by_pos((0, 3))
+    n3 = compiled_graph.find_node_by_pos((0, 6))
+    assert compiled_graph.is_junction(n1, (0, 0))
+    assert compiled_graph.is_junction(n2, (0, 9))
+    assert compiled_graph.is_junction(n3, (0, 0))
+
+
+def test_not_junction(compiled_graph: Graph):
+    """Test that nodes are not a junction."""
+    n1 = compiled_graph.find_node_by_pos((0, 7))
+    n2 = compiled_graph.find_node_by_pos((0, 8))
+    n3 = compiled_graph.find_node_by_pos((0, 9))
+    assert not compiled_graph.is_junction(n1, (0, 0))
+    assert not compiled_graph.is_junction(n2, (0, 0))
+    assert not compiled_graph.is_junction(n3, (0, 0))
+
+
+def test_adjacency(compiled_graph: Graph):
+    """Checks that a nodes adjacent nodes are returned."""
+    n1 = compiled_graph.find_node_by_pos((0, 7))
+    n2 = compiled_graph.find_node_by_pos((0, 8))
+    assert compiled_graph.get_adjacent(n1) == [n2]
+
+
+def test_path_to_jct(compiled_graph: Graph):
+    """
+    Check that the path can be found to the next junction.
+
+    As this function uses BFS, the shortest path will
+    always be returned first, this will test that the
+    shortest path ends at the closest junction.
+    """
+    expected_end = compiled_graph.find_node_by_pos((0, 6))
+    paths = compiled_graph.find_path_to_next_jct((0, 7))
+    assert paths[0].route[-1] == expected_end

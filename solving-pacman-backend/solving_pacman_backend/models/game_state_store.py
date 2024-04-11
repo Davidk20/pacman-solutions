@@ -50,7 +50,7 @@ class GameStateStore:
         """
         return self.store
 
-    def to_json(self) -> list[dict]:
+    def to_json(self) -> dict:
         """
         Format the `GameStateStore` into a JSON object for communication
         with the front-end.
@@ -60,7 +60,15 @@ class GameStateStore:
         `list[dict]`
             A list containing a dictionary for each `GameState`.
         """
-        json = []
+        states = []
         for state in self.store:
-            json.append({"time": state.time, "state": state.board_state})
+            states.append(
+                {
+                    "time": state.time,
+                    "state": state.board_state,
+                    "energised": state.energised,
+                    "score": state.score,
+                }
+            )
+        json = {"states": states}
         return json

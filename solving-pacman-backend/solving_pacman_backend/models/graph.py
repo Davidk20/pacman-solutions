@@ -4,6 +4,7 @@ from typing import Type
 
 from solving_pacman_backend import exceptions
 from solving_pacman_backend.models.entity import Entity
+from solving_pacman_backend.models.environment import Gate
 from solving_pacman_backend.models.environment import Teleporter
 from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.models.path import Path
@@ -26,6 +27,8 @@ class Graph:
         """
         self.node_count = 1
         """The counter used to identify nodes."""
+        self.total_pickups: int
+        """The total number of pickups contained in this level."""
 
     def __repr__(self) -> str:
         string = ""
@@ -91,7 +94,45 @@ class Graph:
         """
         return random.choice(self.nodes())
 
-    def move_agent(self, old_pos: tuple[int, int], new_pos: tuple[int, int]) -> None:
+    def is_junction(self, node: Node, prev_pos: tuple[int, int]) -> bool:
+        """
+        Checks whether the node is a junction.
+
+        A junction is defined as a node with >1 potential paths where those
+        paths are not the path just taken.
+
+        Parameters
+        ----------
+        `node` : `Node`
+            The node to check
+
+        Returns
+        -------
+        `bool`
+            `True` if the `Node` is a junction
+        """
+        prev_node = self.find_node_by_pos(prev_pos)
+        return len([node for node in self.level[node] if node != prev_node]) > 1
+
+    def get_adjacent(self, node: Node) -> list[Node]:
+        """
+        Returns all nodes adjacent to a given node.
+
+        Parameters
+        ----------
+        `node` : `Node`
+            The node to check
+
+        Returns
+        -------
+        `list[Node]`
+            All adjacent nodes.
+        """
+        return self.level[node]
+
+    def move_agent(
+        self, old_pos: tuple[int, int], new_pos: tuple[int, int], agent: type
+    ) -> None:
         """
         Move an agent to the new position.
 
@@ -110,7 +151,8 @@ class Graph:
             The current position of the agent.
         `new_pos` : `tuple[int, int]`
             The position the agent is moving to.
-
+        `agent` : `type`
+            The type of the agent being moved.
         """
         if new_pos == old_pos:
             # If the agent is not moving, nothing should happen
@@ -120,7 +162,7 @@ class Graph:
         # if passing the above, it is a valid move
         # the move will occur and then it will check if a collision took place
         # which is then raised to be handled by the GameManager
-        entity = old_node.get_higher_entity()
+        entity = old_node.get_entity(agent)
         old_node.remove_entity(entity)
         new_node.add_entity(entity)
         if new_node.is_collision():
@@ -199,6 +241,7 @@ class Graph:
             raise exceptions.InvalidGraphConfigurationException(
                 "Graph is not connected, check edges"
             )
+        self.total_pickups = self.remaining_pickups()
 
     def bfs(self, start_pos: tuple[int, int] | Node) -> list[Node]:
         """
@@ -317,7 +360,7 @@ class Graph:
                     break
 
             for node in self.level[current]:
-                if node not in path:
+                if node not in path and not node.contains(Gate):
                     queue.append((node, path + [node]))
 
         return paths
@@ -350,3 +393,44 @@ class Graph:
         The number of non-empty nodes on the graph.
         """
         return sum(node.contains(Pickup) for node in self.nodes())
+
+    def find_path_to_next_jct(self, start_pos: tuple[int, int]) -> list[Path]:
+        """
+        Generate a path from the current position to the next closest junction.
+
+        This function implements a similar BFS algorithm to `find_paths_between`,
+        however the goal state in this instance is for the target node to be a
+        junction.
+
+        Parameters
+        ----------
+        `node` : `Node`
+            The current position of the agent.
+
+        Returns
+        -------
+        `Path`
+            A path from the current position to the next junction.
+        """
+        start_node = self.find_node_by_pos(start_pos)
+        queue = [(start_node, [start_node])]
+        paths: list[Path] = []
+        while len(queue) > 0:
+            current, path = queue.pop(0)
+            if self.is_junction(current, path[-1].position):
+                paths.append(Path(path))
+                if len(paths) == 5:
+                    # break when enough paths found
+                    break
+                if len(path) > 12:
+                    if len(paths) == 0:
+                        # raise error if path is too long
+                        raise exceptions.PathNotFoundException(start_node.position)
+                    else:
+                        break
+
+            for node in self.level[current]:
+                if node not in path and not node.contains(Gate):
+                    queue.append((node, path + [node]))
+
+        return paths

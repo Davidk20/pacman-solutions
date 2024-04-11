@@ -15,7 +15,10 @@ class Path:
         self.route = path
 
     def __repr__(self) -> str:
-        return f"Path from {self.route[0].position} to {self.route[-1].position}"
+        if len(self.route) > 0:
+            return f"Path from {self.route[0].position} to {self.route[-1].position}"
+        else:
+            return "Empty Path"
 
     def __len__(self) -> int:
         return len(self.route)
@@ -28,7 +31,7 @@ class Path:
                 return False
         return True
 
-    def is_safe(self) -> bool:
+    def is_safe(self, forward: int = 0) -> bool:
         """
         Checks whether a path is safe.
 
@@ -36,7 +39,9 @@ class Path:
         -------
         `True` if there are no Ghosts on a path.
         """
-        for node in self.route:
+        iterator = self.route[1:forward] if forward != 0 else self.route[1:]
+        for node in iterator:
+            # Starts from second index to ignore agent in first position.
             if node.empty():
                 continue
             if not node.contains(pickups.Pickup) and not node.contains(
@@ -44,6 +49,16 @@ class Path:
             ):
                 return False
         return True
+
+    def is_loop(self) -> bool:
+        """
+        Checks if the path loops on itself.
+
+        Returns
+        -------
+        `True` if the `Path` starts at the same point that it ends.
+        """
+        return self.route[0] == self.route[-1]
 
     def cost(self) -> int:
         """
@@ -69,3 +84,22 @@ class Path:
         The `Node` corresponding to the next target position.
         """
         return self.route.pop(0)
+
+    def backwards(self, history: list[tuple[int, int]]) -> bool:
+        """
+        Check whether the agent would be moving backward's by traversing
+        this path.
+
+        Parameters
+        ----------
+        `history` : `list[tuple[int, int]]`
+            The path history of the agent.
+
+        Returns
+        -------
+        `true` if the agent would be moving backwards down this path.
+        """
+        if len(history) > 1:
+            return self.route[1].position in history[-2:]
+        else:
+            return False

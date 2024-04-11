@@ -7,7 +7,7 @@ from solving_pacman_backend.models.path import Path
 from tests.mocks.mock_agent_test import mock_ghost
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="function", autouse=True)
 def path_no_agents():
     """Generate a path for testing containing no agents."""
     nodes = [
@@ -24,7 +24,7 @@ def path_no_agents():
     yield path
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="function", autouse=True)
 def path_with_agents():
     """Generate a path for testing containing no agents."""
     nodes = [
@@ -61,3 +61,10 @@ def test_get_next_pos(path_no_agents: Path):
     """Checks that getting the next position is correctly handled."""
     assert path_no_agents.get_next_pos().position == (0, 0)
     assert len(path_no_agents) == 7
+
+
+def test_backwards(path_no_agents: Path):
+    """Checks that a backwards path is identified."""
+    history: list[tuple[int, int]] = [(0, 0), (0, 1)]
+    print(history[-2:])
+    assert path_no_agents.backwards(history)

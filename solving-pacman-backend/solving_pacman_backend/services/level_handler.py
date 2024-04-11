@@ -97,7 +97,6 @@ def get_homes(level_num: int) -> data_types.AgentHomes:
     which the agent should follow when returning "home".
     """
     level: data_types.LevelData = get_level(level_num)
-    # Type ignored as it is known what
     homes: dict[str, list[list[int]]] = level.get("homes")
     formatted_homes: dict[str, list[tuple[int, int]]] = {}
     if homes is not None:
@@ -139,3 +138,28 @@ def get_home(level_num: int, agent: str) -> list[tuple[int, int]]:
         raise exceptions.InvalidLevelConfigurationException(level_num)
 
     return home
+
+
+def get_respawn_points(level_num: int) -> data_types.AgentRespawn:
+    """
+    Return the respawn points for all agents.
+
+    Parameters
+    ----------
+    `level_num` : `int`
+        The number of the desired level
+
+    Returns
+    -------
+    A `dict` containing the mapping of agents to their respawn points.
+    """
+    level: data_types.LevelData = get_level(level_num)
+    points: dict[str, list[list[int]]] = level.get("respawn")
+    formatted_points: dict[str, tuple[int, int]] = {}
+
+    if points is not None:
+        for agent, point in points.items():
+            formatted_points[agent] = tuple([point[0], point[1]])  # type: ignore
+        return formatted_points  # type: ignore
+    else:
+        raise exceptions.InvalidLevelConfigurationException(level_num)

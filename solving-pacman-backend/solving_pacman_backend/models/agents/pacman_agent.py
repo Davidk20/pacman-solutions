@@ -1,9 +1,8 @@
 """Model representing the agent for Pac-man."""
-from solving_pacman_backend.exceptions import PacManDiedException
-from solving_pacman_backend.models.agent import Agent
+from solving_pacman_backend import exceptions
+from solving_pacman_backend.models.agents.agent import Agent
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.models.movement_types import MovementTypes
-from solving_pacman_backend.models.path import Path
 from solving_pacman_backend.models.pickups import Pickup
 from solving_pacman_backend.models.pickups import PowerPellet
 
@@ -12,13 +11,20 @@ class PacmanAgent(Agent):
     """
     Model representing the agent for Pac-man.
 
+    This class should be used as a wrapper for all implementations
+    of the Pac-Man model. This class will provide all of the generic
+    game logic which prevents the need for this to be implemented in
+    each interpretation of the PacmanAgent.
+
     Inspirations for Pac-Man decision making comes from the below
     sources:
     https://github.com/Lamonkey/ai-pacman
     https://www.classicgaming.cc/classics/pac-man/play-guide
     """
 
-    def __init__(self, home_path: list[tuple[int, int]]):
+    def __init__(
+        self, home_path: list[tuple[int, int]], respawn_point: tuple[int, int]
+    ):
         """
         Initialise the class.
 
@@ -27,7 +33,9 @@ class PacmanAgent(Agent):
         `home_path` : `list[tuple[int, int]]`
             The agents's home path.
         """
-        super().__init__("Pac-Man", "Player", MovementTypes.CUSTOM, home_path, 44)
+        super().__init__(
+            "Pac-Man", "Player", MovementTypes.CUSTOM, home_path, 44, respawn_point
+        )
         self.current_lives = 1
         """Store the number of lives the user agent has remaining."""
         self.energized = False
@@ -73,10 +81,11 @@ class PacmanAgent(Agent):
                 self.temp_ghost_counter += 1
                 score = int(((pickup.score() / 100) ** self.temp_ghost_counter) * 100)
                 self.increase_score(score)
+                raise exceptions.GhostDiedException(pickup)
             else:
                 # If Pac-man has consumed a ghost without energizer
                 self.current_lives -= 1
-                raise PacManDiedException()
+                raise exceptions.PacManDiedException()
         if not isinstance(pickup, Agent):
             self.increase_score(pickup.score())
 
@@ -86,13 +95,7 @@ class PacmanAgent(Agent):
         self.temp_ghost_counter = 0
 
     def _perceive(self, time: int, level: Graph) -> None:
-        self.path: Path = Path([])
-        self.target = [self.position]
-        if self.position == self.target[0]:
-            self.target.pop(0)
-        if len(self.target) == 0 or not self.path.is_safe():
-            self.target.append(level.random_node().position)
-        self.path = level.shortest_path_to(self.position, self.target[0])
+        raise NotImplementedError
 
     def _execute(self) -> tuple[int, int]:
-        return self.path.get_next_pos().position
+        raise NotImplementedError

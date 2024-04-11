@@ -7,7 +7,7 @@
  */
 const dev = {
   url: {
-    API_URL: "http://127.0.0.1:1000"
+    API_URL: "http://192.168.1.208:3000"
   }
 };
 
@@ -17,7 +17,7 @@ const dev = {
 const prod = {
   url: {
     // TODO change when deployed to a remote server.
-    API_URL: "http://127.0.0.1:1000"
+    API_URL: "http://127.0.0.1:4000"
   }
 };
 

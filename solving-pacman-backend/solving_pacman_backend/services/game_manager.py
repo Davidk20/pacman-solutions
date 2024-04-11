@@ -1,15 +1,27 @@
 """Service managing the running of the game."""
+from enum import Enum
+
 from solving_pacman_backend import exceptions
-from solving_pacman_backend.models import ghost_agent
+from solving_pacman_backend.models.agents import ghost_agent
+from solving_pacman_backend.models.agents.custom_agents.informed import (
+    InformedPacMan,
+)
+from solving_pacman_backend.models.agents.pacman_agent import PacmanAgent
+from solving_pacman_backend.models.agents.placeholder_agent import PlaceholderAgent
 from solving_pacman_backend.models.game_state import GameState
 from solving_pacman_backend.models.game_state_store import GameStateStore
 from solving_pacman_backend.models.graph import Graph
-from solving_pacman_backend.models.node import Node
-from solving_pacman_backend.models.pacman_agent import PacmanAgent
-from solving_pacman_backend.models.pickups import Pickup
-from solving_pacman_backend.models.placeholder_agent import PlaceholderAgent
 from solving_pacman_backend.services import level_handler
+from solving_pacman_backend.utils import game_utils
 from solving_pacman_backend.utils import level_utils
+
+
+class RunConfiguration(Enum):
+    """Representation of the run type for `GameManager`."""
+
+    LOCAL = "local"
+    SERVER = "server"
+    ANALYTIC = "analytic"
 
 
 class GameManager:
@@ -17,7 +29,13 @@ class GameManager:
     Service which manages the overall running of the game.
     """
 
-    def __init__(self, level_num: int, local: bool = False) -> None:
+    def __init__(
+        self,
+        level_num: int,
+        configuration: RunConfiguration,
+        custom_pacman: type[PacmanAgent] = InformedPacMan,
+        verbose: bool = False,
+    ) -> None:
         """
         Initialises the `GameManager`.
 
@@ -35,9 +53,21 @@ class GameManager:
         ----------
         `level_num` : `int`
             The number of the level to be run.
+        `configuration` : `RunConfiguration`
+            The configuration used for the run.
+        `custom_pacman` : `type[PacmanAgent]`
+            The custom agent to be injected into the game.
+            The default is `InformedPacMan`.
+        `local` : `bool` DEFAULT = `False`
+            Whether the game is being run locally or as a server call. Used to
+            indicate whether output should be printed or not.
+        `verbose` : `bool` DEFAULT = `False`
+            If `True`, the verbose output will be displayed
         """
-        self.local: bool = local
-        """Indicates the parent call of `GameManager`."""
+        self.configuration: RunConfiguration = configuration
+        """The configuration used for the model run."""
+        self.verbose: bool = verbose
+        """Indicates whether to display the verbose output."""
         self.timer = 0
         """
         The internal game counter.
@@ -57,14 +87,16 @@ class GameManager:
         """Indicates whether the game is currently running."""
         self.agent_home = level_handler.get_homes(level_num)
         """Dictionary containing the homes of the agents."""
-        self.pacman = PacmanAgent(self.agent_home["pacman"])
+        self.respawn = level_handler.get_respawn_points(level_num)
+        """Dictionary containing the agents respawn points."""
+        self.pacman = custom_pacman(self.agent_home["pacman"], self.respawn["pacman"])
         """Representation of the Pac-Man agent."""
         self.agents: list[PacmanAgent | ghost_agent.GhostAgent] = [
             self.pacman,
-            ghost_agent.BlinkyAgent(self.agent_home["blinky"]),
-            ghost_agent.PinkyAgent(self.agent_home["pinky"]),
-            ghost_agent.InkyAgent(self.agent_home["inky"]),
-            ghost_agent.ClydeAgent(self.agent_home["clyde"]),
+            ghost_agent.BlinkyAgent(self.agent_home["blinky"], self.respawn["blinky"]),
+            ghost_agent.PinkyAgent(self.agent_home["pinky"], self.respawn["pinky"]),
+            ghost_agent.InkyAgent(self.agent_home["inky"], self.respawn["inky"]),
+            ghost_agent.ClydeAgent(self.agent_home["clyde"], self.respawn["clyde"]),
         ]
         """Array containing all of the agents."""
 
@@ -104,7 +136,11 @@ class GameManager:
     def tick(self) -> None:
         """Increments the game time and processes all time based events."""
         level_array = level_utils.graph_to_array(self.game)
-        self.state_store.add(GameState(self.timer, level_array))
+        self.state_store.add(
+            GameState(
+                self.timer, level_array, self.pacman.energized, self.pacman.score()
+            )
+        )
         if self.win() or self.lost():
             self.running = False
         else:
@@ -112,14 +148,28 @@ class GameManager:
         for ag in self.agents:
             try:
                 ag.position = self.game.find_node_by_entity(type(ag))[0].position
-                self.game.move_agent(ag.position, ag.cycle(self.timer, self.game))
+                self.game.move_agent(
+                    ag.position, ag.cycle(self.timer, self.game), type(ag)
+                )
             except exceptions.CollisionException as collision:
                 try:
-                    self.handle_collision(collision.node)
+                    game_utils.handle_collision(collision.node)
                 except exceptions.PacManDiedException:
                     self.running = False
+                except exceptions.GhostDiedException as ghost:
+                    if isinstance(ghost.ghost, ghost_agent.GhostAgent):
+                        ghost.ghost.handle_capture()
+                        self.game.move_agent(
+                            collision.node.position,
+                            self.respawn[ghost.ghost.name().lower()],
+                            type(ghost.ghost),
+                        )
+            except IndexError as e:
+                print(f"{ag} - {e}")
+                self.running = False
+                raise
 
-    def start(self) -> list[dict]:
+    def game_loop(self) -> dict:
         """
         Start the game loop.
 
@@ -128,21 +178,24 @@ class GameManager:
         `GameStateStore`
             The history of moves
         """
-        self.running = True
         self.setup_game()
+        self.running = True
         while self.running:
             try:
                 self.tick()
             except KeyboardInterrupt:
                 print("\nSimulation manually stopped")
-                self.print_current_state()
                 break
-        if self.local:
-            print("##############################")
-            print("GAME OVER")
-            print("##############################")
-            self.print_current_state()
-        return self.state_store.to_json()
+        # append final state after game ended
+        self.state_store.add(
+            GameState(
+                self.timer,
+                level_utils.graph_to_array(self.game),
+                self.pacman.energized,
+                self.pacman.score(),
+            )
+        )
+        return self.handle_end()
 
     def print_current_state(self) -> None:
         """
@@ -153,25 +206,31 @@ class GameManager:
         print(f"Iteration {self.timer}")
         print(level_utils.print_level(level_utils.graph_to_array(self.game)))
 
-    def handle_collision(self, node: Node) -> None:
-        if node.contains(ghost_agent.GhostAgent) and node.contains(Pickup):
-            # if collision is between ghost and pickup, ignore
-            return
-        higher = node.get_higher_entity()
-        lower = node.get_lower_entity()
-        if isinstance(higher, ghost_agent.GhostAgent) and isinstance(
-            lower, PacmanAgent
-        ):
-            self.pacman.handle_consume(higher)
-        elif isinstance(higher, PacmanAgent) and isinstance(
-            lower, Pickup | ghost_agent.GhostAgent
-        ):
-            self.pacman.handle_consume(lower)
-        else:
-            raise ValueError(f"Invalid case higher - {higher}, lower - {lower}")
+    def handle_end(self, ghost: ghost_agent.GhostAgent = None) -> dict:  # type: ignore
+        """
+        Handles the end of the game.
 
+        Parameters
+        ----------
+        `ghost` : `GhostAgent`
+            The ghost which defeated Pac-Man - if applicable.
+        """
 
-if __name__ == "__main__":
-    # entry point to run a single game.
-    game = GameManager(1, local=True)
-    game.start()
+        match self.configuration:
+            case RunConfiguration.LOCAL:
+                print("##############################")
+                print("GAME OVER")
+                print("##############################")
+                print(f"Time: {self.timer}")
+                print(f"Pac-Man score: {self.pacman.score()}")
+                if ghost:
+                    print(f"{ghost.name()} caught Pac-Man at {self.pacman.position}")
+                if self.verbose:
+                    self.print_current_state()
+                return self.state_store.to_json()
+
+            case RunConfiguration.SERVER:
+                return self.state_store.to_json()
+
+            case RunConfiguration.ANALYTIC:
+                return {"time_game": self.timer, "score": self.pacman.score()}

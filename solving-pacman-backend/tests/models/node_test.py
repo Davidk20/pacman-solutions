@@ -1,10 +1,10 @@
 """Tests for the Node model."""
 import pytest
 from solving_pacman_backend import exceptions
+from solving_pacman_backend.models.agents.placeholder_agent import PlaceholderAgent
 from solving_pacman_backend.models.node import Node
 from solving_pacman_backend.models.pickups import Empty
 from solving_pacman_backend.models.pickups import PacDot
-from solving_pacman_backend.models.placeholder_agent import PlaceholderAgent
 
 
 @pytest.fixture(scope="function", autouse=True)
@@ -92,3 +92,19 @@ def test_get_empty_entity(empty_node: Node):
     """Test that empty entity is returned from empty node."""
     assert isinstance(empty_node.get_higher_entity(), Empty)
     assert isinstance(empty_node.get_lower_entity(), Empty)
+
+
+def test_get_specific_pickup(empty_node: Node):
+    empty_node.add_entity(PacDot())
+    assert isinstance(empty_node.get_entity(PacDot), PacDot)
+
+
+def test_get_specific_agent(empty_node: Node):
+    empty_node.add_entity(PacDot())
+    empty_node.add_entity(PlaceholderAgent("", 0))
+    assert isinstance(empty_node.get_entity(PlaceholderAgent), PlaceholderAgent)
+
+
+def test_get_specific_not_found(empty_node: Node):
+    with pytest.raises(exceptions.InvalidNodeException):
+        empty_node.get_entity(PacDot)

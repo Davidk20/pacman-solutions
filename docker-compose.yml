@@ -6,7 +6,7 @@ services:
       context: ./solving-pacman-backend
       dockerfile: Dockerfile
     ports:
-      - 1000:1000
+      - 4000:4000
     image: solving-pacman-backend
 
   frontend:
