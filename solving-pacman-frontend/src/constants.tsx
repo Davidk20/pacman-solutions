@@ -7,7 +7,7 @@
  */
 const dev = {
   url: {
-    API_URL: "http://192.168.1.208:3000"
+    API_URL: "http://127.0.0.1:4000"
   }
 };
 
