@@ -21,7 +21,7 @@ export function GameView() {
    * @returns A `list` of `GameStates`
    */
   const fetchData = async (): Promise<GameState[]> => {
-    return await fetchGame(level_num.charAt(level_num.length-1));
+    return (await fetchGame(level_num.charAt(level_num.length-1))).states;
   };
 
   useEffect(() => {

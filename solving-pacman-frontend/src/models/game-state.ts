@@ -19,3 +19,13 @@ export interface GameState {
    */
   score: number
 }
+
+/**
+ * Model representing the response from the server.
+ */
+export interface GameResponse {
+  /**
+   * A list of the game states.
+   */
+  states: GameState[]
+}
