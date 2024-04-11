@@ -8,10 +8,16 @@ https://realpython.com/command-line-interfaces-python-argparse/
 import argparse
 import sys
 
-from solving_pacman_backend.scripts.analytics import PacmanAnalytics
-from solving_pacman_backend.server import server
-from solving_pacman_backend.services.game_manager import GameManager
-from solving_pacman_backend.services.game_manager import RunConfiguration
+try:
+    from solving_pacman_backend.scripts.analytics import PacmanAnalytics
+    from solving_pacman_backend.server import server
+    from solving_pacman_backend.services.game_manager import GameManager
+    from solving_pacman_backend.services.game_manager import RunConfiguration
+except ModuleNotFoundError:
+    print(
+        "ERROR - Activate virtual environment before attempting to run driver script."
+    )
+    sys.exit(1)
 
 
 class ArgParser(argparse.ArgumentParser):
