@@ -22,7 +22,10 @@
   <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" alt="docker logo"/>
 </div>
 
+<div align="center" width="50%">
 An artificial intelligence environment enabling users to watch simulated solutions to the original 1980's Pac-Man arcade game.
+</div>
+
 
 ## Key Features
 
