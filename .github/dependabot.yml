@@ -1,16 +1,17 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
+    target-branch: dev
     directory: "/"
     schedule:
       interval: "weekly"
   - package-ecosystem: "pip"
+    target-branch: dev
     directory: "/"
     schedule:
       interval: "weekly"
   - package-ecosystem: "github-actions"
+    target-branch: dev
     directory: "/"
     schedule:
       interval: "weekly"
-
-      
