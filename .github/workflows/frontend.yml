@@ -12,7 +12,7 @@ on:
 
 jobs:
   lint-and-test:
-    name: Lint and Test
+    name: Lint and Test Front-End
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
