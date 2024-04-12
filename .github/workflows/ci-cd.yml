@@ -96,9 +96,7 @@ jobs:
       - name: Build Back-End
         run: |
           cd solving-pacman-backend
-          # Add your commands to build the production version of the backend here
 
       - name: Build Front-End
         run: |
           cd solving-pacman-frontend
-          # Add your commands to build the production version of the frontend here
