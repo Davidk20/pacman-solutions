@@ -1,0 +1,43 @@
+name: Front-End CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+  # Trigger the build step only when a new tag is created
+  release:
+    types: [created]
+
+jobs:
+  lint-and-test:
+    name: Lint and Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: cd solving-pacman-frontend
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '21.x'
+          cache: 'npm'
+          cache-dependency-path: solving-pacman-frontend/package-lock.json
+
+
+      - name: Install npm packages
+        run: |
+          npm ci --legacy-peer-deps
+        working-directory: solving-pacman-frontend
+
+      - name: Lint with eslint
+        run: |
+          npm run lint
+        working-directory: solving-pacman-frontend
+
+      - name: Test with Jest
+        run: |
+          npm run test:once
+        working-directory: solving-pacman-frontend
