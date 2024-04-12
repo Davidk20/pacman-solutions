@@ -24,19 +24,20 @@ jobs:
         with:
           node-version: '21.x'
           cache: 'npm'
+          cache-dependency-path: solving-pacman-frontend/package-lock.json
 
 
       - name: Install npm packages
         run: |
-          npm ci
+          npm ci --legacy-peer-deps
         working-directory: solving-pacman-frontend
 
       - name: Lint with eslint
         run: |
           npm run lint
-        working-directory: solving-pacman-backend
+        working-directory: solving-pacman-frontend
 
       - name: Test with Jest
         run: |
           npm run test:once
-        working-directory: solving-pacman-backend
+        working-directory: solving-pacman-frontend
