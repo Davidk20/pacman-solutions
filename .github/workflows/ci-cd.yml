@@ -54,8 +54,8 @@ jobs:
 
       - name: Lint Back-End
         run: |
-            black --check --line-length 88 .
-            flake8 --max-line-length=88 .
+          python -m black --check --line-length 88 .
+          python -m flake8 --max-line-length=88 .
         working-directory: solving-pacman-backend
 
       - name: Lint Front-End
