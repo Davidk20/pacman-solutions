@@ -6,8 +6,6 @@ on:
       - main
       - dev
   pull_request:
-    branches:
-      - main
   # Trigger the build step only when a new tag is created
   release:
     types: [created]
