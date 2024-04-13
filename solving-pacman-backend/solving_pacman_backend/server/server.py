@@ -7,6 +7,7 @@ from flask import redirect
 from flask import request
 from flask_cors import CORS
 from solving_pacman_backend.exceptions import LevelNotFoundException
+from solving_pacman_backend.services import authentication
 from solving_pacman_backend.services import game_manager
 from solving_pacman_backend.services import level_handler
 
@@ -26,12 +27,18 @@ def home():
 @app.route("/get-levels", methods=["GET"])
 def get_levels():
     """Returns an overview of information about all levels."""
+    api_key = request.headers.get("X-API-Key")
+    if not api_key or not authentication.authenticate(api_key):
+        return jsonify({"error": "Unauthorized"}), 401
     return jsonify(level_handler.get_overview()), 200
 
 
 @app.route("/get-game", methods=["GET"])
 def get_board():
     """Route to return a game simulation."""
+    api_key = request.headers.get("X-API-Key")
+    if not api_key or not authentication.authenticate(api_key):
+        return jsonify({"error": "Unauthorized"}), 401
     level_num = int(request.args.get("level_num"))  # type: ignore
     try:
         game = game_manager.GameManager(
