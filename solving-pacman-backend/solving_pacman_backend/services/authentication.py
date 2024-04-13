@@ -22,7 +22,11 @@ def generate_api_key() -> str:
     -------
     A 256-character long API Key.
     """
-    characters = string.ascii_letters + string.digits + string.punctuation
+    characters: str = string.ascii_letters + string.digits + string.punctuation
+    # remove potentially breaking characters
+    characters_to_remove = ['"', "'", "`", "“", "”", "\\"]
+    for char in characters_to_remove:
+        characters = characters.replace(char, "")
     return "".join(secrets.choice(characters) for _ in range(256))
 
 
