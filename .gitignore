@@ -66,3 +66,6 @@ node_modules/
 
 # dotenv environment variables file
 .env
+
+# API Key python file
+api_key.py
