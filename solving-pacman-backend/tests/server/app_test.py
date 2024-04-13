@@ -1,4 +1,11 @@
-"""Tests for the Flask application."""
+"""
+Tests for the Flask application.
+
+Unit tests for the server only cover the scope of unauthorised requests to
+ensure they are blocked. Tests of authenticated requests are completed
+externally to prevent the crossover of API keys and access with the server
+itself.
+"""
 
 
 def test_app(client):
@@ -8,13 +15,15 @@ def test_app(client):
     assert response.status_code == 303
 
 
-def test_get_invalid_board(client):
-    """Test that a 400 status code is given when level_num is invalid."""
-    response = client.get("/get-game?level_num=123456")
-    assert response.status == "400 BAD REQUEST"
-
-
 def test_get_overview(client):
-    """Test that the levels overview is correctly returned."""
+    """Test the levels overview endpoint."""
     response = client.get("/get-levels")
-    assert b'["Level 1"]\n' in response.data
+    # Unauthorised request should be rejected
+    assert response.status_code == 401
+
+
+def test_get_invalid_board(client):
+    """Test the game endpoint."""
+    response = client.get("/get-game?level_num=123456")
+    # Unauthorised request should be rejected
+    assert response.status_code == 401
