@@ -4,7 +4,8 @@
 def test_app(client):
     """Basic test to check functionality of root page."""
     response = client.get("/")
-    assert b"Solving Pac-Man - Backend" in response.data
+    print(response)
+    assert response.status_code == 303
 
 
 def test_get_invalid_board(client):
