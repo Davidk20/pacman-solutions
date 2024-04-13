@@ -11,7 +11,7 @@ from solving_pacman_backend.services import game_manager
 from solving_pacman_backend.services import level_handler
 
 app = Flask(__name__)
-cors = CORS(app)
+cors = CORS(app, origins=["http://localhost:3000", "https://pacman.davidkidd.dev"])
 app.config["CORS_HEADERS"] = "Content-Type"
 
 
