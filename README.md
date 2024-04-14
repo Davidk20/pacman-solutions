@@ -26,6 +26,10 @@
 An artificial intelligence environment enabling users to watch simulated solutions to the original 1980's Pac-Man arcade game.
 </div>
 
+<br/>
+<div align="center">
+  <img src=docs/images/demo.gif alt="Pac-Man Solutions Logo" width="75%"/>
+</div>
 
 ## Key Features
 
