@@ -3,6 +3,7 @@ File controlling the handling of the flask server and its routes.
 """
 from flask import Flask
 from flask import jsonify
+from flask import redirect
 from flask import request
 from flask_cors import CORS
 from solving_pacman_backend.exceptions import LevelNotFoundException
@@ -10,16 +11,16 @@ from solving_pacman_backend.services import game_manager
 from solving_pacman_backend.services import level_handler
 
 app = Flask(__name__)
-cors = CORS(app)
+cors = CORS(app, origins=["http://localhost:3000", "https://pacman.davidkidd.dev"])
 app.config["CORS_HEADERS"] = "Content-Type"
 
 
 @app.route("/")
-def home():  # dead: disable
-    """
-    route for the root of the server.
-    """
-    return "<h1 style='color:blue'>Solving Pac-Man - Backend</h1>"
+def home():
+    """Redirects the user to the API Documentation."""
+    return redirect(
+        "https://david-kidd.gitbook.io/ai-solutions-to-pac-man/the-api", 303
+    )
 
 
 @app.route("/get-levels", methods=["GET"])
