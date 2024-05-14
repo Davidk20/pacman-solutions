@@ -1,4 +1,5 @@
 """Service managing the running of the game."""
+
 from enum import Enum
 
 from solving_pacman_backend import exceptions

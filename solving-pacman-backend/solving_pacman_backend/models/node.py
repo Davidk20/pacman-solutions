@@ -1,4 +1,5 @@
 """Model representing a node within a graph."""
+
 from typing import Type
 from typing import TypeVar
 

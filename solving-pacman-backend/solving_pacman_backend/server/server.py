@@ -1,6 +1,7 @@
 """
 File controlling the handling of the flask server and its routes.
 """
+
 from flask import Flask
 from flask import jsonify
 from flask import redirect

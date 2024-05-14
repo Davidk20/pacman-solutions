@@ -1,4 +1,5 @@
 """Tests for the pickups in the game."""
+
 from solving_pacman_backend.models.pickups import Apple
 from solving_pacman_backend.models.pickups import Bell
 from solving_pacman_backend.models.pickups import Cherry

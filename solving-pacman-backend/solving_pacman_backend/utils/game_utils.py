@@ -1,4 +1,5 @@
 """Utility functions to assist running the game."""
+
 from solving_pacman_backend.models import environment
 from solving_pacman_backend.models import pickups
 from solving_pacman_backend.models.agents import ghost_agent

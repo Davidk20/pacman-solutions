@@ -1,4 +1,5 @@
 """Model representing the informed randomised Pac-Man behaviour"""
+
 from random import choice
 
 from solving_pacman_backend.models.agents.pacman_agent import PacmanAgent

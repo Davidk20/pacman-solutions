@@ -1,4 +1,5 @@
 """Tests on the level utility functions."""
+
 from solving_pacman_backend.services import level_handler
 from solving_pacman_backend.utils import level_utils
 from tests.mocks.mock_graph_test import mock_graph

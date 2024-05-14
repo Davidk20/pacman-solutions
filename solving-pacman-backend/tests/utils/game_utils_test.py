@@ -1,4 +1,5 @@
 """Tests for the game utils."""
+
 import pytest
 from solving_pacman_backend import exceptions
 from solving_pacman_backend.models import environment

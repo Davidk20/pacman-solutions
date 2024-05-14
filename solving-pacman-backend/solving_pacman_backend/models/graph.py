@@ -1,4 +1,5 @@
 """Model representing the level as a graph data structure."""
+
 import random
 from typing import Type
 

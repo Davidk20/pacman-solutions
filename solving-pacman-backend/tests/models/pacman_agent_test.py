@@ -1,4 +1,5 @@
 """Tests for the Pac-man Agent."""
+
 import pytest
 from solving_pacman_backend import exceptions
 from solving_pacman_backend.models.agents.agent import Agent

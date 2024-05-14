@@ -1,4 +1,5 @@
 """Mocks for the graph."""
+
 from solving_pacman_backend.models.graph import Graph
 from solving_pacman_backend.services import level_handler
 from solving_pacman_backend.utils import level_utils

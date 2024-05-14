@@ -1,4 +1,5 @@
 """Analytics tool designed to compare the performance of various agents."""
+
 import time
 from typing import Type
 
