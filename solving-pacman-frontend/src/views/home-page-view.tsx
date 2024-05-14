@@ -25,9 +25,6 @@ export class HomePageView extends React.Component{
         <Link to="/level-select" style={{textDecoration: "none"}}>
           <HomeMenuButton buttonText="SELECT A LEVEL"></HomeMenuButton>
         </Link>
-        <Link to="/configuration" style={{textDecoration: "none"}}>
-          <HomeMenuButton buttonText="CONFIGURATION"></HomeMenuButton>
-        </Link>
         <a href="https://david-kidd.gitbook.io/ai-solutions-to-pac-man/" style={{textDecoration: "none"}}>
           <HomeMenuButton buttonText="DOCUMENTATION"></HomeMenuButton>
         </a>
