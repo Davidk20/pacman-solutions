@@ -1,5 +1,4 @@
 import React from "react";
-import "../styles/components/home-menu-button.css";
 
 /**
  * Props for HomeMenuButton.
@@ -15,8 +14,15 @@ export class HomeMenuButton extends React.Component<HomeMenuButtonProps>{
 
   override render(): React.ReactNode {
     return (
-      <div className="Button-Container">
-        <span>{this.props.buttonText}</span>
+      <div className="
+        flex items-center justify-center bg-black cursor-pointer rounded-lg border-4 border-pacman-wall-colour
+        h-16 w-96
+      ">
+        <span className="
+        text-white font-pixel text-xl
+        ">
+          {this.props.buttonText}
+        </span>
       </div>
     );
   }
