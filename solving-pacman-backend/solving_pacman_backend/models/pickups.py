@@ -1,4 +1,5 @@
 """Collection of objects representing the pickups possible during gameplay."""
+
 from solving_pacman_backend.models.entity import Entity
 
 

@@ -1,4 +1,5 @@
 """Tests for the LevelHandler."""
+
 import pytest
 from solving_pacman_backend.exceptions import LevelNotFoundException
 from solving_pacman_backend.services import level_handler
