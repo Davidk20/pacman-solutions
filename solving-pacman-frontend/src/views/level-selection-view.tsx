@@ -1,6 +1,4 @@
 import React, { ReactElement } from "react";
-import "../styles/views/level-selection-view.scss";
-import { Header } from "../components/header";
 import { fetchOverview } from "../services/api-service";
 import { LevelCard } from "../components/level-card";
 
@@ -25,11 +23,11 @@ export class LevelSelectionView extends React.Component{
 
   override render(): React.ReactNode {
     return (
-      <div className="Page">
-        <Header subtitle="LEVEL SELECTION"></Header>
-        <div className="Levels-Container">
-          {this.state.formattedLevels}
-        </div>
+      <div className="
+        flex flex-col items-center justify-center h-dvh w-dvw bg-background-colour
+        gap-10
+      ">
+        {this.state.formattedLevels}
       </div>
     );
   }
