@@ -12,6 +12,7 @@ follow the agent cycle:
 
 https://github.com/dicelab-rhul/vacuumworld
 """
+
 from abc import ABC
 from abc import abstractmethod
 

@@ -1,4 +1,5 @@
 """Model representing the agent for Pac-man."""
+
 from solving_pacman_backend import exceptions
 from solving_pacman_backend.models.agents.agent import Agent
 from solving_pacman_backend.models.graph import Graph

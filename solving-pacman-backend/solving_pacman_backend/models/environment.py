@@ -1,4 +1,5 @@
 """Models representing the environment."""
+
 from solving_pacman_backend.models.entity import Entity
 
 

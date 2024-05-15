@@ -4,7 +4,7 @@ import { Dot } from "./game/dot";
 import { Energiser } from "./game/energiser";
 import { Agent } from "./game/agents";
 import { GameState } from "@models/game-state";
-import { GameStats } from "./game/game-stats";
+import { GameStats, GameStatsProps } from "./game/game-stats";
 
 
 export function GameWindow(stateStore: GameState[]) {
@@ -156,25 +156,26 @@ export function GameWindow(stateStore: GameState[]) {
     gameComponents.push(componentRow);
   }
 
+  const stats: GameStatsProps = {
+    time: store[tick].time,
+    score: store[tick].score,
+    energised: store[tick].energised,
+    running: running,
+    toggleGame: toggleGame,
+    gameOver: gameOver,
+    toggleRestart: startGame
+  };
+
   return (
     <div
-      style={{
-        position: "relative",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width:"100vw",
-        height:"90vh"
-      }}
+      className="
+        flex items-center justify-center relative h-dvh w-dvw
+      "
     >
       <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "40%",
-          height: "100%"
-        }}
+        className="
+          flex items-center justify-center h-full w-2/5
+        "
       >
         <div
           style={{
@@ -187,15 +188,7 @@ export function GameWindow(stateStore: GameState[]) {
           {gameComponents}
         </div>
       </div>
-      <GameStats
-        time={store[tick].time}
-        score={store[tick].score}
-        energised={store[tick].energised}
-        running={running}
-        toggleGame={toggleGame}
-        gameOver={gameOver}
-        toggleRestart={startGame}
-      >
+      <GameStats {... stats}>
       </GameStats>
     </div>
   );

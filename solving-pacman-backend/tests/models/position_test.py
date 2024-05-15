@@ -1,4 +1,5 @@
 """Tests for the Position class."""
+
 from solving_pacman_backend.models.position import Position
 
 

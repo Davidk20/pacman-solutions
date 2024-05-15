@@ -1,6 +1,7 @@
 """
 Configuration file allowing a test instance of the Flask server to be created.
 """
+
 import pytest
 from solving_pacman_backend.server import server
 
