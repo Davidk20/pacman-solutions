@@ -1,4 +1,5 @@
 """Model representing the inactive Pac-Man behaviour"""
+
 from solving_pacman_backend.models.agents.pacman_agent import PacmanAgent
 from solving_pacman_backend.models.graph import Graph
 

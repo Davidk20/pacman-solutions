@@ -1,4 +1,5 @@
 """Tests for the Node model."""
+
 import pytest
 from solving_pacman_backend import exceptions
 from solving_pacman_backend.models.agents.placeholder_agent import PlaceholderAgent

@@ -1,4 +1,5 @@
 """Utility functions for the Agents."""
+
 from random import choice
 
 from solving_pacman_backend import exceptions

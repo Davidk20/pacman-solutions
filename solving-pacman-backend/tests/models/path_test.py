@@ -1,4 +1,5 @@
 """Tests for the Path class."""
+
 import pytest
 from solving_pacman_backend.models import environment
 from solving_pacman_backend.models import pickups

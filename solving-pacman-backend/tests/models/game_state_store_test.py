@@ -1,4 +1,5 @@
 """Tests for the `GameStateStore`."""
+
 from solving_pacman_backend.models.game_state import GameState
 from solving_pacman_backend.models.game_state_store import GameStateStore
 

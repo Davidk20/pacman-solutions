@@ -14,11 +14,10 @@
   <br/>
   <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54" alt="python logo"/>
   <img src="https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white" alt="flask logo"/>
-  <img src="https://img.shields.io/badge/Poetry-%233B82F6.svg?style=for-the-badge&logo=poetry&logoColor=0B3D8D" alt="poetry logo"/>
-  <br/>
+  
   <img src="https://shields.io/badge/react-black?logo=react&style=for-the-badge" alt="react logo"/>
   <img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="typescript logo"/>
-  <br/>
+  
   <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" alt="docker logo"/>
 </div>
 
@@ -26,6 +25,10 @@
 An artificial intelligence environment enabling users to watch simulated solutions to the original 1980's Pac-Man arcade game.
 </div>
 
+<br/>
+<div align="center">
+  <img src=docs/images/demo.gif alt="Pac-Man Solutions Logo" width="75%"/>
+</div>
 
 ## Key Features
 
@@ -41,30 +44,10 @@ It should be noted that the applications can also be quickly run using Docker. C
 
 ### Back-End (Solutions)
 
-There are two options for installation once the repository has been cloned, both options require an installation of Python >= 3.10 and the `venv` package to be installed.
-
 ```bash
 # once Python is successfully installed
 pip install venv
-```
 
-#### 1) Using Poetry (Recommended for development)
-
-[Poetry][poetry] must be installed before attempting these steps.
-
-```bash
-# navigate to the backend directory
-cd solving-pacman-backend
-# install dependencies using poetry
-poetry install
-# spawn a new virtual environment using poetry
-poetry shell
-```
-
-
-#### 2) Using requirements.txt with `venv` (Recommended for quick builds)
-
-```bash
 # navigate to the backend directory
 cd solving-pacman-backend
 # create the virtual environment

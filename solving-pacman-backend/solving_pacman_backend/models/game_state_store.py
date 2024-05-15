@@ -2,6 +2,7 @@
 Model storing a collection of `GameState` objects to make up
 the full representation of a game.
 """
+
 from solving_pacman_backend.models.game_state import GameState
 
 

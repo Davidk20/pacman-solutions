@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Header } from "../components/header";
 import { useLocation } from "react-router-dom";
 import { GameWindow } from "../components/game-window";
 import { fetchGame } from "../services/api-service";
@@ -33,20 +32,11 @@ export function GameView() {
   }, []);
 
   return (
-    <div className="Page">
-      <Header subtitle={level_num}></Header>
-      <div
-        className="Game-Container"
-        style={{
-          width: "100%",
-          height: "90vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {game ? <GameWindow {...game} ></GameWindow> : <l-tail-chase size="150" speed="2.5" color="#F4D147"></l-tail-chase>}
-      </div>
+    <div className="
+      flex flex-col items-center justify-center h-dvh w-dvw bg-background-colour
+      gap-10
+    ">
+      {game ? <GameWindow {...game} ></GameWindow> : <l-tail-chase size="150" speed="2.5" color="#F4D147"></l-tail-chase>}
     </div>
   );
 }
